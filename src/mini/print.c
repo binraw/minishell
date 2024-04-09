@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/09 14:12:02 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/09 15:11:04 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int main(int argc, char **argv, char **envp)
 	t_data vars;
 	(void)argv;
 	(void)argc;
-
+	
+	init_env(&vars, envp);
     while (1)
     {
         vars.str = readline("Minishell: ");
@@ -31,7 +32,7 @@ int main(int argc, char **argv, char **envp)
 		if (ft_strncmp(vars.str, "exit", ft_strlen(vars.str)) == 0) // ajouter le signal "CTRL D" j'imagine
     	{
             free(vars.str);
-            exit (0); 
+            exit (0);
     	}
 		exe_cmd(&vars, envp);
     }
@@ -70,4 +71,10 @@ char	**init_cmd(char *argv)
 	}
 	cmd = ft_split(argv, ' ');
 	return (cmd);
+}
+
+int init_env(t_data *data, char **envp)
+{
+	data->env = ft_split(envp, '\n');
+	printf("%s", data->env[0]);
 }
