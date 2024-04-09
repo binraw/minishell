@@ -6,34 +6,68 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/09 11:45:09 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/09 14:12:02 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipe/pipex.h"
+#include "mini.h"
 
-int main() {
-    char *input;
+int main(int argc, char **argv, char **envp) 
+{
+	t_data vars;
+	(void)argv;
+	(void)argc;
 
     while (1)
     {
-        input = readline("Minishell: ");
-        if (input == NULL)
+        vars.str = readline("Minishell: ");
+        if (vars.str == NULL)
         {
             printf("Error input.\n");
             return (1);
         }
     
-		if (ft_strncmp(input, "exit", ft_strlen(input)) == 0) // remplace par le signal j'imagine
+		if (ft_strncmp(vars.str, "exit", ft_strlen(vars.str)) == 0) // ajouter le signal "CTRL D" j'imagine
     	{
-            printf("Vous avez entré: %s\n", input);
-            free(input);
+            free(vars.str);
             exit (0); 
     	}
-		printf("Vous avez entré: %s\n", input);
+		exe_cmd(&vars, envp);
     }
-	// if (input)
-    // 	free(input);
 
     return (0);
+}
+
+
+int	exe_cmd(t_data *data, char **envp)
+{
+	char	*path_command;
+	char	**command;
+	
+	command = init_cmd(data->str);
+	path_command = create_path(data->str, envp);
+	if (!path_command)
+		return (printf("error command\n"), -1);
+	execve(path_command, command, envp);
+	perror("execve");
+	return (0);
+}
+
+char	**init_cmd(char *argv)
+{
+	char	**cmd;
+	int		y;
+
+	y = 0;
+	if (argv[y] == '\0')
+		return (NULL);
+	while (argv[y] == ' ')
+	{
+		if (argv[y + 1] == '\0')
+			return (NULL);
+		y++;
+	}
+	cmd = ft_split(argv, ' ');
+	return (cmd);
 }
