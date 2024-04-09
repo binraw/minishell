@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:34:28 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/03/21 13:23:56 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:15:32 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@
 # include <string.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-# include "../lib/libft/libft.h"
+# include <readline/readline.h>
+# include "../../lib/libft/libft.h"
 
 int		pipex_process(char **argv, char **envp, int *fd);
 int		child_process(char **argv, char **envp, int *fd);
 int		second_child_process(char **argv, char **envp, int *fd);
 char	**create_cmd(char **argv, int i);
 char	**get_env(char **envp);
-int		main(int argc, char **argv, char **envp);
 char	*create_path(char *cmd, char **envp);
 void	error_pipe(int error, int i, char **argv);
 void	ft_free_tab(char **tab);

@@ -6,27 +6,27 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:18:58 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/03/22 13:32:47 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/09 11:12:59 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	main(int argc, char **argv, char **envp)
-{
-	int	fd[2];
-	int	control;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	int	fd[2];
+// 	int	control;
 
-	control = 0;
-	if (argc == 5)
-	{
-		pipe(fd);
-		control = pipex_process(argv, envp, fd);
-		close(fd[0]);
-		close(fd[1]);
-	}
-	return (control);
-}
+// 	control = 0;
+// 	if (argc == 5)
+// 	{
+// 		pipe(fd);
+// 		control = pipex_process(argv, envp, fd);
+// 		close(fd[0]);
+// 		close(fd[1]);
+// 	}
+// 	return (control);
+// }
 
 int	pipex_process(char **argv, char **envp, int *fd)
 {

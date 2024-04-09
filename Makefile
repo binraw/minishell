@@ -1,7 +1,7 @@
-NAME = pipex
+NAME = minishell
 
 
-SRCS_FILE = main.c utils.c error.c
+SRCS_FILE = pipe/main.c pipe/utils.c pipe/error.c mini/print.c
 
 
 CC = cc
@@ -25,10 +25,10 @@ RM = rm -Rf
 all: libft ${NAME}
 
 ${NAME}: ${OBJS} ${LIBFT}
-	$(CC) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(OBJS) $(LIBFT) -lreadline  -o $(NAME)
 
 
-${DIR_OBJ}%.o: %.c ${DIR_SRC}/pipex.h Makefile ${LIBFT}
+${DIR_OBJ}%.o: %.c ${DIR_SRC}/pipe/pipex.h Makefile ${LIBFT}
 	mkdir -p $(shell dirname $@)
 	$(CC) ${CFLAGS} -c $< -o $@
 
