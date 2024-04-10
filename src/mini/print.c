@@ -6,11 +6,11 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/10 14:30:13 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/10 15:33:25 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../pipe/pipex.h"
+// #include "../pipe/pipex.h"
 #include "mini.h"
 
 int main(int argc, char **argv, char **envp) 
@@ -19,7 +19,6 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)argc;
 	
-	// memset(&vars, 0, sizeof(vars));
 	init_env(&vars, envp);
     while (1)
     {
@@ -30,14 +29,18 @@ int main(int argc, char **argv, char **envp)
             return (1);
         }
     
-		if (ft_strncmp(vars.str, "exit", ft_strlen(vars.str)) == 0) // ajouter le signal "CTRL D" j'imagine
+		if (ft_strncmp(vars.str, "exit", ft_strlen(vars.str)) == 0)
     	{
             free(vars.str);
-            exit (0);
+			command_exit(0);
+			// command_exit(ft_atoi(argv[1])); la commande finale va ressembler a ca a voir comment on recup les 2 arguments
     	}
-		// init_env(&vars, envp);
-		exe_cmd(&vars);
-		
+		if (ft_strncmp(vars.str, "env", ft_strlen(vars.str)) == 0)
+		{
+			command_env(&vars);
+			exit (0);
+		}
+		exe_cmd(&vars);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
     }
 
     return (0);
@@ -66,7 +69,7 @@ char	**init_cmd(char *argv)
 	y = 0;
 	if (argv[y] == '\0')
 		return (NULL);
-	while (argv[y] == ' ')
+	while (argv[y] == ' ')                                                                                           
 	{
 		if (argv[y + 1] == '\0')
 			return (NULL);
@@ -96,7 +99,6 @@ int init_env(t_data *data, char **envp)
 		i++;
 	}
 	data->env[i] = NULL;
-	// printf("%s\n", data->env[4]);
 	return (0);
 }
 
