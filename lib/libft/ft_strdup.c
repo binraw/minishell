@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 16:32:51 by rtruvelo          #+#    #+#             */
-/*   Updated: 2023/11/16 13:55:37 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:29:02 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ char	*ft_strdup(const char *source)
 		pointer[y] = source[y];
 		y++;
 	}
-	pointer[y] = '\0';
+	pointer[ft_strlen(source)] = '\0'; // changement ici
 	return (pointer);
 }

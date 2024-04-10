@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/09 15:11:04 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/10 14:30:13 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)argc;
 	
+	// memset(&vars, 0, sizeof(vars));
 	init_env(&vars, envp);
     while (1)
     {
@@ -34,23 +35,25 @@ int main(int argc, char **argv, char **envp)
             free(vars.str);
             exit (0);
     	}
-		exe_cmd(&vars, envp);
+		// init_env(&vars, envp);
+		exe_cmd(&vars);
+		
     }
 
     return (0);
 }
 
-
-int	exe_cmd(t_data *data, char **envp)
+int	exe_cmd(t_data *data)
 {
 	char	*path_command;
 	char	**command;
-	
+	if (!data->str)
+		return (0);
 	command = init_cmd(data->str);
-	path_command = create_path(data->str, envp);
+	path_command = create_path(data->str, data->env);
 	if (!path_command)
 		return (printf("error command\n"), -1);
-	execve(path_command, command, envp);
+	execve(path_command, command, data->env);
 	perror("execve");
 	return (0);
 }
@@ -75,6 +78,41 @@ char	**init_cmd(char *argv)
 
 int init_env(t_data *data, char **envp)
 {
-	data->env = ft_split(envp, '\n');
-	printf("%s", data->env[0]);
+	size_t	i;
+	size_t	y;
+
+	i = 0;
+	y = 0;
+	while (envp[y])
+		y++;
+	data->env = malloc(sizeof(char**) * (y + 1) );
+	if (!data->env)
+		return (-1);
+	while (i < y )
+	{
+		data->env[i] = ft_strdup(envp[i]);
+		if (!data->env[i])
+			return (-1);
+		i++;
+	}
+	data->env[i] = NULL;
+	// printf("%s\n", data->env[4]);
+	return (0);
+}
+
+int free_env(t_data *data)
+{
+	size_t i;
+
+	i = 0;
+	if (data->env)
+	{
+	while (data->env[i])
+	{
+		free(data->env[i++]);
+	}
+	free(data->env);
+	data->env = NULL;
+	}
+	return (0);
 }
