@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 12:55:55 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/10 15:30:50 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/11 11:23:58 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@
 typedef struct data_s
 {
     char	*str;
+    char    **cmd;
     char	**env;
     
 } t_data;
 
 int	exe_cmd(t_data *data);
-// int	exe_cmd(t_data *data, char **envp);
 char	**init_cmd(char *argv);
 int init_env(t_data *data, char **envp);
 int free_env(t_data *data);

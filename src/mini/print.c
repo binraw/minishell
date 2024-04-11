@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/10 15:33:25 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/11 13:54:37 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,48 @@ int main(int argc, char **argv, char **envp)
     }
 
     return (0);
+}
+
+int		add_cmd(t_data *data, int fd)
+{
+	// if (/*cest la premiere cmd*/)
+		child_process(data->cmd, data->env, fd);
+	// if (cest les cmd avant la derniere)
+		
+	// if (cest la derniere cmd)
+}
+
+int	second_child_TEST(char **argv, char **envp, int *fd, int i) // le i ici sera le compteur de cmd espacer par les pipes
+{
+	char	**command;
+	char	*path_command;
+
+	path_command = NULL;
+	command = create_cmd(argv, i);
+	if (command)
+		path_command = create_path(command[0], envp);
+	dup2(fd[0], STDIN_FILENO);
+	dup2(fd[0], STDOUT_FILENO);
+	close(fd[0]);
+	close(fd[1]);
+	execve(path_command, command, envp);
+	perror("execve");
+	exit(127);
+	return (0);
+}
+
+int	create_fork(int i)
+{
+	pid_t	tab_fork;
+	int	y;
+
+	y = 0;
+	tab_fork = malloc(i * sizeof(pid_t));	
+	while (i > 0)
+	{
+		tab_fork[y] = fork();
+		i--;			
+	}
 }
 
 int	exe_cmd(t_data *data)
@@ -118,3 +160,4 @@ int free_env(t_data *data)
 	}
 	return (0);
 }
+
