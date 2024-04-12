@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 13:57:06 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/11 13:57:50 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/12 12:56:59 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ int	create_fork(int i)
 	while (i > 0)
 	{
 		tab_fork[y] = fork();
-		i--;			
+		i--;	
 	}
 }
