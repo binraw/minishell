@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:58:01 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/16 14:54:26 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:39:12 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int init_pip(t_data *data)
     pip = malloc(data->number_of_pip * sizeof(int*));
     while (i < data->number_of_pip)
     {
-        pip[i]= malloc(2 * sizeof(int));
+        pip[i] = malloc(2 * sizeof(int));
+		if (!pip[i])
+			return (-1);   //free ceux qui non pas rater
         i++;
     }
     i = 0;
@@ -33,8 +35,7 @@ int init_pip(t_data *data)
         pipex_process_multi(data, pip[i]);
         i++;
     }
-    
-    
+    return (0);
 }
 
 int	pipex_process_multi(t_data *data, int *pip)
@@ -70,7 +71,7 @@ int	pipex_process_multi(t_data *data, int *pip)
 	return (0);
 }
 
-int	child_process_multi(t_data *data, int i, int *pip)
+int	child_process_multi(t_data *data, t_redir *redir, int i, int *pip)
 {
 	int		filein;
 	char	*path_command;
@@ -81,12 +82,12 @@ int	child_process_multi(t_data *data, int i, int *pip)
 	if (!path_command)
 		return (-1);
     if (i == 0)
-	    dup2(0, STDIN_FILENO);
-    else 
+	    dup2(redir->in, STDIN_FILENO);
+    else
         dup2(pip[0], STDIN_FILENO);
     if (i == data->number_of_cmd)
     {
-        dup2(1, STDOUT_FILENO);
+        dup2(redir->out, STDOUT_FILENO);
         close(pip[1]);
 	    close(pip[0]);
         execve(path_command, data->cmd, data->envp);
@@ -104,7 +105,7 @@ int	child_process_multi(t_data *data, int i, int *pip)
 }
 
 
-int	second_child_process_multi(t_data *data, int i, int *pip)
+int	second_child_process_multi(t_data *data, t_redir *redir, int i, int *pip)
 {
 	int		fileout;
 	char	*path_command;
@@ -117,7 +118,7 @@ int	second_child_process_multi(t_data *data, int i, int *pip)
 	dup2(pip[0], STDIN_FILENO);
     if (i == data->number_of_cmd)
     {
-        dup2(1, STDOUT_FILENO);
+        dup2(redir->out, STDOUT_FILENO);
         close(pip[1]);
 	    close(pip[0]);
         execve(path_command, data->cmd, data->envp);

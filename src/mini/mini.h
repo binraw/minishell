@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/16 14:55:05 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:27:39 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@ typedef struct data_s
 
 } t_data;
 
+typedef struct s_redir
+{
+    int     in;
+    int     out;
+    char    **tab_file;
+	char	*file_in;
+    char    *file_out;
+}   t_redir;
+
 int	exe_cmd(t_data *data);
 char	**init_cmd(char *argv);
 int init_env(t_data *data, char **envp);
@@ -33,7 +42,11 @@ int command_env(t_data *data);
 int command_exit(int c);
 int init_pip(t_data *data);
 int	pipex_process_multi(t_data *data, int *pip);
-int	child_process_multi(t_data *data, int i, int *pip);
-int	second_child_process_multi(t_data *data, int i, int *pip);
+int	child_process_multi(t_data *data, t_redir *redir, int i, int *pip);
+int	second_child_process_multi(t_data *data, t_redir *redir, int i, int *pip);
+int init_redir(t_redir *redir);
+int ft_redir_in(t_redir *redir);
+int ft_redir_out(t_redir *redir);
+int init_parsing(t_data *data);
 
 #endif

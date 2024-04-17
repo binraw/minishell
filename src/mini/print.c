@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/12 11:13:38 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/17 13:47:03 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,54 +40,31 @@ int main(int argc, char **argv, char **envp)
 			command_env(&vars);
 			exit (0);
 		}
-		exe_cmd(&vars);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+		exe_cmd(&vars);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     }
 
     return (0);
 }
 
-// int		add_cmd(t_data *data, int fd)
-// {
-// 	// if (/*cest la premiere cmd*/)
-// 		child_process(data->cmd, data->env, fd);
-// 	// if (cest les cmd avant la derniere)
-		
-// 	// if (cest la derniere cmd)
-// }
-
-// int	second_child_TEST(char **argv,t_data *data, int *fd, int i) // le i ici sera le compteur de cmd espacer par les pipes
-// {
-// 	char	**command;
-// 	char	*path_command;
-
-// 	path_command = NULL;
-// 	if (command)
-// 		path_command = create_path(command[i], data->env);
-// 	dup2(fd[0], STDIN_FILENO);
-// 	dup2(fd[0], STDOUT_FILENO);
-// 	close(fd[0]);
-// 	close(fd[1]);
-// 	execve(path_command, command, data->env);
-// 	perror("execve");
-// 	exit(127);
-// 	return (0);
-// }
-
 
 int	exe_cmd(t_data *data)
 {
 	char	*path_command;
-	char	**command;
+
 	if (!data->str)
 		return (0);
-	command = init_cmd(data->str);
+	data->cmd = init_cmd(data->str);
 	path_command = create_path(data->str, data->env);
 	if (!path_command)
+	{
+		// faire un truc pour quand c'est un fichier
 		return (printf("error command\n"), -1);
-	execve(path_command, command, data->env);
+	}
+	execve(path_command, data->cmd, data->env);
 	perror("execve");
-	return (0);
+	return (1);
 }
+
 
 char	**init_cmd(char *argv)
 {
@@ -97,7 +74,7 @@ char	**init_cmd(char *argv)
 	y = 0;
 	if (argv[y] == '\0')
 		return (NULL);
-	while (argv[y] == ' ')                                                                                           
+	while (argv[y] == ' ')
 	{
 		if (argv[y + 1] == '\0')
 			return (NULL);
