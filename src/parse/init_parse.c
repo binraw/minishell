@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:02:52 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/17 14:15:37 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:39:08 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int init_values_parse(t_data *data)
 {
-    data->nummber_of_pip = count_pip(data->str);
-    data->number_of_cmd = count_cmd(data->str);
-    
+    data->number_of_pip = count_pip(data);
+    data->number_of_cmd = count_cmd(data);
+    return (0);
 }
 int count_pip(t_data *data)
 {

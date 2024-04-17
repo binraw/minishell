@@ -6,44 +6,67 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/17 13:47:03 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/17 15:36:35 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "../pipe/pipex.h"
 #include "mini.h"
 
-int main(int argc, char **argv, char **envp) 
+// int main(int argc, char **argv, char **envp) 
+// {
+// 	t_data vars;
+// 	(void)argv;
+// 	(void)argc;
+	
+// 	init_env(&vars, envp);
+//     while (1)
+//     {
+//         vars.str = readline("Minishell: ");
+//         if (vars.str == NULL)
+//         {
+//             printf("Error input.\n");
+//             return (1);
+//         }
+    
+// 		if (ft_strncmp(vars.str, "exit", ft_strlen(vars.str)) == 0)
+//     	{
+//             free(vars.str);
+// 			command_exit(0);
+// 			// command_exit(ft_atoi(argv[1])); la commande finale va ressembler a ca a voir comment on recup les 2 arguments
+//     	}
+// 		if (ft_strncmp(vars.str, "env", ft_strlen(vars.str)) == 0)
+// 		{
+// 			command_env(&vars);
+// 			exit (0);
+// 		}
+// 		exe_cmd(&vars);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+//     }
+
+//     return (0);
+// }
+
+// creation d'un autre main pour pouvoir tester mes multi pipes :
+
+int main(int argc, char **argv, char **envp)
 {
+	
 	t_data vars;
+	t_redir redir;
 	(void)argv;
 	(void)argc;
 	
 	init_env(&vars, envp);
-    while (1)
-    {
-        vars.str = readline("Minishell: ");
-        if (vars.str == NULL)
-        {
-            printf("Error input.\n");
-            return (1);
-        }
-    
-		if (ft_strncmp(vars.str, "exit", ft_strlen(vars.str)) == 0)
-    	{
-            free(vars.str);
-			command_exit(0);
-			// command_exit(ft_atoi(argv[1])); la commande finale va ressembler a ca a voir comment on recup les 2 arguments
-    	}
-		if (ft_strncmp(vars.str, "env", ft_strlen(vars.str)) == 0)
-		{
-			command_env(&vars);
-			exit (0);
-		}
-		exe_cmd(&vars);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-    }
-
-    return (0);
+	vars.cmd = malloc(2 * sizeof(char*));
+	strcpy(vars.cmd[0], "echo");
+	strcpy(vars.cmd[1], "test");
+	// vars.cmd[0][6] = "echo";
+	// vars.cmd[1][5]= "test";
+	vars.number_of_cmd = 2;
+	vars.number_of_pip = 0;
+	init_redir(&redir);
+	init_pip(&vars, &redir);
+	
 }
 
 
