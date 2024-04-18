@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/17 15:41:43 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/18 10:03:20 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int init_redir(t_redir *redir)
     redir->in = 0;
     redir->out = 1;
     // placer ici ce qui va etre le parsing des fichiers dans tab_file ou file
+    return (0);
 }
 
 int ft_redir_in(t_redir *redir)
@@ -31,7 +32,7 @@ int ft_redir_in(t_redir *redir)
             return (-1); // ca veut dire qu un des fichier en lecture est mauvais donc erreur 
         i++;
     }
-    redir->in = open(redir->file, O_RDONLY, 00644); // ici nous ouvrons le dernier file qui doit etre celui prit en compte dans bash
+    redir->in = open(redir->file_in, O_RDONLY, 00644); // ici nous ouvrons le dernier file qui doit etre celui prit en compte dans bash
     if (redir->in < 0)
         return (-1);
     return (redir->in);

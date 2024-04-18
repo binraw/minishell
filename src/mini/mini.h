@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/17 15:40:16 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/18 10:55:00 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,16 +40,22 @@ int init_env(t_data *data, char **envp);
 int free_env(t_data *data);
 int command_env(t_data *data);
 int command_exit(int c);
-int init_pip(t_data *data, t_redir *redir);
-int	pipex_process_multi(t_data *data, t_redir *redir, int *pip);
-int	child_process_multi(t_data *data, t_redir *redir, int i, int *pip);
-int	second_child_process_multi(t_data *data, t_redir *redir, int i, int *pip);
+// int init_pip(t_data *data, t_redir *redir);
+// int	pipex_process_multi(t_data *data, t_redir *redir, int *pip);
+// int	child_process_multi(t_data *data, t_redir *redir, int i, int *pip);
+// int	second_child_process_multi(t_data *data, t_redir *redir, int i, int *pip);
+
+int init_pip(t_data *data);
+int	pipex_process_multi(t_data *data, int *pip);
+int	child_process_multi(t_data *data,  int i, int *pip);
+int	second_child_process_multi(t_data *data, int i, int *pip);
 int init_redir(t_redir *redir);
 int ft_redir_in(t_redir *redir);
 int ft_redir_out(t_redir *redir);
 int init_values_parse(t_data *data);
 int count_cmd(t_data *data);
 int count_pip(t_data *data);
+
 
 
 #endif
