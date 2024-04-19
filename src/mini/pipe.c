@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:58:01 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/18 15:24:17 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/19 13:51:27 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,13 +158,7 @@ int init_pip(t_data *data)
 			return (-1);   //free ceux qui non pas rater
         i++;
     }
-    i = 0;
-    // while (i < (data->number_of_pip))
-    // {
-		// pipe(pip[i]);
         pipex_process_multi(data, pip);
-    //     i++;
-    // }
     return (0);
 }
 
@@ -182,14 +176,17 @@ int	pipex_process_multi(t_data *data, int **pip)
 	// fprintf(stderr, "%s\n", "lol");
     while (data->number_of_cmd >= i)
     {
-		pipe(pip[y]);
+		if (i == data->number_of_cmd)
+			return (0);
+		if (pipe(pip[y]) == -1)
+			return (-1);
 		first_child = fork();
 		if (first_child == -1)
 			return (-1);
 		if (first_child == 0)
 			child_process_multi(data, i, pip[y]);
     	i++;
-		if (i != data->number_of_cmd)
+		if (i < (data->number_of_cmd - 1))
 			pipe(pip[y + 1]);
 		second_child = fork();
 		if (second_child == -1)
@@ -216,28 +213,31 @@ int	child_process_multi(t_data *data, int i, int *pip)
 
 	y = 0;
 	path_command = NULL;
-	// fprintf(stderr, "%s\n", data->cmd[i]);
 	if (data->cmd)
 	{
 		if (data->cmd[i][0] == '|')
 			i++;
 		path_command = create_path(data->cmd[i], data->env);
 	}
-		
 	if (!path_command)
 		return (-1);
-
 	close(pip[0]);
 	dup2(pip[1], STDOUT_FILENO);
 	close(pip[1]);
 	cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));
-	cmd_finaly[0] = ft_strdup(data->cmd[i]);
+	if (!cmd_finaly)
+		return (-1);
+	cmd_finaly[0] = malloc((strlen(data->cmd[i]) + 1) * sizeof(char));
+	if (!cmd_finaly[0])
+		return (-1);
 	while (data->cmd[i][y])
 	{
 		cmd_finaly[0][y] =  data->cmd[i][y];
 		y++;
 	}
-	execve(path_command, cmd_finaly, data->env); // mettre data->cmd[i] dans un double tableau avec seulement la commande en question
+	cmd_finaly[0][y] = '\0';
+	cmd_finaly[1] = NULL;
+	execve(path_command, cmd_finaly, data->env);
 	perror("execve");
 	exit(127);
 	return (0);
@@ -255,27 +255,29 @@ int	second_child_process_multi(t_data *data, int i, int **pip, int y)
 	if (data->cmd)
 		path_command = create_path(data->cmd[i], data->env);
 	if (!path_command)
-		return(printf("error second chil"), -1);
+		return(printf("error second child"), -1);
 	close(pip[y][1]);
 	dup2(pip[y][0], STDIN_FILENO);
-	
-
 	close(pip[y][0]);
-	if ((data->number_of_pip - 1) != y)
+	if ((data->number_of_pip - 1) >= y && 2 != data->number_of_cmd) // le 2 cest pour eviter quand i y a eulemnt deux commqnde de rentrer dedans
 	{
 		close(pip[y + 1][0]);
 		dup2(pip[y + 1][1], STDOUT_FILENO);
 		close(pip[y + 1][1]);
 	}
-	
 	cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));
-	cmd_finaly[0] = ft_strdup(data->cmd[i]);
+	if (!cmd_finaly)
+		return (-1);
+	cmd_finaly[0] = malloc((strlen(data->cmd[i]) + 1) * sizeof(char));
+	if (!cmd_finaly[0])
+		return (-1);
 	while (data->cmd[i][x])
 	{
 		cmd_finaly[0][x] =  data->cmd[i][x];
 		x++;
 	}
-	
+	cmd_finaly[0][x] = '\0';
+	cmd_finaly[1] = NULL;
 	execve(path_command, cmd_finaly, data->env);
 	perror("execve");
 	exit(127);

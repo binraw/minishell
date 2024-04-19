@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/18 15:24:40 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:50:58 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int ft_redir_out(t_redir *redir);
 int init_values_parse(t_data *data);
 int count_cmd(t_data *data);
 int count_pip(t_data *data);
-
+int free_data_values(t_data *data);
 
 
 #endif

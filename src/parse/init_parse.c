@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:02:52 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/18 11:51:09 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:53:13 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,22 @@ int count_cmd(t_data *data)
     if (data->str[i] == '\0' && count == 0)
         count++;
     return (count);
+}
+
+
+int free_data_values(t_data *data)
+{
+    int i;
+
+    i = 0;
+    while (data->number_of_cmd > 0)
+    {
+        free(data->cmd[data->number_of_cmd]);
+        data->number_of_cmd--;
+    }
+    free(data->cmd);
+    free(data->str);
+    return (0);
 }
 // char    *cut_cmd(char *str)
 // {
