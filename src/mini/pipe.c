@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:58:01 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/22 10:39:15 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:47:35 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,11 @@ int	pipex_process_multi(t_data *data, int **pip)
 			return (0);
 		if (pipe(pip[y]) == -1)
 			return (-1);
+		if (i == data->number_of_cmd - 1) // tentative pour gerer les impair
+		{
+    		child_process_multi(data, i, pip[y]);
+			break ;
+		}
 		if ((i + 1) < (data->number_of_cmd - 1))
 			if (pipe(pip[y + 1]) == -1)
         		return (-1);
@@ -187,7 +192,7 @@ int	pipex_process_multi(t_data *data, int **pip)
 		if (first_child == -1)
 			return (-1);
 		if (first_child == 0)
-			child_process_multi(data, i, pip[y]);
+				child_process_multi(data, i, pip[y]);
     	i++;
 		second_child = fork();
 		if (second_child == -1)
@@ -222,9 +227,19 @@ int	child_process_multi(t_data *data, int i, int *pip)
 	}
 	if (!path_command)
 		return (-1);
-	close(pip[0]);
-	dup2(pip[1], STDOUT_FILENO);
-	close(pip[1]);
+	if (i == data->number_of_cmd - 1)
+	{
+		close(pip[1]);
+    	dup2(pip[0], STDIN_FILENO);
+		close(pip[0]);
+	}
+	else 
+	{
+		close(pip[0]);
+		dup2(pip[1], STDOUT_FILENO);
+		close(pip[1]);
+	}
+	
 	cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));
 	if (!cmd_finaly)
 		return (-1);
@@ -257,23 +272,21 @@ int	second_child_process_multi(t_data *data, int i, int **pip, int y)
 		path_command = create_path(data->cmd[i], data->env);
 	if (!path_command)
 		return(printf("error second child"), -1);
-	
 	if (2 != data->number_of_cmd && i != (data->number_of_cmd -1)) // le 2 cest pour eviter quand i y a eulemnt deux commqnde de rentrer dedans
 	{
-		printf("%d\n", i);
-		// printf("%d\n", pip[y + 1][0]);
+		close(pip[y][1]);
+		dup2(pip[y][0], STDIN_FILENO);
+		close(pip[y][0]);
 		close(pip[y + 1][0]);
 		dup2(pip[y + 1][1], STDOUT_FILENO);
 		close(pip[y + 1][1]);
 	}
-	else 
+	else
 	{
 		close(pip[y][1]);
 		dup2(pip[y][0], STDIN_FILENO);
 		close(pip[y][0]);
 	}
-
-	
 	cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));
 	if (!cmd_finaly)
 		return (-1);
