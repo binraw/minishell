@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:58:01 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/22 13:47:35 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:00:50 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,11 +151,13 @@ int init_pip(t_data *data)
 		exe_cmd(data);
 	}
     pip = malloc(data->number_of_pip * sizeof(int*));
+	if (!pip)
+		return (-1);
     while (i < data->number_of_pip)
     {
         pip[i] = malloc(2 * sizeof(int));
 		if (!pip[i])
-			return (-1);   //free ceux qui non pas rater
+			return (-1);
         i++;
     }
         pipex_process_multi(data, pip);
@@ -167,46 +169,44 @@ int	pipex_process_multi(t_data *data, int **pip)
 	pid_t	first_child;
 	pid_t	second_child;
 	int		status;
+	int		status_second;
     int     i;
 	int		y;
 
 	status = 0;
+	status_second = 0;
     i = 0;
 	y = 0;
-	// fprintf(stderr, "%s\n", "lol");
-    while (data->number_of_cmd >= i)
+	if (pipe(pip[y]) == -1)
+		return (-1);
+	first_child = fork();
+	if (first_child == -1)
+		return (-1);
+	if (first_child == 0)
+		child_process_multi(data, i, pip[y]);
+    i++;
+    while (data->number_of_cmd > i)
     {
-		if (i == data->number_of_cmd)
-			return (0);
-		if (pipe(pip[y]) == -1)
-			return (-1);
-		if (i == data->number_of_cmd - 1) // tentative pour gerer les impair
+		if ((i + 1) < (data->number_of_cmd))
 		{
-    		child_process_multi(data, i, pip[y]);
-			break ;
-		}
-		if ((i + 1) < (data->number_of_cmd - 1))
 			if (pipe(pip[y + 1]) == -1)
         		return (-1);
-		first_child = fork();
-		if (first_child == -1)
-			return (-1);
-		if (first_child == 0)
-				child_process_multi(data, i, pip[y]);
-    	i++;
+			fprintf(stderr, "%d le pipe", y);
+		}
 		second_child = fork();
 		if (second_child == -1)
 			return (-1);
 		if (second_child == 0)
-			second_child_process_multi(data, i, pip, y); // creer le pipe dedans pour pouvoir utiliser sa sortie
+			second_child_process_multi(data, i, pip, y);
+		
 		close(pip[y][0]);
 		close(pip[y][1]);
 		waitpid(first_child, &status, 0);
-		waitpid(second_child, &status, 0);
+		waitpid(second_child, &status_second, 0);
 		y++;
-    	i++;
+		i++;
     }
-	if (WIFEXITED(status))
+	if (WIFEXITED(status) && WIFEXITED(status_second))
 		return (WEXITSTATUS(status));
 	return (0);
 }
@@ -227,19 +227,9 @@ int	child_process_multi(t_data *data, int i, int *pip)
 	}
 	if (!path_command)
 		return (-1);
-	if (i == data->number_of_cmd - 1)
-	{
-		close(pip[1]);
-    	dup2(pip[0], STDIN_FILENO);
-		close(pip[0]);
-	}
-	else 
-	{
-		close(pip[0]);
-		dup2(pip[1], STDOUT_FILENO);
-		close(pip[1]);
-	}
-	
+	close(pip[0]);
+	dup2(pip[1], STDOUT_FILENO);
+	close(pip[1]);
 	cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));
 	if (!cmd_finaly)
 		return (-1);
@@ -274,15 +264,19 @@ int	second_child_process_multi(t_data *data, int i, int **pip, int y)
 		return(printf("error second child"), -1);
 	if (2 != data->number_of_cmd && i != (data->number_of_cmd -1)) // le 2 cest pour eviter quand i y a eulemnt deux commqnde de rentrer dedans
 	{
+		printf(" %d texte de test\n", i);
+		fprintf(stderr,"%d le y\n", y);
 		close(pip[y][1]);
 		dup2(pip[y][0], STDIN_FILENO);
 		close(pip[y][0]);
-		close(pip[y + 1][0]);
 		dup2(pip[y + 1][1], STDOUT_FILENO);
 		close(pip[y + 1][1]);
+    	close(pip[y + 1][0]);
 	}
 	else
 	{
+		fprintf(stderr,"%d le y else \n", y);
+		fprintf(stderr,"%d le dernier", i);
 		close(pip[y][1]);
 		dup2(pip[y][0], STDIN_FILENO);
 		close(pip[y][0]);
