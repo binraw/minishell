@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:58:01 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/23 12:00:50 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/23 12:58:30 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,14 +191,12 @@ int	pipex_process_multi(t_data *data, int **pip)
 		{
 			if (pipe(pip[y + 1]) == -1)
         		return (-1);
-			fprintf(stderr, "%d le pipe", y);
 		}
 		second_child = fork();
 		if (second_child == -1)
 			return (-1);
 		if (second_child == 0)
 			second_child_process_multi(data, i, pip, y);
-		
 		close(pip[y][0]);
 		close(pip[y][1]);
 		waitpid(first_child, &status, 0);
@@ -214,8 +212,8 @@ int	pipex_process_multi(t_data *data, int **pip)
 int	child_process_multi(t_data *data, int i, int *pip)
 {
 	char	*path_command;
-	char **cmd_finaly;
-	int y;
+	char	**cmd_finaly;
+	int		y;
 
 	y = 0;
 	path_command = NULL;
@@ -253,8 +251,8 @@ int	child_process_multi(t_data *data, int i, int *pip)
 int	second_child_process_multi(t_data *data, int i, int **pip, int y)
 {
 	char	*path_command;
-	char **cmd_finaly;
-	int x;
+	char	**cmd_finaly;
+	int		x;
 	
 	x = 0;
 	path_command = NULL;
@@ -264,8 +262,6 @@ int	second_child_process_multi(t_data *data, int i, int **pip, int y)
 		return(printf("error second child"), -1);
 	if (2 != data->number_of_cmd && i != (data->number_of_cmd -1)) // le 2 cest pour eviter quand i y a eulemnt deux commqnde de rentrer dedans
 	{
-		printf(" %d texte de test\n", i);
-		fprintf(stderr,"%d le y\n", y);
 		close(pip[y][1]);
 		dup2(pip[y][0], STDIN_FILENO);
 		close(pip[y][0]);
@@ -275,8 +271,6 @@ int	second_child_process_multi(t_data *data, int i, int **pip, int y)
 	}
 	else
 	{
-		fprintf(stderr,"%d le y else \n", y);
-		fprintf(stderr,"%d le dernier", i);
 		close(pip[y][1]);
 		dup2(pip[y][0], STDIN_FILENO);
 		close(pip[y][0]);
