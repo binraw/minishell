@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/19 10:50:58 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/24 11:28:05 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct data_s
     char	**env;
     int     number_of_cmd;
     int     number_of_pip;
+    int     last_pid;
 
 } t_data;
 
@@ -46,7 +47,7 @@ int command_exit(int c);
 // int	second_child_process_multi(t_data *data, t_redir *redir, int i, int *pip);
 
 int init_pip(t_data *data);
-int	pipex_process_multi(t_data *data, int **pip);
+int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
 int	child_process_multi(t_data *data,  int i, int *pip);
 int	second_child_process_multi(t_data *data, int i, int **pip, int y);
 int init_redir(t_redir *redir);
@@ -56,6 +57,7 @@ int init_values_parse(t_data *data);
 int count_cmd(t_data *data);
 int count_pip(t_data *data);
 int free_data_values(t_data *data);
+int	process_status_pid(t_data *data, pid_t *tab_pid);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:58:01 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/23 12:58:30 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/24 11:49:00 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ int init_pip(t_data *data)
     int **pip;
     int i;
     int y;
+	pid_t	*tab_pid;
 
     i = 0;
     y = 0;
@@ -151,6 +152,7 @@ int init_pip(t_data *data)
 		exe_cmd(data);
 	}
     pip = malloc(data->number_of_pip * sizeof(int*));
+	tab_pid = malloc((data->number_of_cmd - 1) * sizeof(pid_t));
 	if (!pip)
 		return (-1);
     while (i < data->number_of_pip)
@@ -160,14 +162,12 @@ int init_pip(t_data *data)
 			return (-1);
         i++;
     }
-        pipex_process_multi(data, pip);
+        pipex_process_multi(data, pip, tab_pid);
     return (0);
 }
 
-int	pipex_process_multi(t_data *data, int **pip)
+int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 {
-	pid_t	first_child;
-	pid_t	second_child;
 	int		status;
 	int		status_second;
     int     i;
@@ -179,10 +179,10 @@ int	pipex_process_multi(t_data *data, int **pip)
 	y = 0;
 	if (pipe(pip[y]) == -1)
 		return (-1);
-	first_child = fork();
-	if (first_child == -1)
+	tab_pid[i] = fork();
+	if (tab_pid[i] == -1)
 		return (-1);
-	if (first_child == 0)
+	if (tab_pid[i] == 0)
 		child_process_multi(data, i, pip[y]);
     i++;
     while (data->number_of_cmd > i)
@@ -192,21 +192,36 @@ int	pipex_process_multi(t_data *data, int **pip)
 			if (pipe(pip[y + 1]) == -1)
         		return (-1);
 		}
-		second_child = fork();
-		if (second_child == -1)
+		tab_pid[i] = fork();
+		if (tab_pid[i] == -1)
 			return (-1);
-		if (second_child == 0)
+		if (tab_pid[i] == 0)
 			second_child_process_multi(data, i, pip, y);
 		close(pip[y][0]);
 		close(pip[y][1]);
-		waitpid(first_child, &status, 0);
-		waitpid(second_child, &status_second, 0);
 		y++;
 		i++;
     }
-	if (WIFEXITED(status) && WIFEXITED(status_second))
-		return (WEXITSTATUS(status));
+	process_status_pid(data, tab_pid);
+	if (data->last_pid)
+		return (WEXITSTATUS(data->last_pid));
 	return (0);
+}
+
+int	process_status_pid(t_data *data, pid_t *tab_pid)
+{
+	size_t	i;
+	int *status;
+	
+	i = 0;
+	status = malloc((data->number_of_cmd - 1) * sizeof(int));
+	while (tab_pid[i])
+	{
+		waitpid(tab_pid[i], &status[i], 0);
+		i++;
+	}
+	data->last_pid = status[i - 1];
+	return (data->last_pid);
 }
 
 int	child_process_multi(t_data *data, int i, int *pip)
