@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/18 10:03:20 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:35:27 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,36 @@ int ft_redir_out(t_redir *redir)
     if (redir->out < 0)
         return (-1);
     return (redir->out);
+}
+
+int redir_check(t_redir *redir, t_data *data)
+{
+    size_t i;
+    size_t y;
+    
+    i = 0;
+    y = 0;
+    // il faut que je definisse la taille de tab_file
+    // que jarrive a reflechir a comment faire quand il y a les deux cas
+    // lancer possiblement les fonctions 
+    while (data->cmd[i])
+	{ 
+	// la ici bizarre car il peut en avoir plusieurs par commande donc comment faire ?
+    while (data->cmd[i][y])
+    {
+        if (data->cmd[i][y] == '>')
+        {
+           redir->tab_file = ft_split(data->cmd[i], '>');
+            // c'est donc une redirection vers un out 
+        }
+        else if (data->cmd[i][y] == '<')
+        {
+            redir->tab_file = ft_split(data->cmd[i], '<');
+            // c'est une redirection vers un in 
+        }
+        y++;
+    }
+	i++;
+	}
+	return (0);
 }

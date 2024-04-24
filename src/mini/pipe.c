@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:58:01 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/24 11:49:00 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/24 13:10:01 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ int init_pip(t_data *data)
 			return (-1);
         i++;
     }
-        pipex_process_multi(data, pip, tab_pid);
+    pipex_process_multi(data, pip, tab_pid);
     return (0);
 }
 
@@ -211,7 +211,7 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 int	process_status_pid(t_data *data, pid_t *tab_pid)
 {
 	size_t	i;
-	int *status;
+	int		*status;
 	
 	i = 0;
 	status = malloc((data->number_of_cmd - 1) * sizeof(int));

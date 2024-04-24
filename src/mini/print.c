@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/22 09:18:53 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/24 13:49:34 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,30 +48,6 @@ int main(int argc, char **argv, char **envp)
 
     return (0);
 }
-
-// creation d'un autre main pour pouvoir tester mes multi pipes :
-
-// int main(int argc, char **argv, char **envp)
-// {
-	
-// 	t_data vars;
-// 	t_redir redir;
-// 	(void)argv;
-// 	(void)argc;
-	
-// 	init_env(&vars, envp);
-// 	vars.str = malloc(ft_strlen("ls") * sizeof(char));
-// 	ft_strlcpy(vars.str,"ls", ft_strlen("ls"));
-
-// 	// vars.cmd[0][6] = "echo";
-// 	// vars.cmd[1][5]= "test";
-// 	vars.number_of_cmd = 2;
-// 	vars.number_of_pip = 0; 
-// 	init_redir(&redir);
-// 	init_pip(&vars, &redir);
-	
-// }
-
 
 int	exe_cmd(t_data *data)
 {

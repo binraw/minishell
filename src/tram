@@ -1,2 +1,14 @@
-commencer par implementer readline 
-ensuite faire traiter la premiere commande simple type ls
+faire les redirections
+
+je peux potentiellement regarder si a une commande on lui donne une redirection
+avec un bool ensuite regarder si c'est un in ou un out la je sais pas comment 
+et suivant envoyer la commande
+par la suite les autre pipe du coup prennent sur rien 
+et donc continuer la realisation normalement.
+
+
+
+
+avancer les builtins
+
+faire le parsing
