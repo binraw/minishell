@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/24 11:28:05 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/25 12:37:33 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 #include "../pipe/pipex.h"
 
+
+// essai de mettre cmd dans une structure qui a la valeur de la commande
+// mais aussi un tableau de tout les in-redirection
+// un tableau de tout les out
+typedef struct s_redir   t_redir;
 typedef struct data_s
 {
     char	*str;
@@ -23,14 +28,16 @@ typedef struct data_s
     int     number_of_cmd;
     int     number_of_pip;
     int     last_pid;
-
+    t_redir **redir;
 } t_data;
 
 typedef struct s_redir
 {
     int     in;
     int     out;
-    char    **tab_file;
+    char    *value;
+    char    **tab_file_in;
+    char    **tab_file_out;
 	char	*file_in;
     char    *file_out;
 }   t_redir;
@@ -58,6 +65,7 @@ int count_cmd(t_data *data);
 int count_pip(t_data *data);
 int free_data_values(t_data *data);
 int	process_status_pid(t_data *data, pid_t *tab_pid);
-
+int	second_child(t_data *data, int i, int **pip, int y);
+int init_values_redir(t_data *data);
 
 #endif

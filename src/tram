@@ -5,7 +5,7 @@ avec un bool ensuite regarder si c'est un in ou un out la je sais pas comment
 et suivant envoyer la commande
 par la suite les autre pipe du coup prennent sur rien 
 et donc continuer la realisation normalement.
-
+il faut ouvrir tout les fd avant de faire un fork pour le children et enoyer le fd correspondant
 
 
 
