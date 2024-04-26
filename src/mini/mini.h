@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/26 11:33:53 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:50:59 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,8 @@ int free_data_values(t_data *data);
 int	process_status_pid(t_data *data, pid_t *tab_pid);
 int	second_child(t_data *data, int i, int **pip, int y);
 int init_values_redir(t_data *data);
+int ft_dup_redir_second_child(t_data *data , int **pip, int y , int i);
+int     ft_redir_child_process(t_data *data, int *pip, int i);
+int first_child(int *pip);
 
 #endif

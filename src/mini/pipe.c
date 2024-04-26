@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:58:01 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/26 11:13:52 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:50:45 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,10 @@ int	child_process_multi(t_data *data, int i, int *pip)
 		path_command = create_path(data->cmd[i], data->env);
 	if (!path_command)
 		return (-1);
-	close(pip[0]); // les changement de redirect sont fait ici avec une condition sur les dup
-	dup2(pip[1], STDOUT_FILENO); // et du coup le dup peut etre fait sur redirect ou pip
-	close(pip[1]);
+	if (data->redir[i].out != 0 || data->redir[i].in != 0)
+		ft_redir_child_process(data, pip, i);
+	else
+		first_child(pip);
 	cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));
 	if (!cmd_finaly)
 		return (-1);
@@ -137,7 +138,10 @@ int	second_child_process_multi(t_data *data, int i, int **pip, int y)
 		path_command = create_path(data->cmd[i], data->env);
 	if (!path_command)
 		return(printf("error second child"), -1);
-	second_child(data, i, pip, y);
+	if (data->redir->out != 0 || data->redir->in != 0)
+		ft_dup_redir_second_child(data , pip, y , i);
+	else
+		second_child(data, i, pip, y);
 	cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));
 	if (!cmd_finaly)
 		return (-1);
@@ -172,5 +176,13 @@ int	second_child(t_data *data, int i, int **pip, int y)
 		dup2(pip[y][0], STDIN_FILENO);
 		close(pip[y][0]);
 	}
+	return (0);
+}
+
+int first_child(int *pip)
+{
+	close(pip[0]); // les changement de redirect sont fait ici avec une condition sur les dup
+	dup2(pip[1], STDOUT_FILENO); // et du coup le dup peut etre fait sur redirect ou pip
+	close(pip[1]);
 	return (0);
 }
