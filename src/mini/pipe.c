@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:58:01 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/25 12:51:38 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:13:52 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int init_pip(t_data *data)
 			return (-1);
         i++;
     }
-    pipex_process_multi(data, pip, tab_pid);
+    pipex_process_multi(data, pip, tab_pid); // ici peut etre creer directement un autre 
+	//chemin si dans un cas il y a une redirection dans une des commandes
     return (0);
 }
 

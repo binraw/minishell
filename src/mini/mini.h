@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/25 12:37:33 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:33:53 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 // essai de mettre cmd dans une structure qui a la valeur de la commande
 // mais aussi un tableau de tout les in-redirection
 // un tableau de tout les out
-typedef struct s_redir   t_redir;
+typedef  struct s_redir   t_redir;
 typedef struct data_s
 {
     char	*str;
@@ -28,7 +28,7 @@ typedef struct data_s
     int     number_of_cmd;
     int     number_of_pip;
     int     last_pid;
-    t_redir **redir;
+    t_redir *redir;
 } t_data;
 
 typedef struct s_redir
@@ -57,9 +57,7 @@ int init_pip(t_data *data);
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
 int	child_process_multi(t_data *data,  int i, int *pip);
 int	second_child_process_multi(t_data *data, int i, int **pip, int y);
-int init_redir(t_redir *redir);
-int ft_redir_in(t_redir *redir);
-int ft_redir_out(t_redir *redir);
+
 int init_values_parse(t_data *data);
 int count_cmd(t_data *data);
 int count_pip(t_data *data);

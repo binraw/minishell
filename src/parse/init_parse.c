@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:02:52 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/25 12:58:57 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/26 11:34:22 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int free_data_values(t_data *data)
     while (data->number_of_cmd > 0)
     {
         free(data->cmd[data->number_of_cmd]);
-        free(data->redir[data->number_of_cmd]);
         data->number_of_cmd--;
     }
     free(data->cmd);
