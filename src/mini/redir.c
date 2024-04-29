@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/26 14:19:46 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/29 13:24:50 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int ft_redir_out(t_data *data, int y)
 int ft_dup_redir_second_child(t_data *data , int **pip, int y , int i)
 {
     if (2 != data->number_of_cmd && i != (data->number_of_cmd -1)
-            && data->redir[i].file_in && !data->redir[i].file_out)
+            && data->redir[i].in && !data->redir[i].out)
 	{
 		close(pip[y][1]);
 		dup2(data->redir[i].in, STDIN_FILENO);
@@ -71,7 +71,7 @@ int ft_dup_redir_second_child(t_data *data , int **pip, int y , int i)
         close(data->redir[i].in);
 	}
     else if (2 != data->number_of_cmd && i != (data->number_of_cmd -1)
-            && data->redir[i].file_in && data->redir[i].file_out)
+            && data->redir[i].in && data->redir[i].out)
 	{
 		close(pip[y][1]);
 		dup2(data->redir[i].in, STDIN_FILENO);
@@ -83,7 +83,7 @@ int ft_dup_redir_second_child(t_data *data , int **pip, int y , int i)
         close(data->redir[i].out);
 	}
     else if (2 != data->number_of_cmd && i != (data->number_of_cmd -1)
-        && !data->redir[i].file_in && data->redir[i].file_out)
+        && !data->redir[i].in && data->redir[i].out)
 	{
 		close(pip[y][1]);
 		dup2(pip[y][0], STDIN_FILENO);

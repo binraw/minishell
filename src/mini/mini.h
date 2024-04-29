@@ -6,20 +6,28 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/26 13:50:59 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/29 12:26:51 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINI_H
 # define MINI_H
 
+
+
+#include <stdio.h>
 #include "../pipe/pipex.h"
 
 
 // essai de mettre cmd dans une structure qui a la valeur de la commande
 // mais aussi un tableau de tout les in-redirection
 // un tableau de tout les out
+#include <stdbool.h>
+
 typedef  struct s_redir   t_redir;
+typedef struct s_rdocs  t_rdocs;
+
+
 typedef struct data_s
 {
     char	*str;
@@ -29,6 +37,8 @@ typedef struct data_s
     int     number_of_pip;
     int     last_pid;
     t_redir *redir;
+    t_rdocs *rdocs;
+    
 } t_data;
 
 typedef struct s_redir
@@ -38,9 +48,16 @@ typedef struct s_redir
     char    *value;
     char    **tab_file_in;
     char    **tab_file_out;
-	char	*file_in;
-    char    *file_out;
+	// char	*file_in;
+    // char    *file_out;
 }   t_redir;
+
+typedef struct s_rdocs
+{
+    char    *str_rdocs;
+    char    *limit;
+    bool    go;
+}   t_rdocs;
 
 int	exe_cmd(t_data *data);
 char	**init_cmd(char *argv);
