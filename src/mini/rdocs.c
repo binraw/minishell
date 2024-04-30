@@ -6,11 +6,13 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 09:54:57 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/29 12:37:52 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/30 09:41:03 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini.h"
+
+// fonction a envoyer quand un rdocs est envoyer dans une commande
 
 int init_rdocs(t_data *data)
 {

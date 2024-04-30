@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/26 14:14:08 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/04/30 10:24:58 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,43 +85,5 @@ char	**init_cmd(char *argv)
 	return (cmd);
 }
 
-int init_env(t_data *data, char **envp)
-{
-	size_t	i;
-	size_t	y;
 
-	i = 0;
-	y = 0;
-	while (envp[y])
-		y++;
-	data->env = malloc(sizeof(char**) * (y + 1) );
-	if (!data->env)
-		return (-1);
-	while (i < y )
-	{
-		data->env[i] = ft_strdup(envp[i]);
-		if (!data->env[i])
-			return (-1);
-		i++;
-	}
-	data->env[i] = NULL;
-	return (0);
-}
-
-int free_env(t_data *data)
-{
-	size_t i;
-
-	i = 0;
-	if (data->env)
-	{
-	while (data->env[i])
-	{
-		free(data->env[i++]);
-	}
-	free(data->env);
-	data->env = NULL;
-	}
-	return (0);
-}
 

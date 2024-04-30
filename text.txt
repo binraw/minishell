@@ -1,0 +1,5 @@
+lib
+Makefile
+README.md
+src
+text.txt

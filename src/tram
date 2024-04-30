@@ -1,12 +1,7 @@
-faire les redirections
+faire une fonction qui free tout
 
 
-par la suite les autre pipe du coup prennent sur rien 
-et donc continuer la realisation normalement.
-il faut ouvrir tout les fd avant de faire un fork pour le children et envoyer le fd correspondant
 
-gestion des rdoc : Pour ca ouvrir un fd qui sera le resultat du rdoc et ecrire dedans en meme
-temps que le readline apres si il y a un pipe alors le rdoc envoyer dans le pipe
 
 
 

@@ -32,25 +32,15 @@ ft_tolower.c \
 ft_toupper.c \
 ft_itoa.c \
 ft_split.c \
-ft_lstnew_bonus.c \
-ft_lstadd_front_bonus.c \
-ft_lstsize_bonus.c \
-ft_lstadd_back_bonus.c \
-ft_lstclear_bonus.c \
-ft_lstdelone_bonus.c \
-ft_lstiter_bonus.c \
-ft_lstlast_bonus.c \
-ft_lstmap_bonus.c
 
 
-BONUS = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c ft_lstadd_back_bonus.c ft_lstclear_bonus.c ft_lstdelone_bonus.c ft_lstiter_bonus.c ft_lstlast_bonus.c ft_lstmap_bonus.c
+
 
 
 CFLAGS = -Wall -Wextra -Werror
 LIB= libft.h
 OBJ = $(SOURCES:.c=.o)
-OBJ_BONUS = $(BONUS:.c=.o)
-OBJ_ALL = $(OBJ) $(OBJ_BONUS)
+OBJ_ALL = $(OBJ)
 NAME = libft.a
 
 %.o: %.c libft.h
@@ -62,14 +52,13 @@ all: $(NAME)
 $(NAME): $(OBJ) $(LIB)
 		$(AR) -rcs $(NAME) $(OBJ)
 
-bonus:
-	$(MAKE) $(NAME) SOURCES="$(SOURCES) $(BONUS)"
+
 clean:
-		$(RM) $(OBJ) $(OBJ_BONUS)
+		$(RM) $(OBJ)
 
 fclean: clean
 		$(RM) $(NAME)
 
 re: fclean $(NAME)
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
