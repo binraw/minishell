@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/30 11:26:22 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/02 11:44:06 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +31,17 @@ typedef struct node_env_s   t_node_env;
 
 typedef struct data_s
 {
-    char	*str;
-    char    **cmd;
-    char	**env;
-    int     number_of_cmd;
-    int     number_of_pip;
-    int     last_pid;
-    t_redir *redir;
-    t_rdocs *rdocs;
+    char        *str;
+    char        **cmd;
+    char        **env;
+    int         number_of_cmd;
+    int         number_of_pip;
+    int         last_pid;
+    t_redir     *redir;
+    t_rdocs     *rdocs;
     t_node_env  *env_node;
     
-} t_data;
+}   t_data;
 
 typedef struct s_redir
 {
@@ -61,6 +61,8 @@ typedef struct s_rdocs
 
 typedef struct node_env_s
 {
+    char                *content;
+    char                *name;
     char                *value;
     struct node_env_s	*next;
     
@@ -69,7 +71,7 @@ typedef struct node_env_s
 
 int	exe_cmd(t_data *data);
 char	**init_cmd(char *argv);
-int init_env(t_data *data, char **envp);
+int init_env(t_data *data);
 int free_env(t_data *data);
 int command_env(t_data *data);
 int command_exit(int c);
@@ -89,10 +91,13 @@ int     ft_redir_child_process(t_data *data, int *pip, int i);
 int first_child(int *pip);
 int	ft_lstadd_back(t_node_env **lst, t_node_env *new);
 t_node_env	*ft_lstlast(t_node_env *lst);
-t_node_env	*ft_lstnew(char *value);
+t_node_env	*ft_lstnew(t_data *data, char *content);
 void	print_liste(t_node_env *liste);
-int init_node_env(t_data *data);
+int init_node_env(t_data *data, char **envp);
 int free_env(t_data *data);
-int init_env(t_data *data, char **envp);
+t_node_env	*ft_lstduplicate(const t_node_env *original);
+void	ft_lstclear(t_node_env **lst, void (*del)(void *));
+t_node_env	*ft_lstnew_basic(char *content);
+
 
 #endif
