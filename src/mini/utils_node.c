@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:45:54 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/02 11:44:36 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/02 12:43:28 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,22 +67,22 @@ t_node_env	*ft_lstlast(t_node_env *lst)
 	return (last);
 }
 
-int	ft_lstadd_back(t_node_env **lst, t_node_env *new)
+int	ft_lstadd_back(t_node_env **lst, t_node_env *new_node)
 {
 	t_node_env	*last;
 
-	if (!new)
+	if (!new_node)
 		return (-1);
 	if (*lst == NULL)
 	{
-		*lst = new;
-		new->next = NULL;
+		*lst = new_node;
+		new_node->next = NULL;
 		return (0);
 	}
 	else
 	{
 		last = ft_lstlast(*lst);
-		last->next = new;
+		last->next = new_node;
 	}
 	return (0);
 }

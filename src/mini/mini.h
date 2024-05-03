@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/02 11:44:06 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/03 10:27:55 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct data_s
 {
     char        *str;
     char        **cmd;
+    char        *path;
     char        **env;
     int         number_of_cmd;
     int         number_of_pip;
@@ -89,7 +90,7 @@ int init_values_redir(t_data *data);
 int ft_dup_redir_second_child(t_data *data , int **pip, int y , int i);
 int     ft_redir_child_process(t_data *data, int *pip, int i);
 int first_child(int *pip);
-int	ft_lstadd_back(t_node_env **lst, t_node_env *new);
+int	ft_lstadd_back(t_node_env **lst, t_node_env *new_node);
 t_node_env	*ft_lstlast(t_node_env *lst);
 t_node_env	*ft_lstnew(t_data *data, char *content);
 void	print_liste(t_node_env *liste);
@@ -99,5 +100,9 @@ t_node_env	*ft_lstduplicate(const t_node_env *original);
 void	ft_lstclear(t_node_env **lst, void (*del)(void *));
 t_node_env	*ft_lstnew_basic(char *content);
 
+void modifyValue(t_node_env *head, const char *name, const char *newValue);
+char	*value_pwd(t_node_env *head);
 
+void modifyValue(t_node_env *head, const char *name, const char *newValue);
+int cd_to_home(t_data *data);
 #endif

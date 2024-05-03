@@ -1,27 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fork.c                                             :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/11 13:57:06 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/02 12:44:13 by rtruvelo         ###   ########.fr       */
+/*   Created: 2024/05/03 14:14:32 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/05/03 14:45:38 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./mini.h"
 
-int	create_fork(int i) // fonction pas utile je garde pour rien
-{
-	pid_t	tab_fork;
-	int	y;
 
-	y = 0;
-	tab_fork = malloc(i * sizeof(pid_t));	
-	while (i > 0)
-	{
-		tab_fork[y] = fork();
-		i--;
-	}
-}
+
+
+
+#include "./src/mini/mini.h"
+
+
+

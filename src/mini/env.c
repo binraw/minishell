@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:24:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/02 12:40:42 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/02 14:24:56 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int init_env(t_data *data)
 	i = 0;
 	y = 0;
 	copy = data->env_node;
-	while (copy->next != NULL)
+	while (copy != NULL)
 	{
 		copy = copy->next;
 		y++;

@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:49:40 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/12 11:15:07 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/03 11:10:18 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,38 +25,130 @@ int command_env(t_data *data)
     return (0);
 }
 
+
 int command_exit(int c)
 {
     exit((unsigned char)c);
 }
 
-// int command_pwd(void)  // changer quand on pourra ajouter des arguments
-// {
-//     char pwd[1024];
+int command_pwd(t_data *data)
+{
+	(void)data;
+	char *pos;
+    long size;
 
-//     getcwd(pwd, sizeof(pwd));
-//     printf("%s\n", pwd);
-//     free(pwd);
-//     return (0);
-// }
+	size = 20;
+    while (1)
+	{
+		pos = malloc((size_t)size * sizeof(char *));
+		if (!pos)
+			return (perror("malloc() error"), -1);
+		if (getcwd(pos, (size_t)size) != NULL)
+		{
+		printf("%s\n", pos);
+		free(pos);
+		break;
+		}
+		else
+		{
+			free(pos);
+			size += size;
+		}
+    }
+    return (0);
+}
 
-// int command_unset(t_data *data, char *var)
-// {
-//     char *name_of_var;
-//     size_t i;
+int	command_cd(t_data *data)
+{
+	int i; // ici changer car ca doit etre le num de la commande
+	char		*old_pwd;
+	
+	i = 0;
+	old_pwd = ft_strdup(value_pwd(data->env_node));
+	if (!old_pwd)
+		return (printf("error oldpwd"), -1);
+	if (ft_strncmp(data->cmd[i], "cd", ft_strlen(data->cmd[i])) == 0)
+		cd_to_home(data);
+	if (chdir(data->path) == 0)
+	{
+		modifyValue(data->env_node, "OLDPWD", old_pwd);
+		modifyValue(data->env_node, "PWD", data->path);
+	}
+	else
+		printf("%s\n", strerror(errno));
+	return (0);
+}
 
-//     i = 0;
-//     name_of_var = malloc((ft_strlen(var) + 1) * sizeof(char*));
-    
-//     while (i < (ft_strlen(var) - 1))
-//     {
-//         name_of_var[i] = var[i];
-//         i++;
-//     }
-//     name_of_var[i++] = '=';
-//     name_of_var[i] = '\0';
+void modifyValue(t_node_env *head, const char *name, const char *newValue)
+{
+    t_node_env *current;
+	
+	current = head;
+    while (current != NULL)
+	{
+        if (strcmp(current->name, name) == 0)
+		{
+            free(current->value);
+            current->value = strdup(newValue);
+            return ;
+        }
+        current = current->next;
+    }
+}
 
-// // la jai rajouter le = apres ma variable mais je suis pas sur de devoir le faire pour supprimer ou juste verifier si y a bien un egal apres 
-    
+char	*value_old_pwd(t_node_env *head)
+{
+	t_node_env *current;
+	
+	current = head;
+	 while (current != NULL)
+	{
+        if (strcmp(current->name, "OLDPWD") == 0)
+            return (current->value);
+        current = current->next;
+    }
+	return (0);
+}
 
-// }
+char	*value_pwd(t_node_env *head)
+{
+	t_node_env *current;
+	
+	current = head;
+	 while (current != NULL)
+	{
+        if (strcmp(current->name, "PWD") == 0)
+            return (current->value);
+        current = current->next;
+    }
+	return (NULL);
+}
+
+int cd_to_home(t_data *data)
+{
+	t_node_env *copy;
+	char		*old_pwd;
+	
+	old_pwd = ft_strdup(value_pwd(data->env_node));
+	if (!old_pwd)
+		return (printf("error oldpwd"), -1);
+	copy = data->env_node;
+	while (copy != NULL)
+	{
+		if (ft_strncmp(copy->name, "HOME", ft_strlen(copy->name)) == 0)
+			break ;
+		copy = copy->next;
+	}
+	if (!copy->value)
+	{
+		ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
+		return (1);
+	}
+	if (chdir(copy->value) == 0)
+	{
+		modifyValue(data->env_node, "OLDPWD", old_pwd);
+		modifyValue(data->env_node, "PWD", copy->value);
+	}
+		
+	return (0);
+}
