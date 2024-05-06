@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/02 12:42:05 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/06 15:49:34 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int main(int argc, char **argv, char **envp)
 	(void)argv;
 	(void)argc;
 	
-
 	init_node_env(&vars, envp);
     while (1)
     {
@@ -44,7 +43,9 @@ int main(int argc, char **argv, char **envp)
 		}
 		init_values_parse(&vars);
 		init_pip(&vars);
-		free_data_values(&vars);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+		free_data_values(&vars);
+
+
     }
 
     return (0);

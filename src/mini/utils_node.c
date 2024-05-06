@@ -6,16 +6,15 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:45:54 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/02 12:43:28 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/06 13:05:11 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini.h"
 
 
-t_node_env	*ft_lstnew(t_data *data, char *content)
+t_node_env	*ft_lstnew(char *content)
 {
-	(void) data;
 	t_node_env	*element;
     char **line;
     int i;
@@ -38,7 +37,7 @@ t_node_env	*ft_lstnew(t_data *data, char *content)
 		element->value = ft_strjoin(NULL, line[i]);	
 		i++;
     }
-
+	free(line);
 	return (element);
 }
 
@@ -67,21 +66,21 @@ t_node_env	*ft_lstlast(t_node_env *lst)
 	return (last);
 }
 
-int	ft_lstadd_back(t_node_env **lst, t_node_env *new_node)
+int	ft_lstadd_back(t_node_env *lst, t_node_env *new_node)
 {
 	t_node_env	*last;
 
 	if (!new_node)
 		return (-1);
-	if (*lst == NULL)
+	if (lst == NULL)
 	{
-		*lst = new_node;
+		lst = new_node;
 		new_node->next = NULL;
 		return (0);
 	}
 	else
 	{
-		last = ft_lstlast(*lst);
+		last = ft_lstlast(lst);
 		last->next = new_node;
 	}
 	return (0);
@@ -111,7 +110,7 @@ t_node_env	*ft_lstduplicate(const t_node_env *original)
 	t_node_env	*original_ptr;
 	t_node_env	*copy_ptr;
 
-	copy = ft_lstnew_basic(original->content);
+	copy = ft_lstnew(original->content);
 	if (!copy)
 		return (NULL);
 	original_ptr = original->next;
@@ -120,7 +119,7 @@ t_node_env	*ft_lstduplicate(const t_node_env *original)
 		return (NULL);
 	while (original_ptr)
 	{
-		copy_ptr->next = ft_lstnew_basic(original_ptr->content);
+		copy_ptr->next = ft_lstnew(original_ptr->content);
 		if (!copy_ptr->next)
 		{
 			ft_lstclear(&copy, free);
@@ -148,3 +147,4 @@ void	ft_lstclear(t_node_env **lst, void (*del)(void *))
 	}
 	*lst = NULL;
 }
+

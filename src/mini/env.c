@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/30 10:24:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/02 14:24:56 by rtruvelo         ###   ########.fr       */
+/*   Created: 2024/05/06 15:51:18 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/05/06 15:51:23 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,13 @@ int init_node_env(t_data *data, char **envp)
     t_node_env *new_node;
 
     i = 0;
-    data->env_node = ft_lstnew(data, envp[i]);
+    data->env_node = ft_lstnew(envp[i]);
     while (envp[++i])
     {
-        new_node = ft_lstnew(data, envp[i]);
+        new_node = ft_lstnew(envp[i]);
         if (!new_node)
             return (-1);
-        ft_lstadd_back(&(data->env_node), new_node);
+        ft_lstadd_back(data->env_node, new_node);
     }
     return (0);
 }
