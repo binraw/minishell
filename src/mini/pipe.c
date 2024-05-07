@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:58:01 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/29 09:53:56 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/07 08:12:20 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ int init_pip(t_data *data)
 {
     int **pip;
     int i;
-    int y;
 	pid_t	*tab_pid;
 
     i = 0;
-    y = 0;
 	if (data->number_of_pip == 0 && data->number_of_cmd == 1)
 	{
 		exe_cmd(data);
