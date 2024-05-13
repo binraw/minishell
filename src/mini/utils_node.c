@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:45:54 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/06 13:05:11 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/13 13:56:28 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_node_env	*ft_lstnew(char *content)
         return (NULL);
     element->name = line[i];
     element->next = NULL;
+	element->print = false;
 	i = 1;
 	element->value = ft_strjoin(NULL, line[i]);
     while (line[i])

@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/06 15:49:34 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:39:49 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,18 @@ int main(int argc, char **argv, char **envp)
 	t_data vars;
 	(void)argv;
 	(void)argc;
-	
+	int i;
+
+	i = 0;
 	init_node_env(&vars, envp);
-    while (1)
-    {
+
+	// while (i < (ft_lstsize(vars.env_node) - 1))   pour faire un export seul
+	// {
+	// 	screen_export(&vars, 1);
+	// 	i++;
+	// }
+	while (1)
+	{
 		init_env(&vars);
         vars.str = readline("Minishell: ");
         if (vars.str == NULL)
@@ -46,7 +54,7 @@ int main(int argc, char **argv, char **envp)
 		free_data_values(&vars);
 
 
-    }
+    } 
 
     return (0);
 }

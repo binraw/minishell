@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/07 09:10:05 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/13 14:19:57 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct data_s
     int         number_of_cmd;
     int         number_of_pip;
     int         last_pid;
+    bool	arg; // jmets ca pour verifier si un arg est present pour echo mais a voir si on peut faire autrement
     t_redir     *redir;
     t_rdocs     *rdocs;
     t_node_env  *env_node;
@@ -65,6 +66,7 @@ typedef struct node_env_s
     char                *content;
     char                *name;
     char                *value;
+    bool		print;
     struct node_env_s	*next;
     
 
@@ -105,6 +107,9 @@ char	*value_pwd(t_node_env *head);
 
 void modifyValue(t_node_env *head, const char *name, const char *newValue);
 int cd_to_home(t_data *data);
-t_node_env	*screen_export(t_data *data, int fd);
+void	screen_export(t_data *data, int fd);
 int remove_node(t_node_env *current_node, t_node_env *second_node, t_node_env *third_node);
+void	change_old_pwd(t_data *data);
+char	*value_old_pwd(t_node_env *head);
+int	ft_lstsize(t_node_env *head);
 #endif

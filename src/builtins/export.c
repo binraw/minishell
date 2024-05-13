@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:15:19 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/07 09:32:35 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/13 15:39:25 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,63 +76,126 @@ int		remove_env_value(t_data *data, char *name_value)
 }
 */
 
-t_node_env	*screen_export(t_data *data, int fd)
+// t_node_env	*screen_export(t_data *data, int fd)
+// {
+// 	t_node_env *current_node;
+// 	t_node_env *second_node;
+// 	t_node_env *third_node;
+// 	char *max_value;
+// 	size_t i;
+//
+// 	current_node = ft_lstduplicate(data->env_node);
+// 	second_node = current_node->next;
+// 	third_node = second_node->next;
+// 	max_value = ft_strdup(data->env_node->name); // je dois faire un pointeur sur le next du next
+// 	i = 0;
+// 	while (current_node)
+// 	{
+// 		i = ft_strlen(current_node->name);
+// 		if (i > ft_strlen(max_value))
+// 		{				
+// 			i = ft_strlen(max_value);
+// 		}
+// 		if (ft_strncmp(current_node->name, max_value, i) > 0)
+// 		{
+// 			free(max_value);
+// 			max_value = ft_strdup(current_node->content);
+// 		}
+// 		current_node = current_node->next;
+// 	}
+// 	current_node = data->env_node;
+// 	while (third_node->next)
+// 	{
+// 		i = ft_strlen(current_node->name);
+// 		if (i > ft_strlen(max_value))
+// 		{
+// 			i = ft_strlen(max_value);
+// 		}
+// 		if (ft_strncmp(second_node->content, max_value, i) == 0)
+// 		{
+// 				
+// 			//	remove_node(&second_node, current_node);
+// 			remove_node(current_node, second_node, third_node);
+// 			break ;
+// 		}
+// 		current_node = current_node->next;
+// 		second_node = current_node->next;
+// 		third_node = second_node->next;
+// 	}
+// 	ft_putstr_fd(max_value, fd);
+// 	free(max_value);
+// 	free(current_node); 
+// 	return (data->env_node);
+// }
+//
+// int remove_node(t_node_env *current_node, t_node_env *second_node, t_node_env *third_node)
+// {
+// 	if (current_node == NULL || second_node == NULL || third_node == NULL)
+// 	{
+// 		// Gérer les cas où les nœuds sont NULL
+// 		return (-1);
+// 	}
+// 	free(second_node);
+// 	current_node->next = third_node;
+// 	return (0);
+// }
+
+
+void	screen_export(t_data *data, int fd)
 {
 	t_node_env *current_node;
-	t_node_env *second_node;
-  t_node_env *third_node;
 	char *max_value;
 	size_t i;
 
-	current_node = ft_lstduplicate(data->env_node);
-  second_node = current_node->next;
-  third_node = second_node->next;
-	max_value = ft_strdup(data->env_node->name); // je dois faire un pointeur sur le next du next
 	i = 0;
-		while (current_node)
-		{
-			i = ft_strlen(current_node->name);
-			if (i > ft_strlen(max_value))
-			{
-				i = ft_strlen(max_value);
-			}
-			if (ft_strncmp(current_node->name, max_value, i) > 0)
-			{
-				free(max_value);
-				max_value = ft_strdup(current_node->content);
-			}
-			current_node = current_node->next;
+	current_node = data->env_node;
+	max_value = ft_strdup("A"); // j'ai mis un A pour que tout passe avant mais si le Name est A jsais pas faut voir
+	while (current_node)
+	{
+		i = ft_strlen(current_node->name);
+		if (i > ft_strlen(max_value))
+		{				
+			i = ft_strlen(max_value);
 		}
-		while (third_node->next)
+		if (ft_strncmp(current_node->name, max_value, i) > 0 && current_node->print == false)
 		{
-			i = ft_strlen(current_node->name);
-			if (i > ft_strlen(max_value))
-			{
-				i = ft_strlen(max_value);
-			}
-
-			if (ft_strncmp(second_node->content, max_value, i) == 0)
-			{
-				
-			//	remove_node(&second_node, current_node);
-      remove_node(current_node, second_node, third_node);
-				break ;
-			}
-			current_node = current_node->next;
-      second_node = current_node->next;
-      third_node = second_node->next;
+			free(max_value);
+			max_value = ft_strdup(current_node->content);
 		}
+		current_node = current_node->next;
+	}
 	ft_putstr_fd(max_value, fd);
-	return (current_node);
+	ft_putchar_fd('\n', fd);
+	current_node = data->env_node;
+	while (current_node)
+	{
+		i = ft_strlen(current_node->name);
+		if (i > ft_strlen(max_value))
+		{
+			i = ft_strlen(max_value);
+		}
+		if (ft_strncmp(current_node->content, max_value, i) == 0)
+		{
+			current_node->print = true;
+			free(max_value);
+			return ;
+		}
+		current_node = current_node->next;
+	}
 }
+	
 
-int remove_node(t_node_env *current_node, t_node_env *second_node, t_node_env *third_node)
+int	ft_lstsize(t_node_env *head)
 {
-  if (current_node == NULL || second_node == NULL || third_node == NULL)
-  {
-        // Gérer les cas où les nœuds sont NULL
-        return (-1);
-    }
-   free(second_node);
-  current_node->next = third_node;
+	size_t	i;
+	t_node_env	*tmp;
+
+	tmp = head;
+	i = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		i++;
+	}
+	return (i);
 }
