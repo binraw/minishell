@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:15:19 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/13 16:08:45 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/14 11:34:41 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int	add_env_value(t_data *data, char *value_content)
 
 	new_node = NULL;
 	i = 0;
+	if ((control_export_value(value_content) == -1))
+		return (-1);
 	while(value_content[i] && value_content[i] != '=')
 		i++;
 	new_node->name = malloc(i * sizeof(char));
@@ -34,7 +36,7 @@ int	add_env_value(t_data *data, char *value_content)
 	new_node->value = malloc((ft_strlen(value_content) - i) * sizeof(char));
 	if (!new_node->value)
 		return (free(new_node->name), -1);
-	ft_strlcpy(new_node->name, value_content, i);
+	ft_strlcpy(new_node->name, value_content, i); // rajoute une le fait que quand add un export qui existe deja change seulement son content
 	ft_strlcpy(new_node->value, value_content + i, ft_strlen(value_content) - i);
 	new_node->content = ft_strdup(value_content);
 	if (!new_node->content)
@@ -47,88 +49,34 @@ int	add_env_value(t_data *data, char *value_content)
 	ft_lstadd_back(data->env_node, new_node); 
 	return (0);
 }
-//probleme dans cettte fonction pour les liens entre les different noeuds
-/*
-int		remove_env_value(t_data *data, char *name_value)
+
+int		control_export_value(char *value_content)
 {
-	t_node_env *current_node;
-    t_node_env *previous_node;
-
-	current_node = data->env_node;
-	previous_node = NULL;
-	while (current_node)
-	{
-		if (ft_strncmp(current_node->name, name_value, ft_strlen(current_node->name)) == 0)
-		{
-            if (previous_node != NULL) {
-                previous_node->next = current_node->next;
-            } else {
-                data->env_node = current_node->next;
-            }
-            free(current_node);
-            return 1;
-        }
-        previous_node = current_node;
-        current_node = current_node->next;
-
+	if (value_content[0] == '$')
+	{	
+		ft_putstr_fd("bash: export: `", 1);
+		ft_putstr_fd(value_content, 1);
+		ft_putstr_fd("`: not a valid identifier\n", 1);
+		return (-1);
 	}
+	if ((value_content[0] >= '0' && value_content[0] <= '9') || value_content[0] == '~')
+	{
+		ft_putstr_fd("bash: export: `", 1);
+		ft_putstr_fd(value_content, 1);
+		ft_putstr_fd("`: not a valid identifier\n", 1);
+		return (-1);
+	}
+	if (value_content[0] == '!')
+	{	
+		ft_putstr_fd("bash: ", 1);
+		ft_putstr_fd(value_content, 1);
+		ft_putstr_fd(": event not found", 1);
+		return (-1);
+	}
+
 	return (0);
 }
-*/
 
-// t_node_env	*screen_export(t_data *data, int fd)
-// {
-// 	t_node_env *current_node;
-// 	t_node_env *second_node;
-// 	t_node_env *third_node;
-// 	char *max_value;
-// 	size_t i;
-//
-// 	current_node = ft_lstduplicate(data->env_node);
-// 	second_node = current_node->next;
-// 	third_node = second_node->next;
-// 	max_value = ft_strdup(data->env_node->name); // je dois faire un pointeur sur le next du next
-// 	i = 0;
-// 	while (current_node)
-// 	{
-// 		i = ft_strlen(current_node->name);
-// 		if (i > ft_strlen(max_value))
-// 		{				
-// 			i = ft_strlen(max_value);
-// 		}
-// 		if (ft_strncmp(current_node->name, max_value, i) > 0)
-// 		{
-// 			free(max_value);
-// 			max_value = ft_strdup(current_node->content);
-// 		}
-// 		current_node = current_node->next;
-// 	}
-// 	current_node = data->env_node;
-// 	while (third_node->next)
-// 	{
-// 		i = ft_strlen(current_node->name);
-// 		if (i > ft_strlen(max_value))
-// 		{
-// 			i = ft_strlen(max_value);
-// 		}
-// 		if (ft_strncmp(second_node->content, max_value, i) == 0)
-// 		{
-// 				
-// 			//	remove_node(&second_node, current_node);
-// 			remove_node(current_node, second_node, third_node);
-// 			break ;
-// 		}
-// 		current_node = current_node->next;
-// 		second_node = current_node->next;
-// 		third_node = second_node->next;
-// 	}
-// 	ft_putstr_fd(max_value, fd);
-// 	free(max_value);
-// 	free(current_node); 
-// 	return (data->env_node);
-// }
-//
-//
 
 int	unset_command(t_data *data, char *value)
 {
@@ -178,32 +126,25 @@ void	screen_export(t_data *data, int fd)
 
 	i = 0;
 	current_node = data->env_node;
-	max_value = ft_strdup("A"); // j'ai mis un A pour que tout passe avant mais si le Name est A jsais pas faut voir
+	max_value = ft_strdup("~~~~"); // j'ai mis un A pour que tout passe avant mais si le Name est A jsais pas faut voir
 	while (current_node)
 	{
 		i = ft_strlen(current_node->name);
-		if (i > ft_strlen(max_value))
-		{				
-			i = ft_strlen(max_value);
-		}
-		if (ft_strncmp(current_node->name, max_value, i) > 0 && current_node->print == false)
+		if (ft_strncmp(current_node->name, max_value, i + 1) < 0 && current_node->print == false)
 		{
 			free(max_value);
 			max_value = ft_strdup(current_node->content);
 		}
 		current_node = current_node->next;
 	}
+	ft_putstr_fd("declare -x ", fd);
 	ft_putstr_fd(max_value, fd);
 	ft_putchar_fd('\n', fd);
 	current_node = data->env_node;
 	while (current_node)
 	{
 		i = ft_strlen(current_node->name);
-		if (i > ft_strlen(max_value))
-		{
-			i = ft_strlen(max_value);
-		}
-		if (ft_strncmp(current_node->content, max_value, i) == 0)
+		if (ft_strncmp(current_node->content, max_value, i + 1) == 0)
 		{
 			current_node->print = true;
 			free(max_value);

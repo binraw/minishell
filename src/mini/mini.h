@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/13 14:19:57 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/14 11:34:45 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,5 @@ int remove_node(t_node_env *current_node, t_node_env *second_node, t_node_env *t
 void	change_old_pwd(t_data *data);
 char	*value_old_pwd(t_node_env *head);
 int	ft_lstsize(t_node_env *head);
+int		control_export_value(char *value_content);
 #endif
