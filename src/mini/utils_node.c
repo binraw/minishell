@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:45:54 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/13 13:56:28 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:36:16 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	print_liste(t_node_env *liste)
 	current = liste;
 	while (current != NULL)
 	{
-		printf("%s -> ", current->content);
+		printf("%s -> \n", current->content);
 		current = current->next;
 	}
 	printf("NULL\n");

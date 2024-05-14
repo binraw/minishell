@@ -6,12 +6,13 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/14 10:08:13 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:16:29 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include "../pipe/pipex.h"
 #include "mini.h"
+#include <stdlib.h>
 
 int main(int argc, char **argv, char **envp) 
 {
@@ -29,6 +30,10 @@ int main(int argc, char **argv, char **envp)
 		screen_export(&vars, 1);
 		i++;
 	}
+	print_liste(vars.env_node);
+	unset_command(&vars, "LANG");
+	printf("DESTRUCTION D'UN NOEUD \n\n\n");
+	print_liste(vars.env_node);
 	// while (1)
 	// {
 	// 	init_env(&vars);
