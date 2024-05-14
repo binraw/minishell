@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:49:40 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/13 11:40:00 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/14 15:42:56 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,19 @@ int command_pwd(t_data *data)
 {
 	(void)data;
 	char *pos;
-    long size;
+	long size;
 
 	size = 20;
-    while (1)
+	while (1)
 	{
 		pos = malloc((size_t)size * sizeof(char *));
 		if (!pos)
 			return (perror("malloc() error"), -1);
 		if (getcwd(pos, (size_t)size) != NULL)
 		{
-		printf("%s\n", pos);
-		free(pos);
-		break;
+			printf("%s\n", pos);
+			free(pos);
+			break;
 		}
 		else
 		{
