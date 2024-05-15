@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/15 11:20:08 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/15 14:02:18 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,17 @@ typedef struct data_s
     int         number_of_pip;
     int         last_pid;
     bool	arg; // jmets ca pour verifier si un arg est present pour echo mais a voir si on peut faire autrement
-    t_redir     *redir;
-    t_rdocs     *rdocs;
     t_node_env  *env_node;
     
 }   t_data;
 
 typedef struct node_cmd_s
 {
-	char		*content;
-	t_redir     *redir;
-    t_rdocs     *rdocs;
+	int					index; // index de la commande  
+	char				*content; // valeur de la commande 
+	struct node_cmd_s	*next;
+	t_redir				*redir; // ici possible changement de ta part pour gerer les redirection si tu veux faire des liste chainees a la place jsp 
+    t_rdocs				*rdocs; // ici possible changement de ta part pour gerer les rdocs 
     
 }   t_node_cmd;
 
