@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/14 14:01:12 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/15 11:20:08 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ typedef  struct s_redir   t_redir;
 typedef struct s_rdocs  t_rdocs;
 typedef struct node_env_s   t_node_env;
 
+typedef struct node_cmd_s t_node_cmd;
 
 typedef struct data_s
 {
     char        *str;
-    char        **cmd;
+	t_node_cmd	*cmd;
+    //char        **cmd;
     char        *path;
     char        **env;
     int         number_of_cmd;
@@ -44,6 +46,19 @@ typedef struct data_s
     t_node_env  *env_node;
     
 }   t_data;
+
+typedef struct node_cmd_s
+{
+	char		*content;
+	t_redir     *redir;
+    t_rdocs     *rdocs;
+    
+}   t_node_cmd;
+
+typedef struct node_cmd_s
+{
+	char	*content;
+	
 
 typedef struct s_redir
 {
