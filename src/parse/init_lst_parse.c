@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/16 12:44:27 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:34:06 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int init_node_cmd(t_data *data, char **tab)
         if (!new_node)
             return (-1);
         ft_lstadd_back_cmd(data->cmd, new_node);
+		data->cmd = data->cmd->next;
     }
     return (0);
 }
