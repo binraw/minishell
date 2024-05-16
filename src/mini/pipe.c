@@ -6,12 +6,12 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:58:01 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/07 08:12:20 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:06:39 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini.h"
-
+/*
 int init_pip(t_data *data)
 {
     int **pip;
@@ -155,6 +155,6 @@ int	second_child_process_multi(t_data *data, int i, int **pip, int y)
 	exit(127);
 	return (0);
 }
-
+*/
 
 

@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/14 15:44:00 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/16 12:46:27 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,18 @@ int main(int argc, char **argv, char **envp)
 int	exe_cmd(t_data *data)
 {
 	char	*path_command;
+	char **command;
 
 	if (!data->str)
 		return (0);
-	data->cmd = init_cmd(data->str);
+	command = init_cmd(data->str);
 	path_command = create_path(data->str, data->env);
 	if (!path_command)
 	{
 		// faire un truc pour quand c'est un fichier
 		return (printf("error command\n"), -1);
 	}
-	execve(path_command, data->cmd, data->env);
+	execve(path_command, command, data->env);
 	perror("execve");
 	return (1);
 }
