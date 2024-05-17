@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/16 15:34:01 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/17 10:09:51 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 #include <stdio.h>
 #include "../pipe/pipex.h"
-
+#include "../../lib/libft/libft.h"
 
 // essai de mettre cmd dans une structure qui a la valeur de la commande
 // mais aussi un tableau de tout les in-redirection
