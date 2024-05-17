@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/17 10:09:51 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:47:08 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ typedef struct node_env_s
 }   t_node_env;
 
 int	exe_cmd(t_data *data);
-char	**init_cmd(char *argv);
+/*char	**init_cmd(char *argv);*/
+char	**init_cmd(t_data *data ,char *argv);
 int init_env(t_data *data);
 int free_env(t_data *data);
 int command_env(t_data *data);
@@ -100,9 +101,9 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y);
 int free_data_values(t_data *data);
 int	process_status_pid(t_data *data, pid_t *tab_pid);
 int init_values_redir(t_data *data);
-int	second_child(t_data *data, int i, int **pip, int y);
-int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y , int i);
-int     ft_redir_child_process(t_node_cmd *cmd, int *pip, int i);
+int	second_child(t_data *data, int **pip, int y);
+int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd, int **pip, int y);
+int     ft_redir_child_process(t_node_cmd *cmd, int *pip);
 int first_child(int *pip);
 int	ft_lstadd_back(t_node_env *lst, t_node_env *new_node);
 t_node_env	*ft_lstlast(t_node_env *lst);

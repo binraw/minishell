@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:12:31 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/16 10:33:36 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:35:28 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,12 @@
 t_node_cmd	*ft_lstnew_cmd(char *content, int i)
 {
 	t_node_cmd	*element;
-    char **line;
-    int i;
 
-    i = 0;
-	element = malloc(sizeof(t_node_env));
+	element = malloc(sizeof(t_node_cmd));
 	if (!element)
 		return (NULL);
-	element->content = content;
-	element->index = i; 
+	element->content = ft_strdup(content);
+	element->index = i;
 	element->next = NULL;
 	return (element);
 }
@@ -57,6 +54,7 @@ int	ft_lstadd_back_cmd(t_node_cmd *lst, t_node_cmd *new_node)
 	{
 		last = ft_lstlast_cmd(lst);
 		last->next = new_node;
+		new_node->index = last->index + 1;
 	}
 	return (0);
 }

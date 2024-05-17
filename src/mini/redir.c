@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/16 14:24:04 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/17 11:18:28 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,11 @@ int ft_redir_out(t_node_cmd *cmd, int y)
     return (cmd->redir[y].out);
 }
 
-int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y , int i)
+int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 {
+	int i; // ici le i doit etre remplacer 
+	//
+	i = 0;
     if (2 != data->number_of_cmd && i != (data->number_of_cmd -1)
             && cmd->redir[i].in && !cmd->redir[i].out)
 	{
@@ -105,8 +108,11 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y ,
    return (0);
 }
 
-int     ft_redir_child_process(t_node_cmd *cmd, int *pip, int i)
+int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
 {
+	int i; // le i est temporaire doit etre changer
+	
+	i = 0;
     close(pip[0]); 
 	dup2(cmd->redir[i].out, STDOUT_FILENO);
 	close(pip[1]);

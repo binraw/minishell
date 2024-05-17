@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 13:02:52 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/16 12:53:37 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:45:25 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int init_values_parse(t_data *data)
     data->number_of_pip = count_pip(data);
     data->number_of_cmd = count_cmd(data);
     data->cmd = malloc(data->number_of_cmd * sizeof(t_node_cmd));
+	init_cmd(data , data->str);
     init_values_redir(data);
     
     return (0);

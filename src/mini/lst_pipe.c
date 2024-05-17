@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/16 14:18:58 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:51:43 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 	if (pipe(pip[y]) == -1)
 		return (-1);
 	tab_pid[data->cmd->index] = fork();
+	printf(" la valeur de cmd->index : %d\n", data->cmd->index);
 	if (tab_pid[data->cmd->index] == -1)
 		return (-1);
 	if (tab_pid[data->cmd->index] == 0)
@@ -135,7 +136,7 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 	if (!path_command)
 		return(printf("error second child"), -1);
 	if (cmd->redir->out != 0 || cmd->redir->in != 0)
-		ft_dup_redir_second_child(data , pip, y);
+		ft_dup_redir_second_child(data, cmd, pip, y);
 	else
 		second_child(data, pip, y);
 	cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));
