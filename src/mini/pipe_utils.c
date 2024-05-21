@@ -6,18 +6,15 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:38:15 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/17 11:19:31 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:07:44 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini.h"
 
-int	second_child(t_data *data, int **pip, int y)
+int	second_child(t_data *data, int **pip, int y, t_node_cmd *cmd)
 {
-	int i; // a supprimer
-	
-	i = 0;
-	if (2 != data->number_of_cmd && i != (data->number_of_cmd -1)) // le 2 cest pour eviter quand i y a eulemnt deux commqnde de rentrer dedans
+	if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)) // le 2 cest pour eviter quand i y a eulemnt deux commqnde de rentrer dedans
 	{
 		close(pip[y][1]);
 		dup2(pip[y][0], STDIN_FILENO);

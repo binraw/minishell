@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/21 13:13:04 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:09:17 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int init_pip(t_data *data)
 	{
 		exe_cmd(data);
 	}
-	printf(" le nombre de pipe : %d\n", data->number_of_pip);
-	printf(" le nombre de cmd : %d\n", data->number_of_cmd);
     pip = malloc(data->number_of_pip * sizeof(int*));
 	tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
 	if (!pip)
@@ -44,33 +42,39 @@ int init_pip(t_data *data)
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 {
 	int		y;
+	int i;
+	t_node_cmd *dup;
 
 	y = 0;
+	i = 0;
+	dup = data->cmd;
 	if (pipe(pip[y]) == -1)
 		return (-1);
-	printf("la value de index cmd : %d\n", data->cmd->index);
-	tab_pid[data->cmd->index] = fork();
-	/*printf(" la valeur de cmd->index : %d\n", data->cmd->index);*/
-	if (tab_pid[data->cmd->index] == -1)
+	tab_pid[i] = fork();
+	if (tab_pid[i] == -1)
 		return (-1);
-	if (tab_pid[data->cmd->index] == 0)
-		child_process_multi(data, data->cmd, pip[y]);
-  	data->cmd = data->cmd->next;
-	printf("la value de index cmd deux : %d\n", data->cmd->index);
-    while ((data->number_of_cmd - 1) > data->cmd->index)
+	if (tab_pid[i] == 0)
+	{
+		printf("voila\n");
+		child_process_multi(data, dup, pip[y]);
+	}
+  	dup = dup->next;
+	i++;
+    while (i < data->number_of_cmd)
     {
-		if ((data->cmd->index + 1) < (data->number_of_cmd))
+		if ((i + 1) < (data->number_of_cmd))
 			if (pipe(pip[y + 1]) == -1)
         		return (-1);
-		tab_pid[data->cmd->index] = fork();
-		if (tab_pid[data->cmd->index] == -1)
+		tab_pid[i] = fork();
+		if (tab_pid[i] == -1)
 			return (-1);
-		if (tab_pid[data->cmd->index] == 0)
-			second_child_process_multi(data, data->cmd, pip, y);
+		if (tab_pid[i] == 0)
+			second_child_process_multi(data, dup, pip, y);
 		close(pip[y][0]);
 		close(pip[y][1]);
 		y++;
-		data->cmd = data->cmd->next;
+		i++;
+		dup = dup->next;
     }
 	process_status_pid(data, tab_pid);
 	if (data->last_pid)
@@ -81,14 +85,19 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 int	process_status_pid(t_data *data, pid_t *tab_pid)
 {
 	int		*status;
-	
+	t_node_cmd *dup;
+	int i;
+
+	dup = data->cmd;
+	i = 0;
 	status = malloc((data->number_of_cmd) * sizeof(int));
-	while (data->cmd->index < data->number_of_cmd)
+	while (dup)
 	{
-		waitpid(tab_pid[data->cmd->index], &status[data->cmd->index], 0);
-		data->cmd = data->cmd->next;
+		waitpid(tab_pid[dup->index], &status[dup->index], 0);
+		i++;
+		dup = dup->next;
 	}
-	data->last_pid = status[data->cmd->index - 1]; // ici a voir car je pense pas besoin de garder le -1
+	data->last_pid = status[i]; // ici a voir car je pense pas besoin de garder le -1
 	return (data->last_pid);
 }
 
@@ -102,14 +111,14 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	y = -1;
 	i = 0; // ici le i est juste provisoire pour voir comment implementer ca
 	path_command = NULL;
-	if (cmd)
+	if (cmd->content[0])
 		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command)
 		return (-1);
-	if (cmd->redir[i].out != 0 || cmd->redir[i].in != 0)
-		ft_redir_child_process(data->cmd, pip);
-	else
-		first_child(pip);
+	/*if (cmd->redir[i].out != 0 || cmd->redir[i].in != 0)*/
+	/*	ft_redir_child_process(data->cmd, pip);*/
+	/*else*/
+	first_child(pip);
 	/*cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));*/
 	/*if (!cmd_finaly)*/
 	/*	return (-1);*/
@@ -139,10 +148,10 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command)
 		return(printf("error second child"), -1);
-	if (cmd->redir->out != 0 || cmd->redir->in != 0)
-		ft_dup_redir_second_child(data, cmd, pip, y);
-	else
-		second_child(data, pip, y);
+	/*if (cmd->redir->out != 0 || cmd->redir->in != 0)*/
+	/*	ft_dup_redir_second_child(data, cmd, pip, y);*/
+	/*else*/
+	second_child(data, pip, y, cmd);
 	/*cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));*/
 	/*if (!cmd_finaly)*/
 	/*	return (-1);*/

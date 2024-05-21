@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/21 12:37:49 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:08:03 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y);
 int free_data_values(t_data *data);
 int	process_status_pid(t_data *data, pid_t *tab_pid);
 int init_values_redir(t_data *data);
-int	second_child(t_data *data, int **pip, int y);
+int	second_child(t_data *data, int **pip, int y, t_node_cmd *cmd);
 int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd, int **pip, int y);
 int     ft_redir_child_process(t_node_cmd *cmd, int *pip);
 int first_child(int *pip);

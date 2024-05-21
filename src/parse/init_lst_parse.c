@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/21 11:16:26 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:42:52 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ char	**init_cmd(t_data *data ,char *argv)
 	i = 0;
 	data->number_of_pip = ft_count_str(argv, '|') - 1;
 	data->number_of_cmd = data->number_of_pip + 1;
+	data->last_pid = 0;
 	pips = malloc(sizeof(char *) * (data->number_of_pip + 1));
 	tok = ft_strtok(argv, '|');
 	while (tok)
