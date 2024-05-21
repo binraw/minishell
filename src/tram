@@ -8,3 +8,7 @@ faire une fonction qui free tout
 avancer les builtins
 
 faire le parsing
+
+
+
+neovim : :%s/ancien_mot/nouveau_mot 

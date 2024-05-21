@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/14 15:44:00 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/17 12:54:28 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int main(int argc, char **argv, char **envp)
 			exit (0);
 		}
 		init_values_parse(&vars);
+	printf(" la valeur de cmd->index : %d\n", vars.cmd->index);
 		init_pip(&vars);
 		free_data_values(&vars);
 
@@ -68,39 +69,40 @@ int main(int argc, char **argv, char **envp)
 int	exe_cmd(t_data *data)
 {
 	char	*path_command;
+	char **command;
 
 	if (!data->str)
 		return (0);
-	data->cmd = init_cmd(data->str);
+	command = init_cmd(data, data->str);
 	path_command = create_path(data->str, data->env);
 	if (!path_command)
 	{
 		// faire un truc pour quand c'est un fichier
 		return (printf("error command\n"), -1);
 	}
-	execve(path_command, data->cmd, data->env);
+	execve(path_command, command, data->env);
 	perror("execve");
 	return (1);
 }
 
 
-char	**init_cmd(char *argv)
-{
-	char	**cmd;
-	int		y;
-
-	y = 0;
-	if (argv[y] == '\0')
-		return (NULL);
-	while (argv[y] == ' ')
-	{
-		if (argv[y + 1] == '\0')
-			return (NULL);
-		y++;
-	}
-	cmd = ft_split(argv, ' ');
-	return (cmd);
-}
+/*char	**init_cmd(char *argv)*/
+/*{*/
+/*	char	**cmd;*/
+/*	int		y;*/
+/**/
+/*	y = 0;*/
+/*	if (argv[y] == '\0')*/
+/*		return (NULL);*/
+/*	while (argv[y] == ' ')*/
+/*	{*/
+/*		if (argv[y + 1] == '\0')*/
+/*			return (NULL);*/
+/*		y++;*/
+/*	}*/
+/*	cmd = ft_split(argv, ' ');*/
+/*	return (cmd);*/
+/*}*/
 
 
 
