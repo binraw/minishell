@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/17 12:54:28 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:18:43 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,11 @@ int main(int argc, char **argv, char **envp)
 			command_env(&vars);
 			exit (0);
 		}
-		init_values_parse(&vars);
-	printf(" la valeur de cmd->index : %d\n", vars.cmd->index);
+	//	init_values_parse(&vars);
+		init_cmd(&vars, vars.str);
+//	printf(" la valeur de cmd->index : %d\n", vars.cmd->index);
 		init_pip(&vars);
-		free_data_values(&vars);
+		//free_data_values(&vars);
 
 
     } 
@@ -69,18 +70,19 @@ int main(int argc, char **argv, char **envp)
 int	exe_cmd(t_data *data)
 {
 	char	*path_command;
-	char **command;
+	/*char **command;*/
 
 	if (!data->str)
 		return (0);
-	command = init_cmd(data, data->str);
-	path_command = create_path(data->str, data->env);
+	/*command = init_cmd(data, data->str);*/
+	path_command = create_path(data->cmd->content[0], data->env);
+	printf("la value du content 0 : %s\n", data->cmd->content[0]);
 	if (!path_command)
 	{
 		// faire un truc pour quand c'est un fichier
 		return (printf("error command\n"), -1);
 	}
-	execve(path_command, command, data->env);
+	execve(path_command, data->cmd->content, data->env);
 	perror("execve");
 	return (1);
 }

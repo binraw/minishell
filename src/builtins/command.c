@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:49:40 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/16 12:49:56 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:58:45 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ int	command_cd(t_data *data)
 	old_pwd = ft_strdup(value_pwd(data->env_node));
 	if (!old_pwd)
 		return (printf("error oldpwd"), -1);
-	if (ft_strncmp(data->cmd->content, "cd", ft_strlen(data->cmd->content)) == 0)
+	if (ft_strncmp(data->cmd->content[0], "cd", ft_strlen(data->cmd->content[0])) == 0)
 		cd_to_home(data);
-	if (ft_strncmp(data->cmd->content, "cd ..", ft_strlen(data->cmd->content)) == 0)
+	if (ft_strncmp(data->cmd->content[0], "cd ..", ft_strlen(data->cmd->content[0])) == 0)
 	{
 		change_old_pwd(data);
 	}

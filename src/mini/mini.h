@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/17 12:47:08 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:37:49 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ typedef struct data_s
 typedef struct node_cmd_s
 {
 	int					index; // index de la commande  
-	char				*content; // valeur de la commande 
+	char				**content; // valeur de la commande 
 	struct node_cmd_s	*next;
 	t_redir				*redir; // ici possible changement de ta part pour gerer les redirection si tu veux faire des liste chainees a la place jsp 
     t_rdocs				*rdocs; // ici possible changement de ta part pour gerer les rdocs 
@@ -84,7 +84,7 @@ typedef struct node_env_s
 
 int	exe_cmd(t_data *data);
 /*char	**init_cmd(char *argv);*/
-char	**init_cmd(t_data *data ,char *argv);
+/*char	**init_cmd(t_data *data ,char *argv);*/
 int init_env(t_data *data);
 int free_env(t_data *data);
 int command_env(t_data *data);
@@ -131,6 +131,9 @@ int	unset_command(t_data *data, char *value);
 void	ft_lstclear_cmd(t_node_cmd **lst, void (*del)(void *));
 int	ft_lstadd_back_cmd(t_node_cmd *lst, t_node_cmd *new_node);
 t_node_cmd	*ft_lstlast_cmd(t_node_cmd *lst);
-t_node_cmd	*ft_lstnew_cmd(char *content, int i);
+t_node_cmd	*ft_lstnew_cmd(int i);
 int init_node_cmd(t_data *data, char **tab);
+char	**init_cmd(t_data *data ,char *argv);
+t_node_cmd	*cmd_get_content(char *str, size_t index);
+
 #endif

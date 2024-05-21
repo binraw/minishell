@@ -6,21 +6,34 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:12:31 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/17 12:35:28 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/21 12:37:01 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "./mini.h"
 
-t_node_cmd	*ft_lstnew_cmd(char *content, int i)
+/*t_node_cmd	*ft_lstnew_cmd(char *content, int i)*/
+/*{*/
+/*	t_node_cmd	*element;*/
+/**/
+/*	element = malloc(sizeof(t_node_cmd));*/
+/*	if (!element)*/
+/*		return (NULL);*/
+/*	element->content = ft_strdup(content);*/
+/*	element->index = i;*/
+/*	element->next = NULL;*/
+/*	return (element);*/
+/*}*/
+
+t_node_cmd	*ft_lstnew_cmd(int i)
 {
 	t_node_cmd	*element;
 
 	element = malloc(sizeof(t_node_cmd));
 	if (!element)
 		return (NULL);
-	element->content = ft_strdup(content);
+	element->content = NULL;
 	element->index = i;
 	element->next = NULL;
 	return (element);

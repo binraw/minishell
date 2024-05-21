@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/17 12:51:43 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/21 13:13:04 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int init_pip(t_data *data)
 	{
 		exe_cmd(data);
 	}
+	printf(" le nombre de pipe : %d\n", data->number_of_pip);
+	printf(" le nombre de cmd : %d\n", data->number_of_cmd);
     pip = malloc(data->number_of_pip * sizeof(int*));
 	tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
 	if (!pip)
@@ -46,14 +48,16 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 	y = 0;
 	if (pipe(pip[y]) == -1)
 		return (-1);
+	printf("la value de index cmd : %d\n", data->cmd->index);
 	tab_pid[data->cmd->index] = fork();
-	printf(" la valeur de cmd->index : %d\n", data->cmd->index);
+	/*printf(" la valeur de cmd->index : %d\n", data->cmd->index);*/
 	if (tab_pid[data->cmd->index] == -1)
 		return (-1);
 	if (tab_pid[data->cmd->index] == 0)
 		child_process_multi(data, data->cmd, pip[y]);
   	data->cmd = data->cmd->next;
-    while (data->number_of_cmd > data->cmd->index)
+	printf("la value de index cmd deux : %d\n", data->cmd->index);
+    while ((data->number_of_cmd - 1) > data->cmd->index)
     {
 		if ((data->cmd->index + 1) < (data->number_of_cmd))
 			if (pipe(pip[y + 1]) == -1)
@@ -91,7 +95,7 @@ int	process_status_pid(t_data *data, pid_t *tab_pid)
 int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 {
 	char	*path_command;
-	char	**cmd_finaly;
+	/*char	**cmd_finaly;*/
 	int		y;
 	int i;
 
@@ -99,24 +103,24 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	i = 0; // ici le i est juste provisoire pour voir comment implementer ca
 	path_command = NULL;
 	if (cmd)
-		path_command = create_path(cmd->content, data->env);
+		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command)
 		return (-1);
 	if (cmd->redir[i].out != 0 || cmd->redir[i].in != 0)
 		ft_redir_child_process(data->cmd, pip);
 	else
 		first_child(pip);
-	cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));
-	if (!cmd_finaly)
-		return (-1);
-	cmd_finaly[0] = malloc((strlen(cmd->content) + 1) * sizeof(char));
-	if (!cmd_finaly[0])
-		return (-1);
-	while (cmd->content[++y])
-		cmd_finaly[0][y] =  cmd->content[y];
-	cmd_finaly[0][y] = '\0';
-	cmd_finaly[1] = NULL;
-	execve(path_command, cmd_finaly, data->env);
+	/*cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));*/
+	/*if (!cmd_finaly)*/
+	/*	return (-1);*/
+	/*cmd_finaly[0] = malloc((strlen(cmd->content) + 1) * sizeof(char));*/
+	/*if (!cmd_finaly[0])*/
+	/*	return (-1);*/
+	/*while (cmd->content[++y])*/
+	/*	cmd_finaly[0][y] =  cmd->content[y];*/
+	/*cmd_finaly[0][y] = '\0';*/
+	/*cmd_finaly[1] = NULL;*/
+	execve(path_command, cmd->content, data->env);
 	perror("execve");
 	exit(127);
 	return (0);
@@ -126,30 +130,30 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 {
 	char	*path_command;
-	char	**cmd_finaly;
+	/*char	**cmd_finaly;*/
 	int		x;
 
 	x = -1;
 	path_command = NULL;
 	if (cmd)
-		path_command = create_path(cmd->content, data->env);
+		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command)
 		return(printf("error second child"), -1);
 	if (cmd->redir->out != 0 || cmd->redir->in != 0)
 		ft_dup_redir_second_child(data, cmd, pip, y);
 	else
 		second_child(data, pip, y);
-	cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));
-	if (!cmd_finaly)
-		return (-1);
-	cmd_finaly[0] = malloc((strlen(cmd->content) + 1) * sizeof(char));
-	if (!cmd_finaly[0])
-		return (-1);
-	while (cmd->content[++x])
-		cmd_finaly[0][x] =  cmd->content[x];
-	cmd_finaly[0][x] = '\0';
-	cmd_finaly[1] = NULL;
-	execve(path_command, cmd_finaly, data->env);
+	/*cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));*/
+	/*if (!cmd_finaly)*/
+	/*	return (-1);*/
+	/*cmd_finaly[0] = malloc((strlen(cmd->content) + 1) * sizeof(char));*/
+	/*if (!cmd_finaly[0])*/
+	/*	return (-1);*/
+	/*while (cmd->content[++x])*/
+	/*	cmd_finaly[0][x] =  cmd->content[x];*/
+	/*cmd_finaly[0][x] = '\0';*/
+	/*cmd_finaly[1] = NULL;*/
+	execve(path_command, cmd->content, data->env);
 	perror("execve");
 	exit(127);
 	return (0);
