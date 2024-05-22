@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/21 11:32:00 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:03:30 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,23 +57,56 @@ int ft_redir_out(t_node_cmd *cmd, int y)
     return (cmd->redir[y].out);
 }
 
+
+int open_all_redir(t_node_cmd *cmd)
+{
+	int i;
+
+	i = 0;	
+	while (cmd->redir)
+	{
+		if (cmd->redir->in)
+		{
+			i = open(cmd->redir->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
+        	if (i < 0)
+            	return (-1);
+		}
+		else if (cmd->redir->out)
+		{
+			i =  open(cmd->redir->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
+        	if (i < 0)
+            	return (-1);
+		}
+		else if (cmd->redir->rdocs)
+		{
+			i = 0; // faire mon rdocs ici
+		}
+		else if (cmd->redir->d_out)
+		{
+			i = open(cmd->redir->content, (O_APPEND), 00644);
+		}
+		cmd->redir = cmd->redir->next;
+	}
+}
+			
+
 int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 {
 	int i; // ici le i doit etre remplacer 
 	//
 	i = 0;
-    if (2 != data->number_of_cmd && i != (data->number_of_cmd -1)
+    if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)
             && cmd->redir[i].in && !cmd->redir[i].out)
 	{
 		close(pip[y][1]);
-		dup2(cmd->redir[i].in, STDIN_FILENO);
+		dup2(cmd->redir[i].in, STDIN_FILENO); //remplacer ici pAR LA FONCtion qui trouve le dernier de la liste en question
 		close(pip[y][0]);
 		dup2(pip[y + 1][1], STDOUT_FILENO);
 		close(pip[y + 1][1]);
     	close(pip[y + 1][0]);
         close(cmd->redir[i].in);
 	}
-    else if (2 != data->number_of_cmd && i != (data->number_of_cmd -1)
+    else if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)
             && cmd->redir[i].in && cmd->redir[i].out)
 	{
 		close(pip[y][1]);
@@ -85,7 +118,7 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
         close(cmd->redir[i].in);
         close(cmd->redir[i].out);
 	}
-    else if (2 != data->number_of_cmd && i != (data->number_of_cmd -1)
+    else if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)
         && !cmd->redir[i].in && cmd->redir[i].out)
 	{
 		close(pip[y][1]);

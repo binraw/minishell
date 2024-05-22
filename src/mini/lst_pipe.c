@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/21 15:09:17 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:03:24 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 		return (-1);
 	if (tab_pid[i] == 0)
 	{
-		printf("voila\n");
 		child_process_multi(data, dup, pip[y]);
 	}
   	dup = dup->next;
@@ -115,7 +114,7 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command)
 		return (-1);
-	/*if (cmd->redir[i].out != 0 || cmd->redir[i].in != 0)*/
+	/*if (cmd->redir->content!= 0 || cmd->redir->content != 0)*/
 	/*	ft_redir_child_process(data->cmd, pip);*/
 	/*else*/
 	first_child(pip);
@@ -148,7 +147,7 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command)
 		return(printf("error second child"), -1);
-	/*if (cmd->redir->out != 0 || cmd->redir->in != 0)*/
+	/*if (cmd->redir->content != 0 || cmd->redir->content != 0)*/
 	/*	ft_dup_redir_second_child(data, cmd, pip, y);*/
 	/*else*/
 	second_child(data, pip, y, cmd);
