@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 12:51:57 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/05/24 13:16:24 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/05/24 13:40:04 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,14 @@ t_redir	*init_redirs(char *tok)
 char	*trim_redir(char *tok, int i)
 {
 	char	*str;
+	size_t	j;
 
+	j = i;
+	while (tok[j])
+		j++;
+	while (j != 0 && (tok[j - 1] == ' ' || tok[j] == '\t'))
+		j--;
+	tok[j] = 0;
 	while (tok[i] && (tok[i] == ' ' || tok[i] == '\t'))
 		i++;
 	str = ft_strdup(&tok[i]);
