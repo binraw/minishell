@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/24 09:48:43 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/05/24 11:03:47 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,17 @@ char	**init_cmd(t_data *data ,char *argv)
 	return (NULL);
 }
 
+char	*trim_redir(char *tok, int i)
+{
+	char	*str;
+
+	while (tok[i] && (tok[i] == ' ' || tok[i] == '\t'))
+		i++;
+	str = ft_strdup(&tok[i]);
+	free(tok);
+	return (str);
+}
+
 // je remplis la liste chainee t_redir
 t_redir	*fill_redirs(char *tok)
 {
@@ -179,16 +190,16 @@ t_redir	*fill_redirs(char *tok)
 	if (*tok == '>')
 	{
 		if (tok[1] == '>')
-			redir = redir_lst_new(4, tok);
+			redir = redir_lst_new(4, trim_redir(tok, 2));
 		else
-			redir = redir_lst_new(2, tok);
+			redir = redir_lst_new(2, trim_redir(tok, 1));
 	}
 	else if (*tok == '<')
 	{
 		if (tok[1] == '<')
-			redir = redir_lst_new(3, tok);
+			redir = redir_lst_new(3, trim_redir(tok, 2));
 		else
-			redir = redir_lst_new(1, tok);
+			redir = redir_lst_new(1, trim_redir(tok, 1));
 	}
 	else
 		return (NULL);
@@ -199,16 +210,19 @@ t_redir	*fill_redirs(char *tok)
 		if (*tok == '>')
 		{
 			if (tok[1] == '>')
-				ptr->next = redir_lst_new(4, tok);
+			{
+				trim_redir(tok, 1);
+				ptr->next = redir_lst_new(4, trim_redir(tok, 2));
+			}
 			else
-				ptr->next = redir_lst_new(2, tok);
+				ptr->next = redir_lst_new(2, trim_redir(tok, 1));
 		}
 		else if (*tok == '<')
 		{
 			if (tok[1] == '<')
-				ptr->next = redir_lst_new(3, tok);
+				ptr->next = redir_lst_new(3, trim_redir(tok, 2));
 			else
-				ptr->next = redir_lst_new(1, tok);
+				ptr->next = redir_lst_new(1, trim_redir(tok, 1));
 		}
 		tok = ft_strtok(NULL, ' ', true);
 		ptr = ptr->next;

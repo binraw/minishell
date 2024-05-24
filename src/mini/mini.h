@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/22 15:11:24 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/05/24 11:03:23 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,5 +146,6 @@ char	*tok_redir(char *str, size_t *i);
 char	*ft_strtok(char	*str, char sep, bool redir);
 t_redir	*fill_redirs(char *tok);
 t_node_cmd	*cmd_get_content(char *str, size_t index);
+char	*trim_redir(char *tok, int i);
 
 #endif
