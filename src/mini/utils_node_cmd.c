@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:12:31 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/22 15:34:46 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/05/24 15:43:13 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ void	ft_lstclear_cmd(t_node_cmd **lst)
 	if (lst == NULL || *lst == NULL)
 		return ;
 	current = *lst;
-	i = 0;
 	while (current != NULL)
 	{
+		i = 0;
 		next = current->next;
 		if (current->content)
 		{

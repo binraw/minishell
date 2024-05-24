@@ -6,14 +6,14 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:16:27 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/05/24 12:47:24 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/05/24 14:13:58 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini/mini.h"
 
 // je decoupe la string avec des separateurs a la facon d'un GNL
-char	*ft_strtok(char	*str, char sep, bool redir)
+char	*ft_strtok(char	*str, char *sep, bool redir)
 {
 	static char	*ptr;
 	char		*tok;
@@ -23,7 +23,7 @@ char	*ft_strtok(char	*str, char sep, bool redir)
 	if (str)
 	{
 		ptr = str;
-		while (*ptr == sep)
+		while (ft_strchr(sep, *ptr))
 			ptr++;
 	}
 	else if (!ptr || !*ptr)
@@ -39,13 +39,13 @@ char	*ft_strtok(char	*str, char sep, bool redir)
 	return (tok);
 }
 
-char	*create_tok(char sep, char *ptr, bool redir, size_t *i)
+char	*create_tok(char *sep, char *ptr, bool redir, size_t *i)
 {
 	int		quote;
 	char	*tok;
 
 	quote = 0;
-	while (ptr[*i] && (ptr[*i] != sep || quote != 0))
+	while (ptr[*i] && (!ft_strchr(sep, ptr[*i]) || quote != 0))
 	{
 		if (ptr[*i] == '\'' || ptr[*i] == '\"')
 			quote = manage_quotes(ptr[*i], quote);
@@ -55,12 +55,12 @@ char	*create_tok(char sep, char *ptr, bool redir, size_t *i)
 	}
 	if (quote == 0 && redir && (ptr[*i] == '<' || ptr[*i] == '>'))
 		tok = tok_stop_redir(ptr, *i);
-	else if (ptr[*i] == sep && quote == 0)
+	else if (ptr[*i] && ft_strchr(sep, ptr[*i]) && quote == 0)
 	{
 		ptr[*i] = 0;
 		tok = ft_strdup(ptr);
 		*i = *i + 1;
-		while (ptr[*i] && ptr[*i] == sep)
+		while (ptr[*i] && ft_strchr(sep, ptr[*i]))
 			*i = *i + 1;
 	}
 	else
