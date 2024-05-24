@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/21 13:18:43 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/24 15:21:30 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,7 @@ int main(int argc, char **argv, char **envp)
 
 	i = 0;
 	init_node_env(&vars, envp);
-/* 	print_liste(vars.env_node); */
 
-	// while (i < (ft_lstsize(vars.env_node) - 1))
-	// {
-	// 	screen_export(&vars, 1);
-	// 	i++;
-	// }
-	// print_liste(vars.env_node);
-	// unset_command(&vars, "LANG");
-	// printf("DESTRUCTION D'UN NOEUD \n\n\n");
-	// print_liste(vars.env_node);
 	while (1)
 	{
 		init_env(&vars);
@@ -55,13 +45,8 @@ int main(int argc, char **argv, char **envp)
 			command_env(&vars);
 			exit (0);
 		}
-	//	init_values_parse(&vars);
 		init_cmd(&vars, vars.str);
-//	printf(" la valeur de cmd->index : %d\n", vars.cmd->index);
 		init_pip(&vars);
-		//free_data_values(&vars);
-
-
     } 
 
     return (0);
@@ -70,18 +55,23 @@ int main(int argc, char **argv, char **envp)
 int	exe_cmd(t_data *data)
 {
 	char	*path_command;
-	/*char **command;*/
+	t_node_cmd	*dup;
 
+	dup = data->cmd;
 	if (!data->str)
 		return (0);
-	/*command = init_cmd(data, data->str);*/
 	path_command = create_path(data->cmd->content[0], data->env);
-	printf("la value du content 0 : %s\n", data->cmd->content[0]);
 	if (!path_command)
 	{
 		// faire un truc pour quand c'est un fichier
 		return (printf("error command\n"), -1);
 	}
+	if (data->cmd->redir)
+	{
+		ft_redir_one_process(dup);
+		//printf("valeur redir 1 commande : %s\n", data->cmd->redir->content);
+	}
+	printf("valeur du content 1commande : %s\n", data->cmd->content[1]);
 	execve(path_command, data->cmd->content, data->env);
 	perror("execve");
 	return (1);
