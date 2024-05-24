@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/24 15:16:09 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/24 15:52:38 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,11 @@ int init_node_cmd(t_data *data, char **tab);
 t_node_cmd	*cmd_get_content(char *str, size_t index);
 int		ft_redir_one_process(t_node_cmd *cmd);
 
+
+
+
+
+
 void	init_cmd(t_data *data ,char *argv);
 t_redir	*redir_lst_new(int type, char *tok);
 void	ft_lstclear_redir(t_redir **lst);
@@ -149,11 +154,11 @@ int		manage_quotes(char c, int quote);
 size_t	ft_count_str(char *str, char sep);
 char	*tok_stop_redir(char *str, size_t i);
 char	*tok_redir(char *str, size_t *i);
-char	*ft_strtok(char	*str, char sep, bool redir);
+char	*ft_strtok(char	*str, char *sep, bool redir);
 void	fill_redirs(char *tok, t_redir **redir);
 t_node_cmd	*cmd_get_content(char *str, size_t index);
 char	*trim_redir(char *tok, int i);
-char	*create_tok(char sep, char *ptr, bool redir, size_t *i);
+char	*create_tok(char *sep, char *ptr, bool redir, size_t *i);
 t_redir	*init_redirs(char *tok);
 void	fill_cmd_content(t_data *data, char **pips);
 #endif

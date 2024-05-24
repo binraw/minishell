@@ -6,12 +6,13 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/24 13:20:03 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/24 15:51:11 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini/mini.h"
 
+// fonction pour gerer les quotes
 int	manage_quotes(char c, int quote)
 {
 	if (c == '\"')
@@ -67,11 +68,11 @@ void	init_cmd(t_data *data, char *argv)
 	data->number_of_pip = ft_count_str(argv, '|') - 1;
 	data->number_of_cmd = data->number_of_pip + 1;
 	pips = malloc(sizeof(char *) * (data->number_of_cmd + 1));
-	tok = ft_strtok(argv, '|', false);
+	tok = ft_strtok(argv, "|", false);
 	while (tok)
 	{
 		pips[i] = tok;
-		tok = ft_strtok(NULL, '|', false);
+		tok = ft_strtok(NULL, "|", false);
 		i++;
 	}
 	pips[i] = NULL;
@@ -107,9 +108,9 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 	i = 0;
 	cmd = ft_lstnew_cmd(index);
 	cmd->content = malloc(sizeof(char *) * (ft_count_str(str, ' ') + 1));
-	cmd->content[i] = ft_strtok(str, ' ', true);
+	cmd->content[i] = ft_strtok(str, " \t", true);
 	i++;
-	tok = ft_strtok(NULL, ' ', true);
+	tok = ft_strtok(NULL, " \t", true);
 	while (tok)
 	{
 		if (*tok == '>' || *tok == '<')
@@ -119,8 +120,9 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 		}
 		cmd->content[i] = tok;
 		i++;
-		tok = ft_strtok(NULL, ' ', true);
+		tok = ft_strtok(NULL, " \t", true);
 	}
 	cmd->content[i] = NULL;
 	return (cmd);
 }
+

@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 12:51:57 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/05/24 13:47:05 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/24 15:51:35 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	fill_redirs(char *tok, t_redir **redir)
 
 	*redir = init_redirs(tok);
 	ptr = *redir;
-	tok = ft_strtok(NULL, ' ', true);
+	tok = ft_strtok(NULL, " \t", true);
 	while (tok)
 	{
 		if (*tok == '>')
@@ -36,7 +36,7 @@ void	fill_redirs(char *tok, t_redir **redir)
 			else
 				ptr->next = redir_lst_new(1, trim_redir(tok, 1));
 		}
-		tok = ft_strtok(NULL, ' ', true);
+		tok = ft_strtok(NULL, " \t", true);
 		ptr = ptr->next;
 	}
 }
@@ -60,7 +60,6 @@ t_redir	*init_redirs(char *tok)
 	else
 		return (NULL);
 }
-
 
 char	*trim_redir(char *tok, int i)
 {

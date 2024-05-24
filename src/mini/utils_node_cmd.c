@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_node_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:12:31 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/24 10:57:57 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/24 15:48:50 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ void	ft_lstclear_cmd(t_node_cmd **lst)
 	if (lst == NULL || *lst == NULL)
 		return ;
 	current = *lst;
-	i = 0;
 	while (current != NULL)
 	{
+		i = 0;
 		next = current->next;
 		if (current->content)
 		{
