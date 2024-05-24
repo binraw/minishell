@@ -6,25 +6,12 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:12:31 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/21 12:37:01 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/24 10:57:57 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "./mini.h"
-
-/*t_node_cmd	*ft_lstnew_cmd(char *content, int i)*/
-/*{*/
-/*	t_node_cmd	*element;*/
-/**/
-/*	element = malloc(sizeof(t_node_cmd));*/
-/*	if (!element)*/
-/*		return (NULL);*/
-/*	element->content = ft_strdup(content);*/
-/*	element->index = i;*/
-/*	element->next = NULL;*/
-/*	return (element);*/
-/*}*/
 
 t_node_cmd	*ft_lstnew_cmd(int i)
 {
@@ -36,6 +23,7 @@ t_node_cmd	*ft_lstnew_cmd(int i)
 	element->content = NULL;
 	element->index = i;
 	element->next = NULL;
+	element->redir = NULL;
 	return (element);
 }
 
@@ -72,20 +60,33 @@ int	ft_lstadd_back_cmd(t_node_cmd *lst, t_node_cmd *new_node)
 	return (0);
 }
 
-void	ft_lstclear_cmd(t_node_cmd **lst, void (*del)(void *))
+void	ft_lstclear_cmd(t_node_cmd **lst)
 {
 	t_node_cmd	*current;
 	t_node_cmd	*next;
+	size_t		i;
 
-	if (lst == NULL || *lst == NULL || del == NULL)
+	if (lst == NULL || *lst == NULL)
 		return ;
 	current = *lst;
+	i = 0;
 	while (current != NULL)
 	{
 		next = current->next;
+		if (current->content)
+		{
+			while (current->content[i])
+			{
+				free(current->content[i]);
+				i++;
+			}
+			free (current->content[i]);
+			free (current->content);
+		}
+		if (current->redir)
+			ft_lstclear_redir(&current->redir);
 		free(current);
 		current = next;
 	}
 	*lst = NULL;
 }
-

@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/22 14:03:24 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/24 12:57:07 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int	process_status_pid(t_data *data, pid_t *tab_pid)
 int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 {
 	char	*path_command;
-	/*char	**cmd_finaly;*/
 	int		y;
 	int i;
 
@@ -114,20 +113,10 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command)
 		return (-1);
-	/*if (cmd->redir->content!= 0 || cmd->redir->content != 0)*/
-	/*	ft_redir_child_process(data->cmd, pip);*/
-	/*else*/
-	first_child(pip);
-	/*cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));*/
-	/*if (!cmd_finaly)*/
-	/*	return (-1);*/
-	/*cmd_finaly[0] = malloc((strlen(cmd->content) + 1) * sizeof(char));*/
-	/*if (!cmd_finaly[0])*/
-	/*	return (-1);*/
-	/*while (cmd->content[++y])*/
-	/*	cmd_finaly[0][y] =  cmd->content[y];*/
-	/*cmd_finaly[0][y] = '\0';*/
-	/*cmd_finaly[1] = NULL;*/
+	if (cmd->redir)
+		ft_redir_child_process(data->cmd, pip);
+	else
+		first_child(pip);
 	execve(path_command, cmd->content, data->env);
 	perror("execve");
 	exit(127);
@@ -138,29 +127,16 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 {
 	char	*path_command;
-	/*char	**cmd_finaly;*/
-	int		x;
 
-	x = -1;
 	path_command = NULL;
 	if (cmd)
 		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command)
 		return(printf("error second child"), -1);
-	/*if (cmd->redir->content != 0 || cmd->redir->content != 0)*/
-	/*	ft_dup_redir_second_child(data, cmd, pip, y);*/
-	/*else*/
-	second_child(data, pip, y, cmd);
-	/*cmd_finaly = malloc(data->number_of_cmd * sizeof(char*));*/
-	/*if (!cmd_finaly)*/
-	/*	return (-1);*/
-	/*cmd_finaly[0] = malloc((strlen(cmd->content) + 1) * sizeof(char));*/
-	/*if (!cmd_finaly[0])*/
-	/*	return (-1);*/
-	/*while (cmd->content[++x])*/
-	/*	cmd_finaly[0][x] =  cmd->content[x];*/
-	/*cmd_finaly[0][x] = '\0';*/
-	/*cmd_finaly[1] = NULL;*/
+	if (cmd->redir)
+		ft_dup_redir_second_child(data, cmd, pip, y);
+	else
+		second_child(data, pip, y, cmd);
 	execve(path_command, cmd->content, data->env);
 	perror("execve");
 	exit(127);

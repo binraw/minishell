@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/22 14:03:30 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/24 11:43:08 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,42 +20,42 @@
 //     return (0);
 // }
 
-int ft_redir_in(t_node_cmd *cmd, int y)
-{
-    size_t i;
+/*int ft_redir_in(t_node_cmd *cmd, int y)*/
+/*{*/
+/*    size_t i;*/
+/**/
+/*    i = 0;*/
+/*    while (cmd->redir[y].tab_file_in[i])*/
+/*    {*/
+/*        cmd->redir[y].in = open(cmd->redir[y].tab_file_in[i], O_RDONLY, 00644);*/
+/*        if (cmd->redir->in < 0)*/
+/*            return (-1);*/
+/*        i++;*/
+/*    }*/
+/*    cmd->redir->in = open(cmd->redir[y].tab_file_in[i - 1], O_RDONLY, 00644); // ici nous ouvrons le dernier file qui doit etre celui prit en compte dans bash*/
+/*    if (cmd->redir[y].in < 0)*/
+/*        return (-1);*/
+/*    return (cmd->redir[y].in);*/
+/*}*/
 
-    i = 0;
-    while (cmd->redir[y].tab_file_in[i])
-    {
-        cmd->redir[y].in = open(cmd->redir[y].tab_file_in[i], O_RDONLY, 00644);
-        if (cmd->redir->in < 0)
-            return (-1);
-        i++;
-    }
-    cmd->redir->in = open(cmd->redir[y].tab_file_in[i - 1], O_RDONLY, 00644); // ici nous ouvrons le dernier file qui doit etre celui prit en compte dans bash
-    if (cmd->redir[y].in < 0)
-        return (-1);
-    return (cmd->redir[y].in);
-}
 
-
-int ft_redir_out(t_node_cmd *cmd, int y)
-{
-    size_t i;
-
-    i = 0;
-    while (cmd->redir[y].tab_file_out[i])
-    {
-        cmd->redir[y].out = open(cmd->redir[y].tab_file_out[i], (O_CREAT | O_WRONLY | O_TRUNC), 00644);
-        if (cmd->redir[y].out < 0)
-            return (-1);
-        i++;
-    }
-    cmd->redir[y].out = open(cmd->redir[y].tab_file_out[i - 1], (O_CREAT | O_WRONLY | O_TRUNC), 00644);
-    if (cmd->redir[y].out < 0)
-        return (-1);
-    return (cmd->redir[y].out);
-}
+/*int ft_redir_out(t_node_cmd *cmd, int y)*/
+/*{*/
+/*    size_t i;*/
+/**/
+/*    i = 0;*/
+/*    while (cmd->redir[y].tab_file_out[i])*/
+/*    {*/
+/*        cmd->redir[y].out = open(cmd->redir[y].tab_file_out[i], (O_CREAT | O_WRONLY | O_TRUNC), 00644);*/
+/*        if (cmd->redir[y].out < 0)*/
+/*            return (-1);*/
+/*        i++;*/
+/*    }*/
+/*    cmd->redir[y].out = open(cmd->redir[y].tab_file_out[i - 1], (O_CREAT | O_WRONLY | O_TRUNC), 00644);*/
+/*    if (cmd->redir[y].out < 0)*/
+/*        return (-1);*/
+/*    return (cmd->redir[y].out);*/
+/*}*/
 
 
 int open_all_redir(t_node_cmd *cmd)
@@ -87,68 +87,73 @@ int open_all_redir(t_node_cmd *cmd)
 		}
 		cmd->redir = cmd->redir->next;
 	}
+	return (0);
 }
 			
 
 int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 {
-	int i; // ici le i doit etre remplacer 
-	//
-	i = 0;
+	int fd_in;
+	int fd_out;
+	
+	if (get_last_in(cmd->redir))
+		fd_in = open(get_last_in(cmd->redir)->content , (O_CREAT | O_WRONLY | O_TRUNC), 00644);
+	if (get_last_out(cmd->redir))
+		fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644); 
     if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)
-            && cmd->redir[i].in && !cmd->redir[i].out)
+            && get_last_in(cmd->redir) && !(get_last_out(cmd->redir)))
 	{
 		close(pip[y][1]);
-		dup2(cmd->redir[i].in, STDIN_FILENO); //remplacer ici pAR LA FONCtion qui trouve le dernier de la liste en question
+		dup2(fd_in, STDIN_FILENO); //remplacer ici pAR LA FONCtion qui trouve le dernier de la liste en question
 		close(pip[y][0]);
 		dup2(pip[y + 1][1], STDOUT_FILENO);
 		close(pip[y + 1][1]);
     	close(pip[y + 1][0]);
-        close(cmd->redir[i].in);
+        close(fd_in);
 	}
     else if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)
-            && cmd->redir[i].in && cmd->redir[i].out)
+            && get_last_in(cmd->redir) && get_last_out(cmd->redir))
 	{
 		close(pip[y][1]);
-		dup2(cmd->redir[i].in, STDIN_FILENO);
+		dup2(fd_in, STDIN_FILENO);
 		close(pip[y][0]);
-		dup2(cmd->redir[i].out, STDOUT_FILENO);
+		dup2(fd_out, STDOUT_FILENO);
 		close(pip[y + 1][1]);
     	close(pip[y + 1][0]);
-        close(cmd->redir[i].in);
-        close(cmd->redir[i].out);
+        close(fd_in);
+        close(fd_out);
 	}
     else if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)
-        && !cmd->redir[i].in && cmd->redir[i].out)
+        && !(get_last_in(cmd->redir)) && get_last_out(cmd->redir))
 	{
 		close(pip[y][1]);
 		dup2(pip[y][0], STDIN_FILENO);
 		close(pip[y][0]);
-		dup2(cmd->redir[i].out, STDOUT_FILENO);
+		dup2(fd_out, STDOUT_FILENO);
 		close(pip[y + 1][1]);
     	close(pip[y + 1][0]);
-        close(cmd->redir[i].in);
-        close(cmd->redir[i].out);
+        close(fd_in);
+        close(fd_out);
 	}
     else //ce cas la a regarder de pres car je sais pas si cest possible de rentrer la alors quil
     // a peut etre un out ...
     {
         close(pip[y][1]);
-		dup2(cmd->redir[i].in, STDIN_FILENO);
+		dup2(fd_in, STDIN_FILENO);
 		close(pip[y][0]);
-        close(cmd->redir[i].in);
+        close(fd_in);
     }
    return (0);
 }
 
 int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
 {
-	int i; // le i est temporaire doit etre changer
-	
-	i = 0;
+	int fd_out;
+
+	fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
     close(pip[0]); 
-	dup2(cmd->redir[i].out, STDOUT_FILENO);
+	dup2(fd_out, STDOUT_FILENO);
 	close(pip[1]);
-    close(cmd->redir[i].out);
+    close(fd_out);
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/21 15:08:03 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/24 11:44:21 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,13 @@ typedef struct node_cmd_s
 
 typedef struct s_redir
 {
-    int     in;
-    int     out;
-    char    *value;
-    char    **tab_file_in;
-    char    **tab_file_out;
-}   t_redir;
+	bool	in;
+	bool	out;
+	bool	d_out;
+	bool	rdocs;
+	char	*content;
+	t_redir	*next;
+}  	t_redir;
 
 typedef struct s_rdocs
 {
@@ -128,7 +129,7 @@ int	ft_lstsize(t_node_env *head);
 int		control_export_value(char *value_content);
 int		control_export_name(t_data *data, char *value_content);
 int	unset_command(t_data *data, char *value);
-void	ft_lstclear_cmd(t_node_cmd **lst, void (*del)(void *));
+void    ft_lstclear_cmd(t_node_cmd **lst);
 int	ft_lstadd_back_cmd(t_node_cmd *lst, t_node_cmd *new_node);
 t_node_cmd	*ft_lstlast_cmd(t_node_cmd *lst);
 t_node_cmd	*ft_lstnew_cmd(int i);
@@ -136,4 +137,17 @@ int init_node_cmd(t_data *data, char **tab);
 char	**init_cmd(t_data *data ,char *argv);
 t_node_cmd	*cmd_get_content(char *str, size_t index);
 
+t_redir	*redir_lst_new(int type, char *tok);
+void	ft_lstclear_redir(t_redir **lst);
+t_redir	*get_last_in(t_redir *redir);
+t_redir	*get_last_out(t_redir *redir);
+t_redir	*get_last_rdocs(t_redir *redir);
+t_redir	*get_last_d_out(t_redir *redir);
+int		manage_quotes(char c, int quote);
+size_t	ft_count_str(char *str, char sep);
+char	*tok_stop_redir(char *str, size_t i);
+char	*tok_redir(char *str, size_t *i);
+char	*ft_strtok(char	*str, char sep, bool redir);
+t_redir	*fill_redirs(char *tok);
+char	*trim_redir(char *tok, int i);
 #endif
