@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/27 13:21:06 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:34:36 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,12 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 			exit(-1);
 	}
 	if (get_last_out(cmd->redir))
+	{
 		if (cmd->redir->d_out)
 			fd_out = open(get_last_in(cmd->redir)->content, (O_APPEND), 00644);
 		else
-			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644); 
+			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
+	}
     if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)
             && get_last_in(cmd->redir) && !(get_last_out(cmd->redir)))
 	{
@@ -144,7 +146,7 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
     else if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)
             && get_last_in(cmd->redir) && get_last_out(cmd->redir))
 	{
-		close(pip[y][1]);
+		close(pip[y][1]);		
 		dup2(fd_in, STDIN_FILENO);
 		close(pip[y][0]);
 		dup2(fd_out, STDOUT_FILENO);
@@ -180,12 +182,25 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
 {
 	int fd_out;
+	int fd_in;
 
-	fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00664);
-    close(pip[0]); 
-	dup2(fd_out, STDOUT_FILENO);
-	close(pip[1]);
-    close(fd_out);
+	if (get_last_out(cmd->redir))
+	{
+		fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00664);
+    	close(pip[0]);
+		dup2(fd_out, STDOUT_FILENO);
+		close(pip[1]);
+    	close(fd_out);
+	}
+	else if (get_last_in(cmd->redir))
+	{
+		fd_in = open(get_last_in(cmd->redir)->content, (O_RDONLY), 00664);
+    	close(pip[0]);
+		dup2(fd_in, STDIN_FILENO);
+		close(pip[1]);
+    	close(fd_in);
+	}
+
     return (0);
 }
 
@@ -203,7 +218,7 @@ int		ft_redir_one_process(t_node_cmd *cmd)
 			exit(-1);
 	}
 	if (get_last_out(cmd->redir))
-		fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 0777);
+		fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
 
 	if (!(get_last_in(cmd->redir)) && get_last_out(cmd->redir))
 	{

@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/27 13:37:47 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:37:25 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,10 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 		return (-1);
 	tab_pid[i] = fork();
 	if (tab_pid[i] == -1)
-		return (-1);
+		return (-1);	
+
 	if (tab_pid[i] == 0)
-	{
 		child_process_multi(data, dup, pip[y]);
-	}
   	dup = dup->next;
 	i++;
     while (i < data->number_of_cmd)
@@ -113,10 +112,12 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command)
 		return (-1);
-	if (cmd->redir)
+	if (cmd->redir)	
+	{
 		ft_redir_child_process(data->cmd, pip);
+	}
 	else
-		first_child(pip);
+		first_child(pip);	
 	execve(path_command, cmd->content, data->env);
 	perror("execve");
 	exit(127);
@@ -134,9 +135,14 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 	if (!path_command)
 		return(printf("error second child"), -1);
 	if (cmd->redir)
+	{
+		printf("ca rentre ici\n");
 		ft_dup_redir_second_child(data, cmd, pip, y);
+	}
 	else
+	{
 		second_child(data, pip, y, cmd);
+	}
 	execve(path_command, cmd->content, data->env);
 	perror("execve");
 	exit(127);
