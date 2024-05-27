@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/27 15:37:25 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:18:13 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 {
 	char	*path_command;
 	int		y;
-	int i;
+	int		i;
 
 	y = -1;
 	i = 0; // ici le i est juste provisoire pour voir comment implementer ca
@@ -136,7 +136,6 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		return(printf("error second child"), -1);
 	if (cmd->redir)
 	{
-		printf("ca rentre ici\n");
 		ft_dup_redir_second_child(data, cmd, pip, y);
 	}
 	else

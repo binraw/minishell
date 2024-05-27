@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/27 15:34:36 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/27 16:17:50 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
 		fd_in = open(get_last_in(cmd->redir)->content, (O_RDONLY), 00664);
     	close(pip[0]);
 		dup2(fd_in, STDIN_FILENO);
+		dup2(pip[1], STDOUT_FILENO);
 		close(pip[1]);
     	close(fd_in);
 	}
