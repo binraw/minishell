@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/24 12:57:07 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:37:47 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	process_status_pid(t_data *data, pid_t *tab_pid)
 		i++;
 		dup = dup->next;
 	}
-	data->last_pid = status[i]; // ici a voir car je pense pas besoin de garder le -1
+	data->last_pid = status[i - 1]; // ici a voir car je pense pas besoin de garder le -1
 	return (data->last_pid);
 }
 

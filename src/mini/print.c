@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/24 15:21:30 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:37:53 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	exe_cmd(t_data *data)
 		ft_redir_one_process(dup);
 		//printf("valeur redir 1 commande : %s\n", data->cmd->redir->content);
 	}
-	printf("valeur du content 1commande : %s\n", data->cmd->content[1]);
+
 	execve(path_command, data->cmd->content, data->env);
 	perror("execve");
 	return (1);

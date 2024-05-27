@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/24 16:16:09 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/27 13:21:06 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,50 +61,75 @@
 int open_all_redir(t_node_cmd *cmd)
 {
 	int i;
+	t_redir *last_in;
+	t_redir *last_out;
+	t_redir *dup;
+
+	last_in = get_last_in(cmd->redir);
+	last_out = get_last_out(cmd->redir);
+	dup = cmd->redir;
 
 	i = 0;	
-	while (cmd->redir)
+	while (dup)
 	{
-		if (cmd->redir->in)
-		{
-			i = open(cmd->redir->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
+		if (dup->in)
+		{	
+			if (dup != last_in)
+			{
+			i = open(dup->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
         	if (i < 0)
             	return (-1);
+			close(i);
+			}
 		}
-		else if (cmd->redir->out)
+		else if (dup->out)
 		{
-			i =  open(cmd->redir->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
+			if (dup != last_out)
+			{
+			i =  open(dup->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
         	if (i < 0)
-            	return (-1);
+            	return (-1);	
+			close(i);
+			}
 		}
-		else if (cmd->redir->rdocs)
+		else if (dup->rdocs)
 		{
 			i = 0; // faire mon rdocs ici
 		}
-		else if (cmd->redir->d_out)
+		else if (dup->d_out)
 		{
-			i = open(cmd->redir->content, (O_APPEND), 00644);
+			i = open(dup->content, (O_APPEND), 00644);
+			close(i);
 		}
-		cmd->redir = cmd->redir->next;
+		dup = dup->next;
 	}
 	return (0);
 }
+
+
 			
 
 int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 {
 	int fd_in;
 	int fd_out;
+
+
+	open_all_redir(cmd);
 	
 	if (get_last_in(cmd->redir))
 	{
-		printf(" value de la redir_in :%s\n", cmd->redir->content); 
-		fd_in = open(get_last_in(cmd->redir)->content , (O_RDONLY), 00644);
+		printf(" value de la redir_in :%s\n", cmd->redir->content);
+
+			fd_in = open(get_last_in(cmd->redir)->content , (O_RDONLY), 00644);
 		if (fd_in <= 0)
 			exit(-1);
 	}
 	if (get_last_out(cmd->redir))
-		fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 0777); 
+		if (cmd->redir->d_out)
+			fd_out = open(get_last_in(cmd->redir)->content, (O_APPEND), 00644);
+		else
+			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644); 
     if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)
             && get_last_in(cmd->redir) && !(get_last_out(cmd->redir)))
 	{
@@ -144,9 +169,10 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
     // a peut etre un out ...
     {
         close(pip[y][1]);
-		dup2(fd_in, STDIN_FILENO);
+		dup2(pip[y][0], STDIN_FILENO);
+		dup2(fd_out, STDOUT_FILENO);  //javais mis de base fd_in
 		close(pip[y][0]);
-        close(fd_in);
+        close(fd_out);
     }
    return (0);
 }
@@ -155,7 +181,7 @@ int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
 {
 	int fd_out;
 
-	fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 0777);
+	fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00664);
     close(pip[0]); 
 	dup2(fd_out, STDOUT_FILENO);
 	close(pip[1]);
@@ -169,6 +195,7 @@ int		ft_redir_one_process(t_node_cmd *cmd)
 	int fd_out;
 	int	fd_in;
 
+	open_all_redir(cmd);
 	if (get_last_in(cmd->redir))
 	{
 		fd_in = open(get_last_in(cmd->redir)->content , (O_RDONLY), 00644);
@@ -192,6 +219,8 @@ int		ft_redir_one_process(t_node_cmd *cmd)
 	{
 		dup2(fd_in, STDIN_FILENO);
 		dup2(fd_out, STDOUT_FILENO);
+		close(fd_in);
+		close(fd_out);
 	}
 
     return (0);
