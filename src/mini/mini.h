@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/24 15:52:38 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/28 13:01:31 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ t_node_env	*ft_lstnew_basic(char *content);
 
 void modifyValue(t_node_env *head, const char *name, const char *newValue);
 char	*value_pwd(t_node_env *head);
+int init_rdocs(t_node_cmd *cmd);
+int	open_all_rdocs(t_data *data, t_node_cmd *cmd);
 
 void modifyValue(t_node_env *head, const char *name, const char *newValue);
 int cd_to_home(t_data *data);
