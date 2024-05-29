@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/24 14:07:46 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:05:07 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ typedef struct node_cmd_s
 	char				**content; // valeur de la commande
 	struct node_cmd_s	*next;
 	t_redir				*redir;
+	t_rdocs				*rdocs;
+	int					fd_rdoc;
 }   t_node_cmd;
 
 typedef struct s_redir
@@ -67,6 +69,7 @@ typedef struct s_rdocs
 {
 	char    *str_rdocs;
 	char    *limit;
+	t_rdocs	*next;
 	bool    go;
 }   t_rdocs;
 
@@ -144,11 +147,14 @@ size_t	ft_count_str(char *str, char sep);
 char	*tok_stop_redir(char *str, size_t i);
 char	*tok_redir(char *str, size_t *i);
 char	*ft_strtok(char	*str, char *sep, bool redir);
-void	fill_redirs(char *tok, t_redir **redir);
+void	fill_redirs(char *tok, t_redir **redir, t_rdocs **rdocs);
 t_node_cmd	*cmd_get_content(char *str, size_t index);
 char	*trim_redir(char *tok, int i);
 char	*create_tok(char *sep, char *ptr, bool redir, size_t *i);
-t_redir	*init_redirs(char *tok);
+t_redir	*init_redirs(char *tok, t_rdocs **rdocs);
 void	fill_cmd_content(t_data *data, char **pips);
+t_redir	*fill_rdocs(char *tok, t_rdocs **rdocs);
+t_rdocs	*ft_lstnew_rdocs(char *str);
+void	ft_lstclear_rdocs(t_rdocs **lst);
 
 #endif

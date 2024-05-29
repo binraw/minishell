@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:12:31 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/24 15:43:13 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:05:30 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,23 @@ t_node_cmd	*ft_lstnew_cmd(int i)
 	element->index = i;
 	element->next = NULL;
 	element->redir = NULL;
+	element->rdocs = NULL;
+	element->fd_rdoc = 0;
 	return (element);
+}
+
+t_rdocs	*ft_lstnew_rdocs(char *str)
+{
+	t_rdocs	*ptr;
+
+	ptr = malloc(sizeof(t_rdocs));
+	if (!ptr)
+		return (NULL);
+	ptr->limit = ft_strdup(str);
+	ptr->str_rdocs = NULL;
+	ptr->go = false;
+	ptr->next = NULL;
+	return (ptr);
 }
 
 t_node_cmd	*ft_lstlast_cmd(t_node_cmd *lst)
@@ -85,6 +101,8 @@ void	ft_lstclear_cmd(t_node_cmd **lst)
 		}
 		if (current->redir)
 			ft_lstclear_redir(&current->redir);
+		if (current->rdocs)
+			ft_lstclear_rdocs(&current->rdocs);
 		free(current);
 		current = next;
 	}

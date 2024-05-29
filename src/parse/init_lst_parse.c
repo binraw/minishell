@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/24 15:41:56 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:06:02 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 	{
 		if (*tok == '>' || *tok == '<')
 		{
-			fill_redirs(tok, &cmd->redir);
+			fill_redirs(tok, &cmd->redir, &cmd->rdocs);
 			break ;
 		}
 		cmd->content[i] = tok;
@@ -136,7 +136,8 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 // 	init_cmd(data, str);
 // 	free(str);
 // 	t_node_cmd	*ptr = data->cmd;
-// 	t_redir *red_ptr;
+// 	t_redir 	*red_ptr;
+// 	t_rdocs		*rdoc_ptr;
 // 	size_t	i = 0;
 // 	size_t	y;
 // 	printf("number of pip = %i\n", data->number_of_pip);
@@ -150,6 +151,7 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 // 			y++;
 // 		}
 // 		red_ptr = ptr->redir;
+// 		rdoc_ptr = ptr->rdocs;
 // 		while (red_ptr)
 // 		{
 // 			if (red_ptr->in)
@@ -162,6 +164,13 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 // 				printf("d_out : ");
 // 			printf("%s\n", red_ptr->content);
 // 			red_ptr = red_ptr->next;
+// 		}
+// 		printf("\n");
+// 		printf("rdocs list :\n");
+// 		while (rdoc_ptr)
+// 		{
+// 			printf("%s\n", rdoc_ptr->limit);
+// 			rdoc_ptr = rdoc_ptr->next;
 // 		}
 // 		printf("\n");
 // 		ptr = ptr->next;
