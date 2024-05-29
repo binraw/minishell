@@ -3,7 +3,7 @@ NAME = minishell
 
 SRCS_FILE = pipe/main.c pipe/utils.c pipe/error.c mini/print.c mini/lst_pipe.c builtins/command.c  mini/redir.c mini/pipe_utils.c \
 mini/env.c mini/utils_node.c builtins/export.c builtins/unset.c mini/utils_node_cmd.c parse/init_lst_parse.c parse/redir_get_last.c \
-parse/utils_lst_redir.c parse/fill_redirs.c parse/ft_strtok.c
+parse/utils_lst_redir.c parse/fill_redirs.c parse/ft_strtok.c mini/rdocs.c
 
 
 CC = cc

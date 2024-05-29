@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/27 16:23:01 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/29 13:34:38 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 	y = 0;
 	i = 0;
 	dup = data->cmd;
+	open_all_rdocs(dup);
 	if (pipe(pip[y]) == -1)
 		return (-1);
 	tab_pid[i] = fork();

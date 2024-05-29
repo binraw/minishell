@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/28 13:01:31 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/29 13:35:01 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct node_cmd_s
 	struct node_cmd_s	*next;
 	t_redir				*redir; // ici possible changement de ta part pour gerer les redirection si tu veux faire des liste chainees a la place jsp 
     t_rdocs				*rdocs; // ici possible changement de ta part pour gerer les rdocs 
-    
+   	int					fd_rdoc; 
 }   t_node_cmd;
 
 typedef struct s_redir
@@ -70,6 +70,7 @@ typedef struct s_rdocs
     char    *str_rdocs;
     char    *limit;
     bool    go;
+	t_rdocs	*next;
 }   t_rdocs;
 
 typedef struct node_env_s
@@ -78,7 +79,7 @@ typedef struct node_env_s
     char                *name;
     char                *value;
     bool		print;
-    struct node_env_s	*next;
+   struct node_env_s	*next;
     
 
 }   t_node_env;
@@ -118,8 +119,6 @@ t_node_env	*ft_lstnew_basic(char *content);
 
 void modifyValue(t_node_env *head, const char *name, const char *newValue);
 char	*value_pwd(t_node_env *head);
-int init_rdocs(t_node_cmd *cmd);
-int	open_all_rdocs(t_data *data, t_node_cmd *cmd);
 
 void modifyValue(t_node_env *head, const char *name, const char *newValue);
 int cd_to_home(t_data *data);
@@ -139,6 +138,15 @@ int init_node_cmd(t_data *data, char **tab);
 /*char	**init_cmd(t_data *data ,char *argv);*/
 t_node_cmd	*cmd_get_content(char *str, size_t index);
 int		ft_redir_one_process(t_node_cmd *cmd);
+int	open_all_rdocs(t_node_cmd *cmd);
+int init_rdocs(t_node_cmd *cmd);
+
+
+
+
+
+
+
 
 
 
@@ -157,10 +165,13 @@ size_t	ft_count_str(char *str, char sep);
 char	*tok_stop_redir(char *str, size_t i);
 char	*tok_redir(char *str, size_t *i);
 char	*ft_strtok(char	*str, char *sep, bool redir);
-void	fill_redirs(char *tok, t_redir **redir);
+void	fill_redirs(char *tok, t_redir **redir, t_rdocs **rdocs);
 t_node_cmd	*cmd_get_content(char *str, size_t index);
 char	*trim_redir(char *tok, int i);
 char	*create_tok(char *sep, char *ptr, bool redir, size_t *i);
-t_redir	*init_redirs(char *tok);
+t_redir	*init_redirs(char *tok, t_rdocs **rdocs);
 void	fill_cmd_content(t_data *data, char **pips);
+t_redir	*fill_rdocs(char *tok, t_rdocs **rdocs);
+t_rdocs	*ft_lstnew_rdocs(char *str);
+void	ft_lstclear_rdocs(t_rdocs **lst);
 #endif

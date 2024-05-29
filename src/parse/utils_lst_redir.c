@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 10:16:34 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/05/24 10:49:45 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:29:31 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,28 @@ void	ft_lstclear_redir(t_redir **lst)
 	{
 		next = current->next;
 		if (current->content)
-			free (current->content);
+			free(current->content);
+		free(current);
+		current = next;
+	}
+	*lst = NULL;
+}
+
+void	ft_lstclear_rdocs(t_rdocs **lst)
+{
+	t_rdocs	*current;
+	t_rdocs	*next;
+
+	if (lst == NULL || *lst == NULL)
+		return ;
+	current = *lst;
+	while (current != NULL)
+	{
+		next = current->next;
+		if (current->limit)
+			free(current->limit);
+		if (current->str_rdocs)
+			free(current->str_rdocs);
 		free(current);
 		current = next;
 	}

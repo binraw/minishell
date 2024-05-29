@@ -6,18 +6,18 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 12:51:57 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/05/24 15:51:35 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:31:05 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini/mini.h"
 
 // je remplis la liste chainee t_redir
-void	fill_redirs(char *tok, t_redir **redir)
+void	fill_redirs(char *tok, t_redir **redir, t_rdocs **rdocs)
 {
 	t_redir	*ptr;
 
-	*redir = init_redirs(tok);
+	*redir = init_redirs(tok, rdocs);
 	ptr = *redir;
 	tok = ft_strtok(NULL, " \t", true);
 	while (tok)
@@ -32,7 +32,7 @@ void	fill_redirs(char *tok, t_redir **redir)
 		else if (*tok == '<')
 		{
 			if (tok[1] == '<')
-				ptr->next = redir_lst_new(3, trim_redir(tok, 2));
+				ptr->next = fill_rdocs(tok, rdocs);
 			else
 				ptr->next = redir_lst_new(1, trim_redir(tok, 1));
 		}
@@ -41,7 +41,7 @@ void	fill_redirs(char *tok, t_redir **redir)
 	}
 }
 
-t_redir	*init_redirs(char *tok)
+t_redir	*init_redirs(char *tok, t_rdocs **rdocs)
 {
 	if (*tok == '>')
 	{
@@ -53,7 +53,7 @@ t_redir	*init_redirs(char *tok)
 	else if (*tok == '<')
 	{
 		if (tok[1] == '<')
-			return (redir_lst_new(3, trim_redir(tok, 2)));
+			return (fill_rdocs(tok, rdocs));
 		else
 			return (redir_lst_new(1, trim_redir(tok, 1)));
 	}
@@ -77,4 +77,21 @@ char	*trim_redir(char *tok, int i)
 	str = ft_strdup(&tok[i]);
 	free(tok);
 	return (str);
+}
+
+t_redir	*fill_rdocs(char *tok, t_rdocs **rdocs)
+{
+	t_rdocs	*ptr;
+
+	tok = trim_redir(tok, 2);
+	ptr = *rdocs;
+	if (!ptr)
+		*rdocs = ft_lstnew_rdocs(tok);
+	else
+	{
+		while (ptr->next)
+			ptr = ptr->next;
+		ptr->next = ft_lstnew_rdocs(tok);
+	}
+	return (redir_lst_new(3, tok));
 }

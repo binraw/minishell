@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/24 15:51:11 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/29 11:30:06 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 	{
 		if (*tok == '>' || *tok == '<')
 		{
-			fill_redirs(tok, &cmd->redir);
+			fill_redirs(tok, &cmd->redir, &cmd->rdocs);
 			break ;
 		}
 		cmd->content[i] = tok;
@@ -126,3 +126,57 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 	return (cmd);
 }
 
+// main de test
+// int	main()
+// {
+// 	t_data	*data = malloc(sizeof(t_data));
+// 	char	*str = NULL;
+// 	while(!str)
+// 		str = readline(NULL);
+// 	init_cmd(data, str);
+// 	free(str);
+// 	t_node_cmd	*ptr = data->cmd;
+// 	t_redir 	*red_ptr;
+// 	t_rdocs		*rdoc_ptr;
+// 	size_t	i = 0;
+// 	size_t	y;
+// 	printf("number of pip = %i\n", data->number_of_pip);
+// 	while (ptr)
+// 	{
+// 		printf("node %i:\n", ptr->index);
+// 		y = 0;
+// 		while (ptr->content[y])
+// 		{
+// 			printf("%i: %s\n", (int)y, ptr->content[y]);
+// 			y++;
+// 		}
+// 		red_ptr = ptr->redir;
+// 		rdoc_ptr = ptr->rdocs;
+// 		while (red_ptr)
+// 		{
+// 			if (red_ptr->in)
+// 				printf("in : ");
+// 			if (red_ptr->out)
+// 				printf("out : ");
+// 			if (red_ptr->rdocs)
+// 				printf("rdocs : ");
+// 			if (red_ptr->d_out)
+// 				printf("d_out : ");
+// 			printf("%s\n", red_ptr->content);
+// 			red_ptr = red_ptr->next;
+// 		}
+// 		printf("\n");
+// 		printf("rdocs list :\n");
+// 		while (rdoc_ptr)
+// 		{
+// 			printf("%s\n", rdoc_ptr->limit);
+// 			rdoc_ptr = rdoc_ptr->next;
+// 		}
+// 		printf("\n");
+// 		ptr = ptr->next;
+// 		i++;
+// 	}
+// 	ft_lstclear_cmd(&data->cmd);
+// 	free(data);
+// 	return (0);
+// }
