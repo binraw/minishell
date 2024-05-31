@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/29 11:05:07 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/05/31 10:50:42 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,5 +156,11 @@ void	fill_cmd_content(t_data *data, char **pips);
 t_redir	*fill_rdocs(char *tok, t_rdocs **rdocs);
 t_rdocs	*ft_lstnew_rdocs(char *str);
 void	ft_lstclear_rdocs(t_rdocs **lst);
+void	cmd_manage_env(t_data *data, char **pips);
+char	*trim_env(t_data *data, char *pip);
+void	cpy_env_to_str(char	*env, char *str, size_t *j);
+size_t	trim_env_len(char *str, t_data *data);
+char	*var_to_env(char *str, size_t *index, t_data *data);
+void	ft_lstclear_env(t_data *data);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_node.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:45:54 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/15 15:41:45 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/31 11:45:08 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 t_node_env	*ft_lstnew(char *content)
 {
 	t_node_env	*element;
-    char **line;
+    char *line;
     int i;
 
     i = 0;
@@ -24,20 +24,12 @@ t_node_env	*ft_lstnew(char *content)
 	if (!element)
 		return (NULL);
 	element->content = content;
-    line = ft_split(content, '=');
-    if (!line)
-        return (NULL);
-    element->name = line[i];
+	line = ft_strdup(content);
+    element->name = ft_strtok(line, "=", false);;
     element->next = NULL;
 	element->print = false;
 	i = 1;
-	element->value = ft_strjoin(NULL, line[i]);
-    while (line[i])
-    {
-		element->value = ft_strjoin(element->value, "=");
-		element->value = ft_strjoin(NULL, line[i]);	
-		i++;
-    }
+	element->value = ft_strtok(NULL, NULL, false);
 	free(line);
 	return (element);
 }

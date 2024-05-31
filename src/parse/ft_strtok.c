@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:16:27 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/05/24 14:13:58 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/05/31 11:43:49 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,15 @@ char	*ft_strtok(char	*str, char *sep, bool redir)
 	if (str)
 	{
 		ptr = str;
+		if (!sep)
+			return (ft_strdup(str));
 		while (ft_strchr(sep, *ptr))
 			ptr++;
 	}
 	else if (!ptr || !*ptr)
 		return (NULL);
+	else if (!sep)
+		return (ft_strdup(ptr));
 	if (redir && (*ptr == '>' || *ptr == '<'))
 	{
 		tok = tok_redir(ptr, &i);

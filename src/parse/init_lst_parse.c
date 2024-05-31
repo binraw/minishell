@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/29 11:06:02 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/05/31 12:42:24 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	fill_cmd_content(t_data *data, char **pips)
 	t_node_cmd	*ptr;
 
 	i = 1;
+	cmd_manage_env(data, pips);
 	data->cmd = cmd_get_content(pips[0], 0);
 	free(pips[0]);
 	ptr = data->cmd;
@@ -127,9 +128,13 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 }
 
 // main de test
-// int	main()
+// int	main(int ac, char **av, char **envp)
 // {
+// 	(void)ac;
+// 	(void)av;
 // 	t_data	*data = malloc(sizeof(t_data));
+// 	init_node_env(data, envp);
+// 	init_env(data);
 // 	char	*str = NULL;
 // 	while(!str)
 // 		str = readline(NULL);
@@ -177,6 +182,8 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 // 		i++;
 // 	}
 // 	ft_lstclear_cmd(&data->cmd);
+// 	ft_lstclear_env(data);
+// 	free_env(data);
 // 	free(data);
 // 	return (0);
 // }
