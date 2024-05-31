@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/29 15:04:53 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/31 14:32:09 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int open_all_redir(t_node_cmd *cmd)
 		/*}*/
 		else if (dup->d_out)
 		{
-			i = open(dup->content, (O_APPEND), 00644);
+			i = open(dup->content, (O_WRONLY | O_APPEND), 00644);
 			close(i);
 		}
 		dup = dup->next;
@@ -129,7 +129,7 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 	if (get_last_out(cmd->redir))
 	{
 		if (get_last_out(cmd->redir)->d_out)
-			fd_out = open(get_last_out(cmd->redir)->content, (O_APPEND), 00644);
+			fd_out = open(get_last_out(cmd->redir)->content, (O_WRONLY | O_APPEND), 00644);
 		else
 			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
 	}
@@ -188,7 +188,7 @@ int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
 	if (get_last_out(cmd->redir))
 	{
 		if (get_last_out(cmd->redir)->d_out)
-			fd_out = open(get_last_out(cmd->redir)->content, (O_APPEND), 00644);
+			fd_out = open(get_last_out(cmd->redir)->content, (O_WRONLY | O_APPEND), 00644);
 		else
 			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
     	close(pip[0]);
@@ -223,7 +223,7 @@ int		ft_redir_one_process(t_node_cmd *cmd)
 	int fd_out;
 	int	fd_in;
 
-	open_all_rdocs(cmd);
+	/*open_all_rdocs(cmd);*/
 	open_all_redir(cmd);
 	if (get_last_in(cmd->redir) && cmd->fd_rdoc == 0)
 	{
@@ -236,7 +236,7 @@ int		ft_redir_one_process(t_node_cmd *cmd)
 	if (get_last_out(cmd->redir))
 	{
 		if (get_last_out(cmd->redir)->d_out)
-			fd_out = open(get_last_out(cmd->redir)->content, (O_APPEND), 00644);
+			fd_out = open(get_last_out(cmd->redir)->content, ( O_WRONLY | O_APPEND), 00644);
 		else
 			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
 	}

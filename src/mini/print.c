@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/27 13:37:53 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/31 13:51:35 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int main(int argc, char **argv, char **envp)
 			exit (0);
 		}
 		init_cmd(&vars, vars.str);
+		/*open_all_rdocs(vars.cmd);*/
+		/*command_rdocs(&vars);*/
 		init_pip(&vars);
     } 
 

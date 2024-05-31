@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/29 13:35:01 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/05/31 11:07:44 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ int init_node_cmd(t_data *data, char **tab);
 t_node_cmd	*cmd_get_content(char *str, size_t index);
 int		ft_redir_one_process(t_node_cmd *cmd);
 int	open_all_rdocs(t_node_cmd *cmd);
-int init_rdocs(t_node_cmd *cmd);
-
+int init_rdocs(t_rdocs *rdocs);
+int command_rdocs(t_data *data);
 
 
 
