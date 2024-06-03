@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:38:15 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/31 15:18:42 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/03 11:50:49 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	second_child(t_data *data, int **pip, int y, t_node_cmd *cmd)
 		close(pip[y][0]);
 		dup2(pip[y + 1][1], STDOUT_FILENO);
 		close(pip[y + 1][1]);
-    	close(pip[y + 1][0]);
+		close(pip[y + 1][0]);
 	}
 	else
 	{

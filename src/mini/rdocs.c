@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 09:54:57 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/31 14:24:44 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/03 12:02:26 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,9 @@ int init_rdocs(t_rdocs *rdocs)
     if (pipe(fd) == -1)
 		return (-1);
     rdocs->go = false;
-	/*printf(" la valeur de limits :%s\n", rdocs->limit);*/
     while (rdocs->go != true)
     {
         rdocs->str_rdocs = readline("> ");	
-		/*printf(" la valeur de str_rdocs :%s\n", cmd->rdocs->str_rdocs);*/
         if (ft_strncmp(rdocs->str_rdocs,
                 rdocs->limit, ft_strlen(rdocs->str_rdocs)) == 0)
         {
@@ -56,22 +54,15 @@ int	open_all_rdocs(t_node_cmd *cmd) // je pense pas besoin de prendre data en ar
 	fd = 0;
 	while (dup)
 	{	
-	
-			fd = init_rdocs(dup);
-			if (fd == -1)
-					return (printf("error de init r_docs"));
-
-		dup = dup->next;
-		
+		fd = init_rdocs(dup);
+		if (fd == -1)
+			return (printf("error de init r_docs"));
+		dup = dup->next;	
 	}
-	/*printf("last_in : %s\n", last_in->content);*/
 	if (last_in->rdocs)
-		{
-			cmd->fd_rdoc = fd;
-			/*printf("la valeur du fd : %d\n", fd);*/
-		}
-
-
+	{
+		cmd->fd_rdoc = fd;
+	}
 	return (0);
 }
 
@@ -79,7 +70,7 @@ int	open_all_rdocs(t_node_cmd *cmd) // je pense pas besoin de prendre data en ar
 int command_rdocs(t_data *data)
 {
 	t_node_cmd *dup;
-	printf("test du print\n");
+
 	dup = data->cmd;
 	while (dup)
 	{

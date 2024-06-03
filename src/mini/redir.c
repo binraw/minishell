@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/31 14:32:09 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/03 14:28:06 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,8 @@ int open_all_redir(t_node_cmd *cmd)
 	last_out = get_last_out(cmd->redir);
 	dup = cmd->redir;
 
-	i = 0;	
+	i = 0;
+	/*printf("ca doit etre ici");*/
 	while (dup)
 	{
 		if (dup->in)
@@ -114,7 +115,7 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 	int fd_in;
 	int fd_out;
 
-
+	/*printf("ca doit etre ici");*/
 	open_all_redir(cmd);
 	
 	if (get_last_in(cmd->redir) && cmd->fd_rdoc == 0)
@@ -141,7 +142,7 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 		close(pip[y][0]);
 		dup2(pip[y + 1][1], STDOUT_FILENO);
 		close(pip[y + 1][1]);
-    	close(pip[y + 1][0]);
+		close(pip[y + 1][0]);
         close(fd_in);
 	}
     else if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)
@@ -152,7 +153,7 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 		close(pip[y][0]);
 		dup2(fd_out, STDOUT_FILENO);
 		close(pip[y + 1][1]);
-    	close(pip[y + 1][0]);
+		close(pip[y + 1][0]);
         close(fd_in);
         close(fd_out);
 	}
@@ -164,18 +165,41 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 		close(pip[y][0]);
 		dup2(fd_out, STDOUT_FILENO);
 		close(pip[y + 1][1]);
-    	close(pip[y + 1][0]);
+		close(pip[y + 1][0]);
         close(fd_in);
         close(fd_out);
 	}
     else //ce cas la a regarder de pres car je sais pas si cest possible de rentrer la alors quil
     // a peut etre un out ...
     {
-        close(pip[y][1]);
-		dup2(pip[y][0], STDIN_FILENO);
-		dup2(fd_out, STDOUT_FILENO);  //javais mis de base fd_in
+		/*if (fd_in)*/
+		/*{*/
+		/*  close(pip[y][1]);*/
+		/*dup2(fd_in, STDIN_FILENO);*/
+		/*dup2(fd_out, STDOUT_FILENO);  //javais mis de base fd_in*/
+		/*close(fd_in);*/
+		/*      close(fd_out);	*/
+		/*}*/
+		
+        /*close(pip[y][1]);*/
+		if (get_last_in(cmd->redir))
+		{
+			dup2(fd_in, STDIN_FILENO);
+			close(fd_in);
+		}
+		else 
+			dup2(pip[y][0], STDIN_FILENO);
+		if (get_last_out(cmd->redir))
+		{
+			dup2(fd_out, STDOUT_FILENO);//javais mis de base fd_in
+			close(fd_out);
+		}
+		/*else */
+		/*	dup2(pip[y][1], STDOUT_FILENO);*/
 		close(pip[y][0]);
-        close(fd_out);
+		close(pip[y][1]);
+        /*close(fd_out);*/
+	
     }
    return (0);
 }
@@ -213,7 +237,6 @@ int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
 		close(pip[1]);
     	close(fd_in);
 	}
-
     return (0);
 }
 

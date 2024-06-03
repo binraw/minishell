@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/31 13:30:25 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/03 13:06:13 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 	y = 0;
 	i = 0;
 	dup = data->cmd;
+
 	/*open_all_rdocs(dup);*/
 	if (pipe(pip[y]) == -1)
 		return (-1);
@@ -70,6 +71,7 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 			return (-1);
 		if (tab_pid[i] == 0)
 			second_child_process_multi(data, dup, pip, y);
+
 		close(pip[y][0]);
 		close(pip[y][1]);
 		y++;
@@ -107,13 +109,17 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	int		y;
 	int		i;
 
+
 	y = -1;
 	i = 0; // ici le i est juste provisoire pour voir comment implementer ca
 	path_command = NULL;
 	if (cmd->content[0])
 		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command)
+	{
+		printf("command not found\n");	
 		return (-1);
+	}
 	if (cmd->redir)	
 	{
 		ft_redir_child_process(data->cmd, pip);
@@ -131,11 +137,15 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 {
 	char	*path_command;
 
+		printf("ici ca passe");
 	path_command = NULL;
 	if (cmd)
 		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command)
-		return(printf("error second child"), -1);
+	{
+		printf("command not found\n");
+		return(-1);
+	}
 	if (cmd->redir)
 	{
 		ft_dup_redir_second_child(data, cmd, pip, y);
