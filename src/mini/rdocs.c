@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 09:54:57 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/03 12:02:26 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:52:31 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,15 @@ int init_rdocs(t_rdocs *rdocs)
     rdocs->go = false;
     while (rdocs->go != true)
     {
-        rdocs->str_rdocs = readline("> ");	
+        rdocs->str_rdocs = readline("> ");
+		if (!rdocs->str_rdocs)
+		{
+			printf("bash: warning: here-document at line 2 delimited by end-of-file (wanted `wc')\n");
+			return (-1);
+		}
         if (ft_strncmp(rdocs->str_rdocs,
-                rdocs->limit, ft_strlen(rdocs->str_rdocs)) == 0)
+                rdocs->limit, (ft_strlen(rdocs->str_rdocs)) + 1) == 0)
         {
-			/*printf("ca doit se couper la le rdocs\n");*/
             free(rdocs->str_rdocs);
             rdocs->go = true;
 			close(fd[1]);
@@ -56,7 +60,7 @@ int	open_all_rdocs(t_node_cmd *cmd) // je pense pas besoin de prendre data en ar
 	{	
 		fd = init_rdocs(dup);
 		if (fd == -1)
-			return (printf("error de init r_docs"));
+			return (-1);
 		dup = dup->next;	
 	}
 	if (last_in->rdocs)

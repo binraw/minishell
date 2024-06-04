@@ -6,24 +6,13 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:49:40 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/21 12:58:45 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:13:59 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini/mini.h"
 
-int command_env(t_data *data)
-{
-    size_t i;
 
-    i = 0;
-    while (data->env[i])
-    {
-        printf("%s\n", data->env[i]);
-        i++;
-    }
-    return (0);
-}
 
 
 int command_exit(int c)

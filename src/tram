@@ -1,1 +1,3 @@
-probleme quand il y a plusieurs in dans des commandes suivante
+probleme CTRL - D quand j'ecris dans un rdocs
+ecrire ca comme message :
+bash: warning: here-document at line 2 delimited by end-of-file (wanted `wc')

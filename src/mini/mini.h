@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/31 11:07:44 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:03:22 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include "../pipe/pipex.h"
 #include "../../lib/libft/libft.h"
+#include <signal.h>
 
 // essai de mettre cmd dans une structure qui a la valeur de la commande
 // mais aussi un tableau de tout les in-redirection
@@ -141,7 +142,9 @@ int		ft_redir_one_process(t_node_cmd *cmd);
 int	open_all_rdocs(t_node_cmd *cmd);
 int init_rdocs(t_rdocs *rdocs);
 int command_rdocs(t_data *data);
-
+void	handle_sigint(int sig);
+void setup_readline_signals(void);
+void	handle_sigquit(int sig);
 
 
 

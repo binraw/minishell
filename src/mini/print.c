@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/31 13:51:35 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/04 14:15:17 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ int main(int argc, char **argv, char **envp)
 
 	i = 0;
 	init_node_env(&vars, envp);
-
+	setup_readline_signals();
 	while (1)
 	{
 		init_env(&vars);
         vars.str = readline("Minishell: ");
         if (vars.str == NULL)
         {
-            printf("Error input.\n");
-            return (1);
+            /*printf("Error input.\n");*/
+            return (0);
         }
     
 		if (ft_strncmp(vars.str, "exit", ft_strlen(vars.str)) == 0)
