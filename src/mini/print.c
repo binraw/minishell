@@ -48,6 +48,18 @@ int main(int argc, char **argv, char **envp)
 			command_env(&vars);
 			exit (0);
 		}
+		if (ft_strncmp(vars.str, "export", ft_strlen(vars.str)) == 0)
+		{
+			while (i < ft_lstsize(vars.env_node))
+			{
+				screen_export(&vars, 1);
+				i++;
+			}
+			i = 0;
+			reset_print_env(&vars);
+			// exit (0);
+		}
+
 		init_cmd(&vars, vars.str);
 		init_pip(&vars);
 

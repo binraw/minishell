@@ -148,6 +148,10 @@ int analyze_process_statuses(t_data *data,pid_t *tab_pid, int *status);
 void	after_readline_signals(void);
 void	after_handle_sigquit(int sig);
 void setup_readline_sigquit(void);
+void	reset_print_env(t_data *data);
+
+
+
 
 
 

@@ -187,3 +187,16 @@ int	ft_lstsize(t_node_env *head)
 	}
 	return (i);
 }
+
+void	reset_print_env(t_data *data)
+{
+	t_node_env *current_node;
+
+	current_node = data->env_node;
+	while (current_node)
+	{
+		current_node->print = false;
+		current_node = current_node->next;
+	}
+
+}
