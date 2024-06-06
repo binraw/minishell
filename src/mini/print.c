@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/04 14:15:17 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/05 15:48:21 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,14 @@ int main(int argc, char **argv, char **envp)
 
 	i = 0;
 	init_node_env(&vars, envp);
-	setup_readline_signals();
+
 	while (1)
 	{
-		init_env(&vars);
-        vars.str = readline("Minishell: ");
+		init_env(&vars);	
+		setup_readline_signals();
+        vars.str = readline("Minishell: ");	
+	
+		after_readline_signals();
         if (vars.str == NULL)
         {
             /*printf("Error input.\n");*/
@@ -46,37 +49,66 @@ int main(int argc, char **argv, char **envp)
 			exit (0);
 		}
 		init_cmd(&vars, vars.str);
-		/*open_all_rdocs(vars.cmd);*/
-		/*command_rdocs(&vars);*/
 		init_pip(&vars);
-    } 
 
-    return (0);
+	} 
+
+	return (0);
 }
 
 int	exe_cmd(t_data *data)
 {
 	char	*path_command;
 	t_node_cmd	*dup;
+	pid_t	pid;
+	int status;
+
 
 	dup = data->cmd;
+
 	if (!data->str)
 		return (0);
+
+	
 	path_command = create_path(data->cmd->content[0], data->env);
 	if (!path_command)
 	{
 		// faire un truc pour quand c'est un fichier
 		return (printf("error command\n"), -1);
 	}
-	if (data->cmd->redir)
+	pid = fork();
+	if (pid == -1)
+		return (-1);
+	else if (pid == 0) 
 	{
-		ft_redir_one_process(dup);
-		//printf("valeur redir 1 commande : %s\n", data->cmd->redir->content);
+		if (data->cmd->redir)
+		{
+			ft_redir_one_process(dup);
+		}
+		execve(path_command, data->cmd->content, data->env);
+		perror("execve");
+		return (1);
 	}
+	else 
+	{
+		if (waitpid(pid, &status, 0) == -1)
+		{
+			// perror("waitpid");
+			return (-1);
+		}
+		if (WIFEXITED(status))
+		{
 
-	execve(path_command, data->cmd->content, data->env);
-	perror("execve");
-	return (1);
+			return (WEXITSTATUS(status));
+		}
+		else if (WIFSIGNALED(status))
+		{
+        	int signal = WTERMSIG(status);
+        	// fprintf(stderr, "Last process terminated by signal %d\n", signal);
+        	return (128 + signal);
+		}
+		return (-1);
+	}
 }
 
 

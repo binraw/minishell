@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/03 13:06:13 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/05 11:14:56 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int init_pip(t_data *data)
 	if (data->number_of_pip == 0 && data->number_of_cmd == 1)
 	{
 		exe_cmd(data);
+		return (0);
 	}
     pip = malloc(data->number_of_pip * sizeof(int*));
 	tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
@@ -45,6 +46,8 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 	int		y;
 	int i;
 	t_node_cmd *dup;
+	int			*status;
+	int result;
 
 	y = 0;
 	i = 0;
@@ -77,22 +80,75 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 		y++;
 		i++;
 		dup = dup->next;
-    }
-	process_status_pid(data, tab_pid);
-	if (data->last_pid)
-		return (WEXITSTATUS(data->last_pid));
-	return (0);
+    }	
+	status = malloc((data->number_of_cmd) * sizeof(int));
+	if (!status)
+	{
+		perror("malloc");
+		return (-1);
+	}
+	if (process_status_pid(data, tab_pid, status) == -1)
+		return (-1);
+	result = analyze_process_statuses(data, tab_pid, status);
+	free(status);
+	return (result);
+	/*if (data->last_pid)*/
+	/*	return (WEXITSTATUS(data->last_pid));*/
+	/*if (WIFSIGNALED(data->last_pid))*/
+	/*	return (printf("stop signal"));*/
+	/*return (0);*/
 }
 
-int	process_status_pid(t_data *data, pid_t *tab_pid)
+
+
+
+int analyze_process_statuses(t_data *data, pid_t *tab_pid, int *status) // fonction a changer 
 {
-	int		*status;
+	(void)tab_pid;
+	int i;
+	int signal;
+
+	i = 0;
+	while (i <data->number_of_cmd)
+	{
+   		printf(" Valeur de status %d\n", i);  
+        if (WIFSIGNALED(status[i]))
+		{
+            signal = WTERMSIG(status[i]);
+            // fprintf(stderr, "Process %d terminated by signal %d\n", tab_pid[i], signal);
+            return (128 + signal); // Common convention to return 128 + signal number
+        }
+		else if (WIFEXITED(status[i]) && WEXITSTATUS(status[i]) != 0)
+		{
+            // fprintf(stderr, "Process %d exited with status %d\n", tab_pid[i], WEXITSTATUS(status[i]));
+            return WEXITSTATUS(status[i]);
+        }
+		i++;
+    }
+
+    if (WIFEXITED(status[data->number_of_cmd - 1]))
+	{
+        data->last_pid = WEXITSTATUS(status[data->number_of_cmd - 1]);
+    }
+	else if (WIFSIGNALED(status[data->number_of_cmd - 1]))
+	{
+        signal = WTERMSIG(status[data->number_of_cmd - 1]);
+        // fprintf(stderr, "Last process terminated by signal %d\n", signal);
+        return (128 + signal); // Common convention to return 128 + signal number
+    }
+
+    return 0;
+}
+
+int	process_status_pid(t_data *data, pid_t *tab_pid, int *status)
+{
+	/*int		*status;*/
 	t_node_cmd *dup;
 	int i;
 
 	dup = data->cmd;
 	i = 0;
-	status = malloc((data->number_of_cmd) * sizeof(int));
+	/*status = malloc((data->number_of_cmd) * sizeof(int));*/
 	while (dup)
 	{
 		waitpid(tab_pid[dup->index], &status[dup->index], 0);
@@ -102,6 +158,8 @@ int	process_status_pid(t_data *data, pid_t *tab_pid)
 	data->last_pid = status[i - 1]; // ici a voir car je pense pas besoin de garder le -1
 	return (data->last_pid);
 }
+
+
 
 int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 {

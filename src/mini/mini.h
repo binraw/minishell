@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/04 14:03:22 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/05 14:21:50 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,11 @@ int init_values_parse(t_data *data);
 int count_cmd(t_data *data);
 int count_pip(t_data *data);
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
-int	process_status_pid(t_data *data, pid_t *tab_pid);
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
 int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip);
 int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y);
 int free_data_values(t_data *data);
-int	process_status_pid(t_data *data, pid_t *tab_pid);
+int	process_status_pid(t_data *data, pid_t *tab_pid, int *status);
 int init_values_redir(t_data *data);
 int	second_child(t_data *data, int **pip, int y, t_node_cmd *cmd);
 int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd, int **pip, int y);
@@ -145,10 +144,10 @@ int command_rdocs(t_data *data);
 void	handle_sigint(int sig);
 void setup_readline_signals(void);
 void	handle_sigquit(int sig);
-
-
-
-
+int analyze_process_statuses(t_data *data,pid_t *tab_pid, int *status);
+void	after_readline_signals(void);
+void	after_handle_sigquit(int sig);
+void setup_readline_sigquit(void);
 
 
 
