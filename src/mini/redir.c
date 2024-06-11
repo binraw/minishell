@@ -12,50 +12,7 @@
 
 #include "mini.h"
 
-// int init_redir(t_redir *redir)
-// {
-//     redir->in = 0;
-//     redir->out = 1;
-//     // placer ici ce qui va etre le parsing des fichiers dans tab_file ou file
-//     return (0);
-// }
 
-/*int ft_redir_in(t_node_cmd *cmd, int y)*/
-/*{*/
-/*    size_t i;*/
-/**/
-/*    i = 0;*/
-/*    while (cmd->redir[y].tab_file_in[i])*/
-/*    {*/
-/*        cmd->redir[y].in = open(cmd->redir[y].tab_file_in[i], O_RDONLY, 00644);*/
-/*        if (cmd->redir->in < 0)*/
-/*            return (-1);*/
-/*        i++;*/
-/*    }*/
-/*    cmd->redir->in = open(cmd->redir[y].tab_file_in[i - 1], O_RDONLY, 00644); // ici nous ouvrons le dernier file qui doit etre celui prit en compte dans bash*/
-/*    if (cmd->redir[y].in < 0)*/
-/*        return (-1);*/
-/*    return (cmd->redir[y].in);*/
-/*}*/
-
-
-/*int ft_redir_out(t_node_cmd *cmd, int y)*/
-/*{*/
-/*    size_t i;*/
-/**/
-/*    i = 0;*/
-/*    while (cmd->redir[y].tab_file_out[i])*/
-/*    {*/
-/*        cmd->redir[y].out = open(cmd->redir[y].tab_file_out[i], (O_CREAT | O_WRONLY | O_TRUNC), 00644);*/
-/*        if (cmd->redir[y].out < 0)*/
-/*            return (-1);*/
-/*        i++;*/
-/*    }*/
-/*    cmd->redir[y].out = open(cmd->redir[y].tab_file_out[i - 1], (O_CREAT | O_WRONLY | O_TRUNC), 00644);*/
-/*    if (cmd->redir[y].out < 0)*/
-/*        return (-1);*/
-/*    return (cmd->redir[y].out);*/
-/*}*/
 
 
 int open_all_redir(t_node_cmd *cmd)
@@ -79,7 +36,10 @@ int open_all_redir(t_node_cmd *cmd)
 			{
 			i = open(dup->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
         	if (i < 0)
+			{
+				printf("cat: %s: Permission denied\n", dup->content);
             	return (-1);
+			}
 			close(i);
 			}
 		}
@@ -100,6 +60,11 @@ int open_all_redir(t_node_cmd *cmd)
 		else if (dup->d_out)
 		{
 			i = open(dup->content, (O_WRONLY | O_APPEND), 00644);
+			if (i < 0)
+			{
+				printf("cat: %s: Permission denied\n", dup->content);
+				return (-1);
+			}
 			close(i);
 		}
 		dup = dup->next;
@@ -115,8 +80,8 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 	int fd_in;
 	int fd_out;
 
-	/*printf("ca doit etre ici");*/
-	open_all_redir(cmd);
+		if (open_all_redir(cmd) == -1)
+			return (-1);
 	
 	if (get_last_in(cmd->redir) && cmd->fd_rdoc == 0)
 	{
@@ -172,16 +137,7 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
     else //ce cas la a regarder de pres car je sais pas si cest possible de rentrer la alors quil
     // a peut etre un out ...
     {
-		/*if (fd_in)*/
-		/*{*/
-		/*  close(pip[y][1]);*/
-		/*dup2(fd_in, STDIN_FILENO);*/
-		/*dup2(fd_out, STDOUT_FILENO);  //javais mis de base fd_in*/
-		/*close(fd_in);*/
-		/*      close(fd_out);	*/
-		/*}*/
-		
-        /*close(pip[y][1]);*/
+
 		if (get_last_in(cmd->redir))
 		{
 			dup2(fd_in, STDIN_FILENO);
@@ -194,12 +150,8 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 			dup2(fd_out, STDOUT_FILENO);//javais mis de base fd_in
 			close(fd_out);
 		}
-		/*else */
-		/*	dup2(pip[y][1], STDOUT_FILENO);*/
 		close(pip[y][0]);
 		close(pip[y][1]);
-        /*close(fd_out);*/
-	
     }
    return (0);
 }
@@ -247,7 +199,9 @@ int		ft_redir_one_process(t_node_cmd *cmd)
 	int	fd_in;
 
 	/*open_all_rdocs(cmd);*/
-	open_all_redir(cmd);
+	if (open_all_redir(cmd) == -1)
+			return (-1);
+
 	if (get_last_in(cmd->redir) && cmd->fd_rdoc == 0)
 	{
 		fd_in = open(get_last_in(cmd->redir)->content , (O_RDONLY), 00644);

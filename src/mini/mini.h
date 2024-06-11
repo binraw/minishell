@@ -149,9 +149,9 @@ void	after_readline_signals(void);
 void	after_handle_sigquit(int sig);
 void setup_readline_sigquit(void);
 void	reset_print_env(t_data *data);
-
-
-
+int	status_process(t_data *data, pid_t *tab_pid);
+int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid);
+int	loop_process_pipe(t_data *data, t_node_cmd *dup, int **pip, pid_t *tab_pid);
 
 
 

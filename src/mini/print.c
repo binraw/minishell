@@ -46,7 +46,6 @@ int main(int argc, char **argv, char **envp)
 		if (ft_strncmp(vars.str, "env", ft_strlen(vars.str)) == 0)
 		{
 			command_env(&vars);
-			exit (0);
 		}
 		if (ft_strncmp(vars.str, "export", ft_strlen(vars.str)) == 0)
 		{
@@ -57,12 +56,12 @@ int main(int argc, char **argv, char **envp)
 			}
 			i = 0;
 			reset_print_env(&vars);
-			// exit (0);
 		}
-
-		init_cmd(&vars, vars.str);
-		init_pip(&vars);
-
+		if (ft_strncmp(vars.str, "export", ft_strlen(vars.str)) != 0)
+		{
+			init_cmd(&vars, vars.str);
+			init_pip(&vars);
+		}
 	} 
 
 	return (0);

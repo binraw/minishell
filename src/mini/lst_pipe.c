@@ -29,6 +29,8 @@ int init_pip(t_data *data)
 	tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
 	if (!pip)
 		return (-1);
+	if (!tab_pid)
+		return (-1);
     while (i < data->number_of_pip)
     {
         pip[i] = malloc(2 * sizeof(int));
@@ -37,7 +39,6 @@ int init_pip(t_data *data)
         i++;
     }
     pipex_process_multi(data, pip, tab_pid); // ici peut etre creer directement un autre 
-	//chemin si dans un cas il y a une redirection dans une des commandes
     return (0);
 }
 
@@ -46,41 +47,28 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 	int		y;
 	int i;
 	t_node_cmd *dup;
-	int			*status;
 	int result;
 
 	y = 0;
-	i = 0;
+	i = 1;
 	dup = data->cmd;
-
-	/*open_all_rdocs(dup);*/
-	if (pipe(pip[y]) == -1)
-		return (-1);
-	tab_pid[i] = fork();
-	if (tab_pid[i] == -1)
-		return (-1);	
-
-	if (tab_pid[i] == 0)
-		child_process_multi(data, dup, pip[y]);
+	start_process_pipex(data, pip, tab_pid);
   	dup = dup->next;
-	i++;
-    while (i < data->number_of_cmd)
-    {
-		if ((i + 1) < (data->number_of_cmd))
-			if (pipe(pip[y + 1]) == -1)
-        		return (-1);
-		tab_pid[i] = fork();
-		if (tab_pid[i] == -1)
-			return (-1);
-		if (tab_pid[i] == 0)
-			second_child_process_multi(data, dup, pip, y);
+	if (loop_process_pipe(data, dup, pip, tab_pid) == -1)
+		return (-1);
+	result = status_process(data, tab_pid);
+	if (result == -1)
+		return (-1);
+	return (result);
+}
 
-		close(pip[y][0]);
-		close(pip[y][1]);
-		y++;
-		i++;
-		dup = dup->next;
-    }	
+
+
+int	status_process(t_data *data, pid_t *tab_pid)
+{
+	int	*status;
+	int result;
+
 	status = malloc((data->number_of_cmd) * sizeof(int));
 	if (!status)
 	{
@@ -92,12 +80,61 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 	result = analyze_process_statuses(data, tab_pid, status);
 	free(status);
 	return (result);
-	/*if (data->last_pid)*/
-	/*	return (WEXITSTATUS(data->last_pid));*/
-	/*if (WIFSIGNALED(data->last_pid))*/
-	/*	return (printf("stop signal"));*/
-	/*return (0);*/
 }
+
+
+int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
+{
+	int		y;
+	int i;
+	t_node_cmd *dup;
+
+	y = 0;
+	i = 0;
+	dup = data->cmd;
+	if (pipe(pip[y]) == -1)
+		return (-1);
+	tab_pid[i] = fork();
+	if (tab_pid[i] == -1)
+		return (-1);	
+
+	if (tab_pid[i] == 0)
+		child_process_multi(data, dup, pip[y]);
+	return (0);
+}
+
+int	loop_process_pipe(t_data *data, t_node_cmd *dup, int **pip, pid_t *tab_pid)
+{
+	int i;
+	int y;
+
+	i = 1;
+	y = 0;
+	while (i < data->number_of_cmd)
+    {
+		if ((i + 1) < (data->number_of_cmd))
+			if (pipe(pip[y + 1]) == -1)
+        		return (-1);
+		tab_pid[i] = fork();
+		if (tab_pid[i] == -1)
+			return (-1);
+		if (tab_pid[i] == 0)
+			second_child_process_multi(data, dup, pip, y);
+		close(pip[y][0]);
+		close(pip[y][1]);
+		y++;
+		i++;
+		dup = dup->next;
+    }	
+
+	return (0); 
+}
+
+
+
+
+
+
 
 
 
@@ -111,32 +148,22 @@ int analyze_process_statuses(t_data *data, pid_t *tab_pid, int *status) // fonct
 	i = 0;
 	while (i <data->number_of_cmd)
 	{
-   		printf(" Valeur de status %d\n", i);  
         if (WIFSIGNALED(status[i]))
 		{
             signal = WTERMSIG(status[i]);
-            // fprintf(stderr, "Process %d terminated by signal %d\n", tab_pid[i], signal);
             return (128 + signal); // Common convention to return 128 + signal number
         }
 		else if (WIFEXITED(status[i]) && WEXITSTATUS(status[i]) != 0)
-		{
-            // fprintf(stderr, "Process %d exited with status %d\n", tab_pid[i], WEXITSTATUS(status[i]));
             return WEXITSTATUS(status[i]);
-        }
 		i++;
     }
-
     if (WIFEXITED(status[data->number_of_cmd - 1]))
-	{
         data->last_pid = WEXITSTATUS(status[data->number_of_cmd - 1]);
-    }
 	else if (WIFSIGNALED(status[data->number_of_cmd - 1]))
 	{
         signal = WTERMSIG(status[data->number_of_cmd - 1]);
-        // fprintf(stderr, "Last process terminated by signal %d\n", signal);
         return (128 + signal); // Common convention to return 128 + signal number
     }
-
     return 0;
 }
 
@@ -148,7 +175,6 @@ int	process_status_pid(t_data *data, pid_t *tab_pid, int *status)
 
 	dup = data->cmd;
 	i = 0;
-	/*status = malloc((data->number_of_cmd) * sizeof(int));*/
 	while (dup)
 	{
 		waitpid(tab_pid[dup->index], &status[dup->index], 0);
@@ -167,7 +193,6 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	int		y;
 	int		i;
 
-
 	y = -1;
 	i = 0; // ici le i est juste provisoire pour voir comment implementer ca
 	path_command = NULL;
@@ -179,9 +204,7 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 		return (-1);
 	}
 	if (cmd->redir)	
-	{
 		ft_redir_child_process(data->cmd, pip);
-	}
 	else
 		first_child(pip);	
 	execve(path_command, cmd->content, data->env);

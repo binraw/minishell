@@ -60,30 +60,6 @@ int free_env(t_data *data)
 	return (0);
 }
 
-// int init_node_env(t_data *data)
-// {
-//     int i;
-//     t_node_env *new_node;
-
-//     i = 0;
-//     data->env_node = ft_lstnew(data, data->env[i]);
-//     while (data->env[++i])
-//     {
-//         new_node = ft_lstnew(data, data->env[i]);
-//         if (!new_node)
-//             return (-1);
-//         ft_lstadd_back(&(data->env_node), new_node);
-//     }
-//     return (0);
-// }
-
-// int	maj_env(t_data *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	data->env_node[i] =
-// }
 
 int init_node_env(t_data *data, char **envp)
 {
