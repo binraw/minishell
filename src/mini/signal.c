@@ -17,6 +17,7 @@
 void setup_readline_sigquit_after(void);
 void	handle_sigint_after(int sig);
 
+volatile sig_atomic_t interrupted = 0;
 // CHANGEZ TOUT LE NOMS DES VARIABLES
 void	handle_sigint(int sig)
 {
@@ -94,5 +95,26 @@ void setup_readline_sigquit_after(void)
 
 	act.sa_handler = &handle_sigquit;
 	sigaction(SIGQUIT, &act, NULL);
+}
+
+void	handle_rdocs(int sig)
+{
+	(void) sig;
+	interrupted = 1;
+	rl_on_new_line();  
+	ioctl(0,TIOCSTI, "\n");
+
+
+}
+
+void setup_readline_rdocs(void)
+{
+	// Declare the sigaction structure
+	struct sigaction	act;
+
+	bzero(&act, sizeof(act));
+	act.sa_handler = &handle_rdocs;
+	sigaction(SIGINT, &act, NULL);
+	setup_readline_sigquit();
 }
 

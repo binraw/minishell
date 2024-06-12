@@ -19,6 +19,8 @@
 #include "../pipe/pipex.h"
 #include "../../lib/libft/libft.h"
 #include <signal.h>
+ #include <sys/ioctl.h>
+
 
 // essai de mettre cmd dans une structure qui a la valeur de la commande
 // mais aussi un tableau de tout les in-redirection
@@ -30,7 +32,7 @@ typedef struct s_rdocs  t_rdocs;
 typedef struct node_env_s   t_node_env;
 
 typedef struct node_cmd_s t_node_cmd;
-
+extern volatile sig_atomic_t interrupted;
 typedef struct data_s
 {
     char        *str;
@@ -152,6 +154,19 @@ void	reset_print_env(t_data *data);
 int	status_process(t_data *data, pid_t *tab_pid);
 int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid);
 int	loop_process_pipe(t_data *data, t_node_cmd *dup, int **pip, pid_t *tab_pid);
+int	open_redir_in(t_redir *dup);
+int open_redir_out(t_redir *dup);
+int	open_redir_d_out(t_redir *dup);
+int	value_final_in(t_node_cmd *cmd);
+int	value_final_out(t_node_cmd *cmd);
+void	redir_in_to_pipe(int **pip, int y, int fd_in);
+void	redir_in_out_to_pipe(int **pip, int y, int fd_in, int fd_out);
+void	redir_out_to_pipe(int **pip, int y, int fd_out);
+void	redir_in_or_out(t_node_cmd *cmd, int **pip, int y);
+void	redir_one_in_out(int fd_in, int fd_out);
+int copy_env_tab(t_data *data, size_t y);
+void setup_readline_rdocs(void);
+int status_one_cmd(pid_t pid);
 
 
 

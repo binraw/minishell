@@ -42,6 +42,10 @@ int init_pip(t_data *data)
     return (0);
 }
 
+
+
+
+
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 {
 	int		y;
@@ -218,7 +222,6 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 {
 	char	*path_command;
 
-		printf("ici ca passe");
 	path_command = NULL;
 	if (cmd)
 		path_command = create_path(cmd->content[0], data->env);

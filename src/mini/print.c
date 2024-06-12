@@ -72,15 +72,10 @@ int	exe_cmd(t_data *data)
 	char	*path_command;
 	t_node_cmd	*dup;
 	pid_t	pid;
-	int status;
-
 
 	dup = data->cmd;
-
 	if (!data->str)
 		return (0);
-
-	
 	path_command = create_path(data->cmd->content[0], data->env);
 	if (!path_command)
 	{
@@ -93,33 +88,32 @@ int	exe_cmd(t_data *data)
 	else if (pid == 0) 
 	{
 		if (data->cmd->redir)
-		{
 			ft_redir_one_process(dup);
-		}
 		execve(path_command, data->cmd->content, data->env);
 		perror("execve");
 		return (1);
 	}
 	else 
-	{
-		if (waitpid(pid, &status, 0) == -1)
-		{
-			// perror("waitpid");
-			return (-1);
-		}
-		if (WIFEXITED(status))
-		{
+		return(status_one_cmd(pid));
+}
 
-			return (WEXITSTATUS(status));
-		}
-		else if (WIFSIGNALED(status))
-		{
-        	int signal = WTERMSIG(status);
+
+int status_one_cmd(pid_t pid)
+{
+ 	int status;
+
+	status = 0;
+	if (waitpid(pid, &status, 0) == -1)
+			return (-1);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+	{
+    	int signal = WTERMSIG(status);
         	// fprintf(stderr, "Last process terminated by signal %d\n", signal);
-        	return (128 + signal);
-		}
-		return (-1);
+        return (128 + signal);
 	}
+	return (-1);
 }
 
 

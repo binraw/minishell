@@ -12,12 +12,17 @@
 
 #include "mini.h"
 
+
+
 // fonction a envoyer quand un rdocs est envoyer dans une commande
 // meme comportetment des infiles
+// f
 int init_rdocs(t_rdocs *rdocs)
 {
     int *fd;
 
+
+setup_readline_rdocs();
     fd = malloc(2 * sizeof(int));
     if (pipe(fd) == -1)
 		return (-1);
@@ -38,6 +43,8 @@ int init_rdocs(t_rdocs *rdocs)
 			close(fd[1]);
             return (fd[0]);
         }
+		if (interrupted == 1)
+			break ;
         write(fd[1], rdocs->str_rdocs, ft_strlen(rdocs->str_rdocs));
         write(fd[1], "\n", 1);
     }
