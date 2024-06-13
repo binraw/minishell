@@ -218,6 +218,40 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 }
 
 
+int	control_builtin_to_command(t_data *data, t_node_cmd *cmd)
+{
+		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content)) == 0)
+    	{
+            free(cmd->content);
+			command_exit(0);
+    	}
+		if (ft_strncmp(cmd->content, "env", ft_strlen(cmd->content)) == 0)
+		{
+			command_env(&vars);
+		}
+		if (ft_strncmp(cmd->content, "export", ft_strlen(cmd->content)) == 0)
+		{
+			while (i < ft_lstsize(data->env_node))
+			{
+				screen_export(&vars, 1);
+				i++;
+			}
+			i = 0;
+			reset_print_env(&vars);
+		}
+}
+
+
+
+
+
+
+
+
+
+
+
+
 int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 {
 	char	*path_command;

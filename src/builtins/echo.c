@@ -18,11 +18,22 @@
 #include "../mini/mini.h"
 
 
-int	command_echo(t_data *data, char *value, int fd)
+int	command_echo(t_data *data, char *value)
 {
-	ft_putstr_fd(value, fd);
-	if (!data->arg)
-		write(1, "/n", fd);
+	size_t i;
+	bool arg;
+
+	i = 0;
+	arg = false;
+	if (value[0] == '-')
+		i++;
+	while (value[i] == 'n')
+		i++;
+	if (i > 1)
+		arg = true;
+	ft_putstr_fd(value, STDOUT_FILENO);
+	if (arg == false)
+		ft_putstr_fd("/n", STDOUT_FILENO);
 	return (0);
 }
 
