@@ -25,21 +25,25 @@ int	add_env_value(t_data *data, char *value_content)
 
 	new_node = NULL;
 	i = 0;
+
 	if ((control_export_value(value_content) == -1))
 		return (-1);
 	if ((control_export_name(data, value_content) == 1))
 		return (0);
-	while(value_content[i] && value_content[i] != '=')
-		i++;
-	new_node->name = malloc(i * sizeof(char));
-	if (!new_node)
-		return (-1);
-	new_node->value = malloc((ft_strlen(value_content) - i) * sizeof(char));
-	if (!new_node->value)
-		return (free(new_node->name), -1);
-	ft_strlcpy(new_node->name, value_content, i);
-	ft_strlcpy(new_node->value, value_content + i, ft_strlen(value_content) - i);
-	new_node->content = ft_strdup(value_content);
+	// while(value_content[i] && value_content[i] != '=')
+	// 	i++;
+	// printf("valeur de i : %zu\n", i);
+	// new_node->name = malloc(i + 1 * sizeof(char));
+	// if (!new_node)
+	// 	return (-1);
+	// new_node->value = malloc((ft_strlen(value_content) - i) * sizeof(char));
+	// if (!new_node->value)
+	// 	return (free(new_node->name), -1);
+	// ft_strlcpy(new_node->name, value_content, i);
+	// ft_strlcpy(new_node->value, value_content + i, ft_strlen(value_content) - i);
+	// new_node->content = ft_strdup(value_content);
+	// printf("le new_node : %s\n", new_node->content);
+	new_node = ft_lstnew(value_content);
 	if (!new_node->content)
 	{
 		free(new_node->name);
@@ -64,7 +68,8 @@ int		control_export_name(t_data *data, char *value_content)
 	head = data->env_node;
 	while(value_content[i] && value_content[i] != '=')
 		i++;
-
+	new_name = malloc(i + 1 * sizeof(char));
+	new_value = malloc(ft_strlen((value_content + i)) * sizeof(char));
 	ft_strlcpy(new_name, value_content, i);
 	ft_strlcpy(new_value, value_content + i, ft_strlen(value_content) - i);
 

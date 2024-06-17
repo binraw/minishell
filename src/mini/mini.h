@@ -167,8 +167,8 @@ void	redir_one_in_out(int fd_in, int fd_out);
 int copy_env_tab(t_data *data, size_t y);
 void setup_readline_rdocs(void);
 int status_one_cmd(pid_t pid);
-
-
+int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip);
+int	add_env_value(t_data *data, char *value_content);
 
 
 

@@ -50,7 +50,7 @@ char	*create_path(char *cmd, char **envp)
 			free(path_cmd);
 	}
 	ft_free_tab(paths);
-	free(cmd);
+	// free(cmd);
 	return (NULL);
 }
 

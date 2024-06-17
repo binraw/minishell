@@ -36,33 +36,33 @@ int main(int argc, char **argv, char **envp)
             /*printf("Error input.\n");*/
             return (0);
         }
-    
-		if (ft_strncmp(vars.str, "exit", ft_strlen(vars.str)) == 0)
-    	{
-            free(vars.str);
-			command_exit(0);
-			// command_exit(ft_atoi(argv[1])); la commande finale va ressembler a ca a voir comment on recup les 2 arguments
-    	}
-		if (ft_strncmp(vars.str, "env", ft_strlen(vars.str)) == 0)
-		{
-			command_env(&vars);
-		}
-		if (ft_strncmp(vars.str, "export", ft_strlen(vars.str)) == 0)
-		{
-			while (i < ft_lstsize(vars.env_node))
-			{
-				screen_export(&vars, 1);
-				i++;
-			}
-			i = 0;
-			reset_print_env(&vars);
-		}
-		if (ft_strncmp(vars.str, "export", ft_strlen(vars.str)) != 0)
-		{
+		//
+		// if (ft_strncmp(vars.str, "exit", ft_strlen(vars.str)) == 0)
+		//   	{
+		//           free(vars.str);
+		// 	command_exit(0);
+		// 	// command_exit(ft_atoi(argv[1])); la commande finale va ressembler a ca a voir comment on recup les 2 arguments
+		//   	}
+		// if (ft_strncmp(vars.str, "env", ft_strlen(vars.str)) == 0)
+		// {
+		// 	command_env(&vars);
+		// }
+		// if (ft_strncmp(vars.str, "export", ft_strlen(vars.str)) == 0)
+		// {
+		// 	while (i < ft_lstsize(vars.env_node))
+		// 	{
+		// 		screen_export(&vars, 1);
+		// 		i++;
+		// 	}
+		// 	i = 0;
+		// 	reset_print_env(&vars);
+		// }
+		// if (ft_strncmp(vars.str, "export", ft_strlen(vars.str)) != 0)
+		// {
 			init_cmd(&vars, vars.str);
 			init_pip(&vars);
-		}
-	} 
+	// 	}
+	 } 
 
 	return (0);
 }
@@ -76,12 +76,14 @@ int	exe_cmd(t_data *data)
 	dup = data->cmd;
 	if (!data->str)
 		return (0);
-	path_command = create_path(data->cmd->content[0], data->env);
-	if (!path_command)
-	{
-		// faire un truc pour quand c'est un fichier
-		return (printf("error command\n"), -1);
-	}
+	printf("%s\n", data->cmd->content[0]);
+	path_command = create_path(dup->content[0], data->env);
+	// if (!path_command)
+	// {
+	// 	// faire un truc pour quand c'est un fichier
+	// 	printf("%s\n", data->cmd->content[0]);
+	// 	return (printf("error command\n"), -1);
+	// } TROUVEZ COMMENT CHECK CA SANS QUE LES BUILTINS BLOQUE CAR ILS NE SONT PAS dasn le chemin de base
 	pid = fork();
 	if (pid == -1)
 		return (-1);
@@ -89,8 +91,11 @@ int	exe_cmd(t_data *data)
 	{
 		if (data->cmd->redir)
 			ft_redir_one_process(dup);
+	if ((control_builtin_to_command(data, data->cmd, 1) == 0))
+	{
 		execve(path_command, data->cmd->content, data->env);
 		perror("execve");
+	}
 		return (1);
 	}
 	else 
