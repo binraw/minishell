@@ -214,12 +214,13 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	}
 	else
 	{
-
+		printf("rentre ici\n");
 		first_child(pip);
 	}
 	// printf("valeur pip[1] %d\n", pip[1]);
-	if ((control_builtin_to_command(data, cmd, pip[1]) == 0))
+	if ((control_builtin_to_command(data, cmd, 1) == 0))
 	{
+		// close(pip[1]);
 		execve(path_command, cmd->content, data->env);
 		perror("execve");
 	}
@@ -262,7 +263,7 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 				i = 0;
 				reset_print_env(data);
 			}
-			close(pip);
+			// close(pip);
 			return (1);
 		}
 		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0])) == 0)
@@ -311,8 +312,8 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 	if ((control_builtin_to_command(data, cmd, 1) == 0))
 	{
 
-		execve(path_command, cmd->content, data->env);
-		perror("execve");
+	execve(path_command, cmd->content, data->env);
+	perror("execve");
 	}
 	exit(127);
 	return (0);
