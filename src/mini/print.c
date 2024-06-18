@@ -72,7 +72,10 @@ int	exe_cmd(t_data *data)
 	char	*path_command;
 	t_node_cmd	*dup;
 	pid_t	pid;
+	int fd[2];
 
+	fd[0] = 0;
+	fd[1] = 1;
 	dup = data->cmd;
 	if (!data->str)
 		return (0);
@@ -91,12 +94,14 @@ int	exe_cmd(t_data *data)
 	{
 		if (data->cmd->redir)
 			ft_redir_one_process(dup);
-	if ((control_builtin_to_command(data, data->cmd, 1) == 0))
+	if ((control_builtin_to_command(data, data->cmd, fd[1]) == 0))
 	{
 		execve(path_command, data->cmd->content, data->env);
 		perror("execve");
 	}
-		return (1);
+	close(fd[0]);
+	close(fd[1]);
+	return (1);
 	}
 	else 
 		return(status_one_cmd(pid));
