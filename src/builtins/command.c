@@ -20,7 +20,7 @@ int command_exit(int c)
     exit((unsigned char)c);
 }
 
-int command_pwd(t_data *data)
+int command_pwd(t_data *data, int fd)
 {
 	(void)data;
 	char *pos;
@@ -34,7 +34,8 @@ int command_pwd(t_data *data)
 			return (perror("malloc() error"), -1);
 		if (getcwd(pos, (size_t)size) != NULL)
 		{
-			printf("%s\n", pos);
+			ft_putstr_fd(pos, fd);
+			ft_putchar_fd('\n', fd);
 			free(pos);
 			break;
 		}

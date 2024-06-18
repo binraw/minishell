@@ -36,32 +36,8 @@ int main(int argc, char **argv, char **envp)
             /*printf("Error input.\n");*/
             return (0);
         }
-		//
-		// if (ft_strncmp(vars.str, "exit", ft_strlen(vars.str)) == 0)
-		//   	{
-		//           free(vars.str);
-		// 	command_exit(0);
-		// 	// command_exit(ft_atoi(argv[1])); la commande finale va ressembler a ca a voir comment on recup les 2 arguments
-		//   	}
-		// if (ft_strncmp(vars.str, "env", ft_strlen(vars.str)) == 0)
-		// {
-		// 	command_env(&vars);
-		// }
-		// if (ft_strncmp(vars.str, "export", ft_strlen(vars.str)) == 0)
-		// {
-		// 	while (i < ft_lstsize(vars.env_node))
-		// 	{
-		// 		screen_export(&vars, 1);
-		// 		i++;
-		// 	}
-		// 	i = 0;
-		// 	reset_print_env(&vars);
-		// }
-		// if (ft_strncmp(vars.str, "export", ft_strlen(vars.str)) != 0)
-		// {
 			init_cmd(&vars, vars.str);
 			init_pip(&vars);
-	// 	}
 	 } 
 
 	return (0);
@@ -79,7 +55,6 @@ int	exe_cmd(t_data *data)
 	dup = data->cmd;
 	if (!data->str)
 		return (0);
-	printf("%s\n", data->cmd->content[0]);
 	path_command = create_path(dup->content[0], data->env);
 	// if (!path_command)
 	// {

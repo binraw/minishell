@@ -173,7 +173,6 @@ int analyze_process_statuses(t_data *data, pid_t *tab_pid, int *status) // fonct
 
 int	process_status_pid(t_data *data, pid_t *tab_pid, int *status)
 {
-	/*int		*status;*/
 	t_node_cmd *dup;
 	int i;
 
@@ -208,19 +207,13 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	// 	return (-1);
 	// }
 	if (cmd->redir)
-	{
 		ft_redir_child_process(cmd, pip);
-
-	}
 	else
-	{
-		printf("rentre ici\n");
 		first_child(pip);
-	}
-	// printf("valeur pip[1] %d\n", pip[1]);
+
 	if ((control_builtin_to_command(data, cmd, 1) == 0))
 	{
-		// close(pip[1]);
+
 		execve(path_command, cmd->content, data->env);
 		perror("execve");
 	}
@@ -263,7 +256,7 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 				i = 0;
 				reset_print_env(data);
 			}
-			// close(pip);
+
 			return (1);
 		}
 		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0])) == 0)
@@ -271,7 +264,15 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 			unset_command(data, cmd->content[1]);
 			return (1);
 		}
-		// close(pip); // pour close dans tout les cas
+		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0])) == 0)
+		{
+			printf("c'est bien mon builtins\n");
+			command_pwd(data, pip);
+			
+			return (1);
+		}
+
+
 	
 	return (0);
 }
@@ -301,19 +302,13 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 	// }
 
 	if (cmd->redir)
-	{
 		ft_dup_redir_second_child(data, cmd, pip, y);
-	}
 	else
-	{
-
 		second_child(data, pip, y, cmd);
-	}
 	if ((control_builtin_to_command(data, cmd, 1) == 0))
 	{
-
-	execve(path_command, cmd->content, data->env);
-	perror("execve");
+		execve(path_command, cmd->content, data->env);
+		perror("execve");
 	}
 	exit(127);
 	return (0);
