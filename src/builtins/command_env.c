@@ -14,16 +14,17 @@
 
 
 
-int command_env(t_data *data)
+int command_env(t_data *data, int fd)
 {
  	t_node_env  *dup;
 
 	dup = data->env_node;
 	if (dup == NULL)
-		printf("NULL\n");
+		ft_putstr_fd("NULL\n", fd);	
     while (dup)
     {
-        printf("%s\n", dup->content);
+		ft_putstr_fd(dup->content, fd);
+		ft_putstr_fd("\n", fd);
         dup = dup->next;
     }
     return (0);

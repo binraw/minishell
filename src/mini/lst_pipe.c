@@ -230,13 +230,15 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 	i = 0;
 		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0])) == 0)
     	{
+
             free(cmd->content);
 			command_exit(0);
 			return (1);
     	}
 		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0])) == 0)
 		{
-			command_env(data);
+	
+			command_env(data, pip);
 			return (1);
 		}
 		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0])) == 0)
@@ -266,9 +268,20 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0])) == 0)
 		{
-			printf("c'est bien mon builtins\n");
+		
 			command_pwd(data, pip);
 			
+			return (1);
+		}
+		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0])) == 0)
+		{
+			
+			command_cd(data);
+			// while (i < ft_lstsize(data->env_node))
+			// 	{
+			// 		screen_export(data,  pip);
+			// 		i++;
+			// 	}
 			return (1);
 		}
 

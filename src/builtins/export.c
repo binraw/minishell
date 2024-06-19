@@ -30,19 +30,7 @@ int	add_env_value(t_data *data, char *value_content)
 		return (-1);
 	if ((control_export_name(data, value_content) == 1))
 		return (0);
-	// while(value_content[i] && value_content[i] != '=')
-	// 	i++;
-	// printf("valeur de i : %zu\n", i);
-	// new_node->name = malloc(i + 1 * sizeof(char));
-	// if (!new_node)
-	// 	return (-1);
-	// new_node->value = malloc((ft_strlen(value_content) - i) * sizeof(char));
-	// if (!new_node->value)
-	// 	return (free(new_node->name), -1);
-	// ft_strlcpy(new_node->name, value_content, i);
-	// ft_strlcpy(new_node->value, value_content + i, ft_strlen(value_content) - i);
-	// new_node->content = ft_strdup(value_content);
-	// printf("le new_node : %s\n", new_node->content);
+
 	new_node = ft_lstnew(value_content);
 	if (!new_node->content)
 	{

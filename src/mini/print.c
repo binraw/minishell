@@ -23,9 +23,10 @@ int main(int argc, char **argv, char **envp)
 
 	i = 0;
 	init_node_env(&vars, envp);
+	// init_env(&vars);	
 
 	while (1)
-	{
+	 {
 		init_env(&vars);	
 		setup_readline_signals();
         vars.str = readline("Minishell: ");	
@@ -53,33 +54,29 @@ int	exe_cmd(t_data *data)
 	fd[0] = 0;
 	fd[1] = 1;
 	dup = data->cmd;
+	pid = 0;
 	if (!data->str)
 		return (0);
 	path_command = create_path(dup->content[0], data->env);
-	// if (!path_command)
-	// {
-	// 	// faire un truc pour quand c'est un fichier
-	// 	printf("%s\n", data->cmd->content[0]);
-	// 	return (printf("error command\n"), -1);
-	// } TROUVEZ COMMENT CHECK CA SANS QUE LES BUILTINS BLOQUE CAR ILS NE SONT PAS dasn le chemin de base
-	pid = fork();
-	if (pid == -1)
-		return (-1);
-	else if (pid == 0) 
-	{
-		if (data->cmd->redir)
-			ft_redir_one_process(dup);
+
+	if (data->cmd->redir)
+		ft_redir_one_process(dup);
 	if ((control_builtin_to_command(data, data->cmd, fd[1]) == 0))
 	{
-		execve(path_command, data->cmd->content, data->env);
-		perror("execve");
-	}
-	close(fd[0]);
-	close(fd[1]);
-	return (1);
-	}
-	else 
+		pid = fork();
+		if (pid == -1)
+			return (-1);
+		if (pid == 0)
+		{
+			execve(path_command, data->cmd->content, data->env);
+			perror("execve");
+		}
+
 		return(status_one_cmd(pid));
+	}
+
+
+	return(0);
 }
 
 

@@ -92,7 +92,7 @@ int	exe_cmd(t_data *data);
 /*char	**init_cmd(t_data *data ,char *argv);*/
 int init_env(t_data *data);
 int free_env(t_data *data);
-int command_env(t_data *data);
+int command_env(t_data *data, int fd);
 int command_exit(int c);
 int init_pip(t_data *data);
 int init_values_parse(t_data *data);
@@ -170,7 +170,7 @@ int status_one_cmd(pid_t pid);
 int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip);
 int	add_env_value(t_data *data, char *value_content);
 int command_pwd(t_data *data, int fd);
-
+int	command_cd(t_data *data);
 
 
 
