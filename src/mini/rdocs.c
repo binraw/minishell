@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rdocs.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 09:54:57 by rtruvelo          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/05/15 14:01:58 by rtruvelo         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/04 14:52:31 by rtruvelo         ###   ########.fr       */
->>>>>>> exec
+/*   Updated: 2024/06/24 12:33:01 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +26,6 @@ setup_readline_rdocs();
     fd = malloc(2 * sizeof(int));
     if (pipe(fd) == -1)
 		return (-1);
-<<<<<<< HEAD
-    data->cmd->rdocs->go = false;
-    while (data->cmd->rdocs->go != true)
-    {
-        data->cmd->rdocs->str_rdocs = readline("> ");
-        if (ft_strncmp(data->cmd->rdocs->str_rdocs,
-                data->cmd->rdocs->limit, ft_strlen(data->cmd->rdocs->limit)))
-        {
-            free(data->cmd->rdocs->str_rdocs);
-            data->cmd->rdocs->go = true;
-            break ;
-        }
-        write(fd_rdocs[1], data->cmd->rdocs->str_rdocs, ft_strlen(data->cmd->rdocs->str_rdocs));
-        write(fd_rdocs[1], "\n", 1);
-=======
     rdocs->go = false;
     while (rdocs->go != true)
     {
@@ -66,7 +47,6 @@ setup_readline_rdocs();
 			break ;
         write(fd[1], rdocs->str_rdocs, ft_strlen(rdocs->str_rdocs));
         write(fd[1], "\n", 1);
->>>>>>> exec
     }
     return (-1);
 }

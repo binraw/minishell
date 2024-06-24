@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/05/17 12:54:28 by rtruvelo         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/05 15:48:21 by rtruvelo         ###   ########.fr       */
->>>>>>> exec
+/*   Updated: 2024/06/24 12:32:47 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +37,9 @@ int main(int argc, char **argv, char **envp)
             /*printf("Error input.\n");*/
             return (0);
         }
-<<<<<<< HEAD
-    
-		if (ft_strncmp(vars.str, "exit", ft_strlen(vars.str)) == 0)
-    	{
-            free(vars.str);
-			command_exit(0);
-			// command_exit(ft_atoi(argv[1])); la commande finale va ressembler a ca a voir comment on recup les 2 arguments
-    	}
-		if (ft_strncmp(vars.str, "env", ft_strlen(vars.str)) == 0)
-		{
-			command_env(&vars);
-			exit (0);
-		}
-		init_values_parse(&vars);
-	printf(" la valeur de cmd->index : %d\n", vars.cmd->index);
-		init_pip(&vars);
-		free_data_values(&vars);
-=======
 			init_cmd(&vars, vars.str);
 			init_pip(&vars);
 	 } 
->>>>>>> exec
 
 	return (0);
 }
@@ -70,13 +47,9 @@ int main(int argc, char **argv, char **envp)
 int	exe_cmd(t_data *data)
 {
 	char	*path_command;
-<<<<<<< HEAD
-	char **command;
-=======
 	t_node_cmd	*dup;
 	pid_t	pid;
 	int fd[2];
->>>>>>> exec
 
 	fd[0] = 0;
 	fd[1] = 1;
@@ -84,17 +57,11 @@ int	exe_cmd(t_data *data)
 	pid = 0;
 	if (!data->str)
 		return (0);
-<<<<<<< HEAD
-	command = init_cmd(data, data->str);
-	path_command = create_path(data->str, data->env);
-	if (!path_command)
-=======
 	path_command = create_path(dup->content[0], data->env);
 
 	if (data->cmd->redir)
 		ft_redir_one_process(dup);
 	if ((control_builtin_to_command(data, data->cmd, fd[1]) == 0))
->>>>>>> exec
 	{
 		pid = fork();
 		if (pid == -1)
@@ -107,31 +74,6 @@ int	exe_cmd(t_data *data)
 
 		return(status_one_cmd(pid));
 	}
-<<<<<<< HEAD
-	execve(path_command, command, data->env);
-	perror("execve");
-	return (1);
-}
-
-
-/*char	**init_cmd(char *argv)*/
-/*{*/
-/*	char	**cmd;*/
-/*	int		y;*/
-/**/
-/*	y = 0;*/
-/*	if (argv[y] == '\0')*/
-/*		return (NULL);*/
-/*	while (argv[y] == ' ')*/
-/*	{*/
-/*		if (argv[y + 1] == '\0')*/
-/*			return (NULL);*/
-/*		y++;*/
-/*	}*/
-/*	cmd = ft_split(argv, ' ');*/
-/*	return (cmd);*/
-/*}*/
-=======
 
 
 	return(0);
@@ -155,7 +97,6 @@ int status_one_cmd(pid_t pid)
 	}
 	return (-1);
 }
->>>>>>> exec
 
 
 /*char	**init_cmd(char *argv)*/

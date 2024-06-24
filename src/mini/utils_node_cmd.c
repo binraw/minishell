@@ -6,11 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:12:31 by rtruvelo          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/05/29 11:05:30 by hbouyssi         ###   ########.fr       */
-=======
-/*   Updated: 2024/05/29 11:31:59 by rtruvelo         ###   ########.fr       */
->>>>>>> exec
+/*   Updated: 2024/06/24 12:33:37 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +108,3 @@ void	ft_lstclear_cmd(t_node_cmd **lst)
 	}
 	*lst = NULL;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> exec
