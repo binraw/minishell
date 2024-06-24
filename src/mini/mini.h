@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/18 15:45:30 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/24 09:16:34 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct node_env_s
 
 int	exe_cmd(t_data *data);
 /*char	**init_cmd(char *argv);*/
+char	**init_cmd(t_data *data ,char *argv);
 int init_env(t_data *data);
 int free_env(t_data *data);
 int command_env(t_data *data);

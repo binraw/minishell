@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:45:54 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/31 11:45:08 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/24 09:19:05 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,4 +140,3 @@ void	ft_lstclear(t_node_env **lst, void (*del)(void *))
 	}
 	*lst = NULL;
 }
-
