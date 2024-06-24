@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/31 12:42:24 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:32:03 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,15 @@ size_t	ft_count_str(char *str, char sep)
 }
 
 // on construit la structure cmd
-void	init_cmd(t_data *data, char *argv)
+int	init_cmd(t_data *data, char *argv)
 {
 	char		**pips;
 	size_t		i;
 	char		*tok;
 
 	i = 0;
+	if (check_error_cmd(argv, "<>|"))
+		return (1);
 	data->number_of_pip = ft_count_str(argv, '|') - 1;
 	data->number_of_cmd = data->number_of_pip + 1;
 	pips = malloc(sizeof(char *) * (data->number_of_cmd + 1));
@@ -77,6 +79,7 @@ void	init_cmd(t_data *data, char *argv)
 	}
 	pips[i] = NULL;
 	fill_cmd_content(data, pips);
+	return (0);
 }
 
 void	fill_cmd_content(t_data *data, char **pips)
@@ -109,18 +112,16 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 	i = 0;
 	cmd = ft_lstnew_cmd(index);
 	cmd->content = malloc(sizeof(char *) * (ft_count_str(str, ' ') + 1));
-	cmd->content[i] = ft_strtok(str, " \t", true);
-	i++;
-	tok = ft_strtok(NULL, " \t", true);
+	tok = ft_strtok(str, " \t", true);
 	while (tok)
 	{
 		if (*tok == '>' || *tok == '<')
-		{
 			fill_redirs(tok, &cmd->redir, &cmd->rdocs);
-			break ;
+		else
+		{
+			cmd->content[i] = tok;
+			i++;
 		}
-		cmd->content[i] = tok;
-		i++;
 		tok = ft_strtok(NULL, " \t", true);
 	}
 	cmd->content[i] = NULL;
@@ -128,62 +129,70 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 }
 
 // main de test
-// int	main(int ac, char **av, char **envp)
-// {
-// 	(void)ac;
-// 	(void)av;
-// 	t_data	*data = malloc(sizeof(t_data));
-// 	init_node_env(data, envp);
-// 	init_env(data);
-// 	char	*str = NULL;
-// 	while(!str)
-// 		str = readline(NULL);
-// 	init_cmd(data, str);
-// 	free(str);
-// 	t_node_cmd	*ptr = data->cmd;
-// 	t_redir 	*red_ptr;
-// 	t_rdocs		*rdoc_ptr;
-// 	size_t	i = 0;
-// 	size_t	y;
-// 	printf("number of pip = %i\n", data->number_of_pip);
-// 	while (ptr)
-// 	{
-// 		printf("node %i:\n", ptr->index);
-// 		y = 0;
-// 		while (ptr->content[y])
-// 		{
-// 			printf("%i: %s\n", (int)y, ptr->content[y]);
-// 			y++;
-// 		}
-// 		red_ptr = ptr->redir;
-// 		rdoc_ptr = ptr->rdocs;
-// 		while (red_ptr)
-// 		{
-// 			if (red_ptr->in)
-// 				printf("in : ");
-// 			if (red_ptr->out)
-// 				printf("out : ");
-// 			if (red_ptr->rdocs)
-// 				printf("rdocs : ");
-// 			if (red_ptr->d_out)
-// 				printf("d_out : ");
-// 			printf("%s\n", red_ptr->content);
-// 			red_ptr = red_ptr->next;
-// 		}
-// 		printf("\n");
-// 		printf("rdocs list :\n");
-// 		while (rdoc_ptr)
-// 		{
-// 			printf("%s\n", rdoc_ptr->limit);
-// 			rdoc_ptr = rdoc_ptr->next;
-// 		}
-// 		printf("\n");
-// 		ptr = ptr->next;
-// 		i++;
-// 	}
-// 	ft_lstclear_cmd(&data->cmd);
-// 	ft_lstclear_env(data);
-// 	free_env(data);
-// 	free(data);
-// 	return (0);
-// }
+int	main(int ac, char **av, char **envp)
+{
+	(void)ac;
+	(void)av;
+	t_data	*data = malloc(sizeof(t_data));
+	init_node_env(data, envp);
+	init_env(data);
+	char	*str = NULL;
+	while(!str)
+		str = readline(NULL);
+	int error = init_cmd(data, str);
+	free(str);
+	if (error)
+	{
+		ft_lstclear_env(data);
+		free_env(data);
+		free(data);
+		return (0);
+	}
+
+	t_node_cmd	*ptr = data->cmd;
+	t_redir 	*red_ptr;
+	t_rdocs		*rdoc_ptr;
+	size_t	i = 0;
+	size_t	y;
+	printf("number of pip = %i\n", data->number_of_pip);
+	while (ptr)
+	{
+		printf("node %i:\n", ptr->index);
+		y = 0;
+		while (ptr->content[y])
+		{
+			printf("%i: %s\n", (int)y, ptr->content[y]);
+			y++;
+		}
+		red_ptr = ptr->redir;
+		rdoc_ptr = ptr->rdocs;
+		while (red_ptr)
+		{
+			if (red_ptr->in)
+				printf("in : ");
+			if (red_ptr->out)
+				printf("out : ");
+			if (red_ptr->rdocs)
+				printf("rdocs : ");
+			if (red_ptr->d_out)
+				printf("d_out : ");
+			printf("%s\n", red_ptr->content);
+			red_ptr = red_ptr->next;
+		}
+		printf("\n");
+		printf("rdocs list :\n");
+		while (rdoc_ptr)
+		{
+			printf("%s\n", rdoc_ptr->limit);
+			rdoc_ptr = rdoc_ptr->next;
+		}
+		printf("\n");
+		ptr = ptr->next;
+		i++;
+	}
+	ft_lstclear_cmd(&data->cmd);
+	ft_lstclear_env(data);
+	free_env(data);
+	free(data);
+	return (0);
+}

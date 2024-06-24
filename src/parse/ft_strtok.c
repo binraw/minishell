@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:16:27 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/05/31 11:43:49 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:46:08 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*create_tok(char *sep, char *ptr, bool redir, size_t *i)
 		*i = *i + 1;
 	}
 	if (quote == 0 && redir && (ptr[*i] == '<' || ptr[*i] == '>'))
-		tok = tok_stop_redir(ptr, *i);
+		tok = tok_stop_redir(ptr, i);
 	else if (ptr[*i] && ft_strchr(sep, ptr[*i]) && quote == 0)
 	{
 		ptr[*i] = 0;
@@ -82,25 +82,32 @@ char	*tok_redir(char *str, size_t *i)
 	quote = 0;
 	while (str[*i] == '<' || str[*i] == '>')
 		*i = *i + 1;
+	while (str[*i] == ' ' || str[*i] == '\t')
+		*i = *i + 1;
 	while (str[*i] && ((str[*i] != '<' && str[*i] != '>') || quote != 0))
 	{
+		if (quote == 0 && str[*i] == ' ')
+			break ;
 		if (str[*i] == '\'' || str[*i] == '\"')
 			quote = manage_quotes(str[*i], quote);
 		*i = *i + 1;
 	}
-	tok = tok_stop_redir(str, *i);
+	tok = tok_stop_redir(str, i);
 	return (tok);
 }
 
 // j'arrete strtok quand je trouve '>' ou '<'
-char	*tok_stop_redir(char *str, size_t i)
+char	*tok_stop_redir(char *str, size_t *i)
 {
 	char	c;
 	char	*tok;
 
-	c = str[i];
-	str[i] = 0;
+	c = str[*i];
+	str[*i] = 0;
 	tok = ft_strdup(str);
-	str[i] = c;
+	if (c == ' ' || c == '\t')
+		*i = *i + 1;
+	else
+		str[*i] = c;
 	return (tok);
 }
