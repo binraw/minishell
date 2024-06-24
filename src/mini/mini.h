@@ -6,15 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2024/05/31 10:50:42 by hbouyssi         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/05 14:21:50 by rtruvelo         ###   ########.fr       */
->>>>>>> exec
-=======
-/*   Updated: 2024/06/24 11:17:30 by hbouyssi         ###   ########.fr       */
->>>>>>> parsing
+/*   Updated: 2024/06/24 12:31:17 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +18,9 @@
 #include <stdio.h>
 #include "../pipe/pipex.h"
 #include "../../lib/libft/libft.h"
-<<<<<<< HEAD
-=======
 #include <signal.h>
- #include <sys/ioctl.h>
+#include <sys/ioctl.h>
 
->>>>>>> exec
 
 // essai de mettre cmd dans une structure qui a la valeur de la commande
 // mais aussi un tableau de tout les in-redirection
