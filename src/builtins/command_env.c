@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   command_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/03 14:14:32 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/15 14:01:39 by rtruvelo         ###   ########.fr       */
+/*   Created: 2024/06/04 10:50:16 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/06/04 13:25:26 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
-
-
-
 
 #include "../mini/mini.h"
 
 
-int	command_echo(t_data *data, char *value)
+
+int command_env(t_data *data, int fd)
 {
-	size_t i;
-	bool arg;
+ 	t_node_env  *dup;
 
-	i = 0;
-	arg = false;
-	if (value[0] == '-')
-		i++;
-	while (value[i] == 'n')
-		i++;
-	if (i > 1)
-		arg = true;
-	ft_putstr_fd(value, STDOUT_FILENO);
-	if (arg == false)
-		ft_putstr_fd("/n", STDOUT_FILENO);
-	return (0);
+	dup = data->env_node;
+	if (dup == NULL)
+		ft_putstr_fd("NULL\n", fd);	
+    while (dup)
+    {
+		ft_putstr_fd(dup->content, fd);
+		ft_putstr_fd("\n", fd);
+        dup = dup->next;
+    }
+    return (0);
 }
-

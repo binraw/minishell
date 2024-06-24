@@ -3,35 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:49:40 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/16 12:49:56 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/24 10:47:46 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini/mini.h"
-
-int command_env(t_data *data)
-{
-    size_t i;
-
-    i = 0;
-    while (data->env[i])
-    {
-        printf("%s\n", data->env[i]);
-        i++;
-    }
-    return (0);
-}
-
 
 int command_exit(int c)
 {
     exit((unsigned char)c);
 }
 
-int command_pwd(t_data *data)
+int command_pwd(t_data *data, int fd)
 {
 	(void)data;
 	char *pos;
@@ -45,7 +31,8 @@ int command_pwd(t_data *data)
 			return (perror("malloc() error"), -1);
 		if (getcwd(pos, (size_t)size) != NULL)
 		{
-			printf("%s\n", pos);
+			ft_putstr_fd(pos, fd);
+			ft_putchar_fd('\n', fd);
 			free(pos);
 			break;
 		}
@@ -62,21 +49,29 @@ int	command_cd(t_data *data)
 {
 	int i; // ici changer car ca doit etre le num de la commande
 	char		*old_pwd;
+	char		*new_value;
 	
 	i = 0;
 	old_pwd = ft_strdup(value_pwd(data->env_node));
+	if (data->cmd->content[1])
+	{
+		new_value = ft_strjoin("/", data->cmd->content[1]);
+		new_value = ft_strjoin(old_pwd, new_value);
+	}
 	if (!old_pwd)
 		return (printf("error oldpwd"), -1);
-	if (ft_strncmp(data->cmd->content, "cd", ft_strlen(data->cmd->content)) == 0)
+	if (ft_strncmp(data->cmd->content[0], "cd", ft_strlen(data->cmd->content[0])) == 0 && !data->cmd->content[1])
 		cd_to_home(data);
-	if (ft_strncmp(data->cmd->content, "cd ..", ft_strlen(data->cmd->content)) == 0)
+	if (ft_strncmp(data->cmd->content[0], "cd", ft_strlen(data->cmd->content[0])) == 0 && ft_strncmp(data->cmd->content[1], "..", ft_strlen(data->cmd->content[1])) == 0  )
 	{
 		change_old_pwd(data);
 	}
-	if (chdir(data->path) == 0)
+	if (chdir(new_value) == 0)
 	{
+		printf("rentre dans la modif\n");
+		printf("%s\n", new_value);
 		modifyValue(data->env_node, "OLDPWD", old_pwd);
-		modifyValue(data->env_node, "PWD", data->path);
+		modifyValue(data->env_node, "PWD", new_value);
 	}
 	else
 		printf("%s\n", strerror(errno));
@@ -97,15 +92,17 @@ void modifyValue(t_node_env *head, const char *name, const char *newValue)
     t_node_env *current;
 	
 	current = head;
-    while (current != NULL)
+    while (head != NULL)
 	{
-        if (strcmp(current->name, name) == 0)
+        if (strcmp(head->name, name) == 0)
 		{
-            free(current->value);
-            current->value = strdup(newValue);
+			
+            free(head->value);
+            head->value = strdup(newValue);
+			printf("nouvelle valeur apres cd  : %s\n", head->value);
             return ;
         }
-        current = current->next;
+        head = head->next;
     }
 }
 

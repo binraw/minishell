@@ -6,7 +6,11 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/05/17 12:54:28 by rtruvelo         ###   ########.fr       */
+=======
+/*   Updated: 2024/06/05 15:48:21 by rtruvelo         ###   ########.fr       */
+>>>>>>> exec
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +27,21 @@ int main(int argc, char **argv, char **envp)
 
 	i = 0;
 	init_node_env(&vars, envp);
-/* 	print_liste(vars.env_node); */
+	// init_env(&vars);	
 
-	// while (i < (ft_lstsize(vars.env_node) - 1))
-	// {
-	// 	screen_export(&vars, 1);
-	// 	i++;
-	// }
-	// print_liste(vars.env_node);
-	// unset_command(&vars, "LANG");
-	// printf("DESTRUCTION D'UN NOEUD \n\n\n");
-	// print_liste(vars.env_node);
 	while (1)
-	{
-		init_env(&vars);
-        vars.str = readline("Minishell: ");
+	 {
+		init_env(&vars);	
+		setup_readline_signals();
+        vars.str = readline("Minishell: ");	
+	
+		after_readline_signals();
         if (vars.str == NULL)
         {
-            printf("Error input.\n");
-            return (1);
+            /*printf("Error input.\n");*/
+            return (0);
         }
+<<<<<<< HEAD
     
 		if (ft_strncmp(vars.str, "exit", ft_strlen(vars.str)) == 0)
     	{
@@ -59,31 +58,104 @@ int main(int argc, char **argv, char **envp)
 	printf(" la valeur de cmd->index : %d\n", vars.cmd->index);
 		init_pip(&vars);
 		free_data_values(&vars);
+=======
+			init_cmd(&vars, vars.str);
+			init_pip(&vars);
+	 } 
+>>>>>>> exec
 
-
-    } 
-
-    return (0);
+	return (0);
 }
 
 int	exe_cmd(t_data *data)
 {
 	char	*path_command;
+<<<<<<< HEAD
 	char **command;
+=======
+	t_node_cmd	*dup;
+	pid_t	pid;
+	int fd[2];
+>>>>>>> exec
 
+	fd[0] = 0;
+	fd[1] = 1;
+	dup = data->cmd;
+	pid = 0;
 	if (!data->str)
 		return (0);
+<<<<<<< HEAD
 	command = init_cmd(data, data->str);
 	path_command = create_path(data->str, data->env);
 	if (!path_command)
+=======
+	path_command = create_path(dup->content[0], data->env);
+
+	if (data->cmd->redir)
+		ft_redir_one_process(dup);
+	if ((control_builtin_to_command(data, data->cmd, fd[1]) == 0))
+>>>>>>> exec
 	{
-		// faire un truc pour quand c'est un fichier
-		return (printf("error command\n"), -1);
+		pid = fork();
+		if (pid == -1)
+			return (-1);
+		if (pid == 0)
+		{
+			execve(path_command, data->cmd->content, data->env);
+			perror("execve");
+		}
+
+		return(status_one_cmd(pid));
 	}
+<<<<<<< HEAD
 	execve(path_command, command, data->env);
 	perror("execve");
 	return (1);
 }
+
+
+/*char	**init_cmd(char *argv)*/
+/*{*/
+/*	char	**cmd;*/
+/*	int		y;*/
+/**/
+/*	y = 0;*/
+/*	if (argv[y] == '\0')*/
+/*		return (NULL);*/
+/*	while (argv[y] == ' ')*/
+/*	{*/
+/*		if (argv[y + 1] == '\0')*/
+/*			return (NULL);*/
+/*		y++;*/
+/*	}*/
+/*	cmd = ft_split(argv, ' ');*/
+/*	return (cmd);*/
+/*}*/
+=======
+
+
+	return(0);
+}
+
+
+int status_one_cmd(pid_t pid)
+{
+ 	int status;
+
+	status = 0;
+	if (waitpid(pid, &status, 0) == -1)
+			return (-1);
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+	{
+    	int signal = WTERMSIG(status);
+        	// fprintf(stderr, "Last process terminated by signal %d\n", signal);
+        return (128 + signal);
+	}
+	return (-1);
+}
+>>>>>>> exec
 
 
 /*char	**init_cmd(char *argv)*/

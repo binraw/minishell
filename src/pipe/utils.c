@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:39:33 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/14 14:36:19 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/03 11:52:02 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*create_path(char *cmd, char **envp)
 			free(path_cmd);
 	}
 	ft_free_tab(paths);
-	free(cmd);
+	// free(cmd);
 	return (NULL);
 }
 

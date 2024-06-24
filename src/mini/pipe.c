@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "mini.h"
+<<<<<<< HEAD
 /*
 int init_pip(t_data *data)
 {
@@ -157,4 +158,6 @@ int	second_child_process_multi(t_data *data, int i, int **pip, int y)
 }
 */
 
+=======
+>>>>>>> exec
 
