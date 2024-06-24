@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/24 12:31:17 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:41:24 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,13 @@ int init_values_parse(t_data *data);
 int count_cmd(t_data *data);
 int count_pip(t_data *data);
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
-int	process_status_pid(t_data *data, pid_t *tab_pid);
+int	process_status_pid(t_data *data, pid_t *tab_pid, int *status);
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
 int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip);
 int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y);
 int free_data_values(t_data *data);
 int init_values_redir(t_data *data);
-int	second_child(t_data *data, int **pip, int y);
+int	second_child(t_data *data, int **pip, int y, t_node_cmd *cmd);
 int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd, int **pip, int y);
 int     ft_redir_child_process(t_node_cmd *cmd, int *pip);
 int first_child(int *pip);

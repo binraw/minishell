@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/05/17 12:51:43 by rtruvelo         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/05 11:14:56 by rtruvelo         ###   ########.fr       */
->>>>>>> exec
+/*   Updated: 2024/06/24 12:39:05 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +41,6 @@ int init_pip(t_data *data)
     pipex_process_multi(data, pip, tab_pid); // ici peut etre creer directement un autre 
     return (0);
 }
-
-
-
-
 
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 {
@@ -137,15 +129,6 @@ int	loop_process_pipe(t_data *data, t_node_cmd *dup, int **pip, pid_t *tab_pid)
 
 	return (0); 
 }
-
-
-
-
-
-
-
-
-
 
 int analyze_process_statuses(t_data *data, pid_t *tab_pid, int *status) // fonction a changer 
 {
@@ -293,17 +276,6 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 	
 	return (0);
 }
-
-
-
-
-
-
-
-
-
-
-
 
 int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 {
