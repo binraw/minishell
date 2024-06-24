@@ -7,10 +7,14 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2024/05/31 10:50:42 by hbouyssi         ###   ########.fr       */
 =======
 /*   Updated: 2024/06/05 14:21:50 by rtruvelo         ###   ########.fr       */
 >>>>>>> exec
+=======
+/*   Updated: 2024/06/24 11:17:30 by hbouyssi         ###   ########.fr       */
+>>>>>>> parsing
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +43,8 @@ typedef struct s_rdocs  t_rdocs;
 typedef struct node_env_s   t_node_env;
 
 typedef struct node_cmd_s t_node_cmd;
-<<<<<<< HEAD
-
-typedef struct data_s
-{
-	char        *str;
-	t_node_cmd	*cmd;
-	//char        **cmd;
-	char        *path;
-	char        **env;
-	int         number_of_cmd;
-	int         number_of_pip;
-	int         last_pid;
-	bool	arg; // jmets ca pour verifier si un arg est present pour echo mais a voir si on peut faire autrement
-	t_node_env  *env_node;
-
-=======
 extern volatile sig_atomic_t interrupted;
+
 typedef struct data_s
 {
     char        *str;
@@ -68,27 +57,16 @@ typedef struct data_s
     int         last_pid;
     bool	arg; // jmets ca pour verifier si un arg est present pour echo mais a voir si on peut faire autrement
     t_node_env  *env_node;
-    
->>>>>>> exec
 }   t_data;
 
 typedef struct node_cmd_s
 {
-<<<<<<< HEAD
 	int					index; // index de la commande
 	char				**content; // valeur de la commande
 	struct node_cmd_s	*next;
 	t_redir				*redir;
 	t_rdocs				*rdocs;
 	int					fd_rdoc;
-=======
-	int					index; // index de la commande  
-	char				**content; // valeur de la commande 
-	struct node_cmd_s	*next;
-	t_redir				*redir; // ici possible changement de ta part pour gerer les redirection si tu veux faire des liste chainees a la place jsp 
-    t_rdocs				*rdocs; // ici possible changement de ta part pour gerer les rdocs 
-   	int					fd_rdoc; 
->>>>>>> exec
 }   t_node_cmd;
 
 typedef struct s_redir
@@ -103,45 +81,23 @@ typedef struct s_redir
 
 typedef struct s_rdocs
 {
-<<<<<<< HEAD
 	char    *str_rdocs;
 	char    *limit;
 	t_rdocs	*next;
 	bool    go;
-=======
-    char    *str_rdocs;
-    char    *limit;
-    bool    go;
-	t_rdocs	*next;
->>>>>>> exec
 }   t_rdocs;
 
 typedef struct node_env_s
 {
-<<<<<<< HEAD
 	char                *content;
 	char                *name;
 	char                *value;
 	bool		print;
 	struct node_env_s	*next;
 
-=======
-    char                *content;
-    char                *name;
-    char                *value;
-    bool		print;
-   struct node_env_s	*next;
-    
->>>>>>> exec
-
 }   t_node_env;
 
 int	exe_cmd(t_data *data);
-/*char	**init_cmd(char *argv);*/
-<<<<<<< HEAD
-=======
-/*char	**init_cmd(t_data *data ,char *argv);*/
->>>>>>> exec
 int init_env(t_data *data);
 int free_env(t_data *data);
 int command_env(t_data *data, int fd);
@@ -151,23 +107,13 @@ int init_values_parse(t_data *data);
 int count_cmd(t_data *data);
 int count_pip(t_data *data);
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
-<<<<<<< HEAD
 int	process_status_pid(t_data *data, pid_t *tab_pid);
-=======
->>>>>>> exec
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
 int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip);
 int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y);
 int free_data_values(t_data *data);
-<<<<<<< HEAD
-int	process_status_pid(t_data *data, pid_t *tab_pid);
 int init_values_redir(t_data *data);
 int	second_child(t_data *data, int **pip, int y);
-=======
-int	process_status_pid(t_data *data, pid_t *tab_pid, int *status);
-int init_values_redir(t_data *data);
-int	second_child(t_data *data, int **pip, int y, t_node_cmd *cmd);
->>>>>>> exec
 int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd, int **pip, int y);
 int     ft_redir_child_process(t_node_cmd *cmd, int *pip);
 int first_child(int *pip);
@@ -194,13 +140,6 @@ int	ft_lstsize(t_node_env *head);
 int		control_export_value(char *value_content);
 int		control_export_name(t_data *data, char *value_content);
 int	unset_command(t_data *data, char *value);
-<<<<<<< HEAD
-void	ft_lstclear_cmd(t_node_cmd **lst);
-int	ft_lstadd_back_cmd(t_node_cmd *lst, t_node_cmd *new_node);
-t_node_cmd	*ft_lstlast_cmd(t_node_cmd *lst);
-t_node_cmd	*ft_lstnew_cmd(int i);
-// int init_node_cmd(t_data *data, char **tab);
-=======
 void    ft_lstclear_cmd(t_node_cmd **lst);
 int	ft_lstadd_back_cmd(t_node_cmd *lst, t_node_cmd *new_node);
 t_node_cmd	*ft_lstlast_cmd(t_node_cmd *lst);
@@ -241,26 +180,14 @@ int	add_env_value(t_data *data, char *value_content);
 int command_pwd(t_data *data, int fd);
 int	command_cd(t_data *data);
 
-
-
-
-
-
-
-
-
->>>>>>> exec
-
 void	init_cmd(t_data *data ,char *argv);
 t_redir	*redir_lst_new(int type, char *tok);
 void	ft_lstclear_redir(t_redir **lst);
 t_redir	*get_last_in(t_redir *redir);
 t_redir	*get_last_out(t_redir *redir);
-t_redir	*get_last_rdocs(t_redir *redir);
-t_redir	*get_last_d_out(t_redir *redir);
 int		manage_quotes(char c, int quote);
 size_t	ft_count_str(char *str, char sep);
-char	*tok_stop_redir(char *str, size_t i);
+char	*tok_stop_redir(char *str, size_t *i);
 char	*tok_redir(char *str, size_t *i);
 char	*ft_strtok(char	*str, char *sep, bool redir);
 void	fill_redirs(char *tok, t_redir **redir, t_rdocs **rdocs);
@@ -272,14 +199,13 @@ void	fill_cmd_content(t_data *data, char **pips);
 t_redir	*fill_rdocs(char *tok, t_rdocs **rdocs);
 t_rdocs	*ft_lstnew_rdocs(char *str);
 void	ft_lstclear_rdocs(t_rdocs **lst);
-<<<<<<< HEAD
+
 void	cmd_manage_env(t_data *data, char **pips);
 char	*trim_env(t_data *data, char *pip);
 void	cpy_env_to_str(char	*env, char *str, size_t *j);
 size_t	trim_env_len(char *str, t_data *data);
 char	*var_to_env(char *str, size_t *index, t_data *data);
 void	ft_lstclear_env(t_data *data);
+t_redir	*redir_get_last(t_redir *redir);
 
-=======
->>>>>>> exec
 #endif

@@ -3,31 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 10:38:15 by rtruvelo          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/05/17 11:19:31 by rtruvelo         ###   ########.fr       */
-=======
-/*   Updated: 2024/06/03 11:50:49 by rtruvelo         ###   ########.fr       */
->>>>>>> exec
+/*   Updated: 2024/06/24 12:21:02 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini.h"
 
-<<<<<<< HEAD
-int	second_child(t_data *data, int **pip, int y)
-{
-	int i; // a supprimer
-	
-	i = 0;
-	if (2 != data->number_of_cmd && i != (data->number_of_cmd -1)) // le 2 cest pour eviter quand i y a eulemnt deux commqnde de rentrer dedans
-=======
 int	second_child(t_data *data, int **pip, int y, t_node_cmd *cmd)
 {
 	if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)) // le 2 cest pour eviter quand i y a eulemnt deux commqnde de rentrer dedans
->>>>>>> exec
 	{
 
 		close(pip[y][1]);
