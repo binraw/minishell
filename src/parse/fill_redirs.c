@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 12:51:57 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/05/29 11:01:19 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/24 11:14:51 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,27 +17,15 @@ void	fill_redirs(char *tok, t_redir **redir, t_rdocs **rdocs)
 {
 	t_redir	*ptr;
 
-	*redir = init_redirs(tok, rdocs);
-	ptr = *redir;
-	tok = ft_strtok(NULL, " \t", true);
-	while (tok)
+	if (!(*redir))
 	{
-		if (*tok == '>')
-		{
-			if (tok[1] == '>')
-				ptr->next = redir_lst_new(4, trim_redir(tok, 2));
-			else
-				ptr->next = redir_lst_new(2, trim_redir(tok, 1));
-		}
-		else if (*tok == '<')
-		{
-			if (tok[1] == '<')
-				ptr->next = fill_rdocs(tok, rdocs);
-			else
-				ptr->next = redir_lst_new(1, trim_redir(tok, 1));
-		}
-		tok = ft_strtok(NULL, " \t", true);
-		ptr = ptr->next;
+		*redir = init_redirs(tok, rdocs);
+		ptr = *redir;
+	}
+	else
+	{
+		ptr = redir_get_last(*redir);
+		ptr->next = init_redirs(tok, rdocs);
 	}
 }
 
