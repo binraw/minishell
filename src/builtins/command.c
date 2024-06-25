@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:49:40 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/04 13:13:59 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:30:23 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,10 @@ int command_pwd(t_data *data, int fd)
 
 int	command_cd(t_data *data)
 {
-	int i; // ici changer car ca doit etre le num de la commande
+	// ici changer car ca doit etre le num de la commande
 	char		*old_pwd;
 	char		*new_value;
 	
-	i = 0;
 	old_pwd = ft_strdup(value_pwd(data->env_node));
 	if (data->cmd->content[1])
 	{
@@ -92,9 +91,7 @@ void	change_old_pwd(t_data *data)
 
 void modifyValue(t_node_env *head, const char *name, const char *newValue)
 {
-    t_node_env *current;
 	
-	current = head;
     while (head != NULL)
 	{
         if (strcmp(head->name, name) == 0)

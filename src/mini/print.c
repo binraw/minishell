@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/05 15:48:21 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:19:27 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ int main(int argc, char **argv, char **envp)
 	t_data vars;
 	(void)argv;
 	(void)argc;
-	int i;
 
-	i = 0;
 	init_node_env(&vars, envp);
 	// init_env(&vars);	
 
@@ -64,13 +62,10 @@ int	exe_cmd(t_data *data)
 	if ((control_builtin_to_command(data, data->cmd, fd[1]) == 0))
 	{
 		pid = fork();
-		if (pid == -1)
-			return (-1);
-		if (pid == 0)
-		{
-			execve(path_command, data->cmd->content, data->env);
-			perror("execve");
-		}
+		//if (pid == -1)
+		//	return (-1);
+		execve(path_command, data->cmd->content, data->env);
+		perror("execve");
 
 		return(status_one_cmd(pid));
 	}

@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/03 14:28:06 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/25 11:17:38 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@
 
 int open_all_redir(t_node_cmd *cmd)
 {
-	int i;
 	t_redir *dup;
 
 	dup = cmd->redir;
-	i = 0;
 	while (dup)
 	{
 		if (dup->in)	

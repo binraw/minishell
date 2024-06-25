@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/05 11:14:56 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:29:12 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,9 @@ int init_pip(t_data *data)
 
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 {
-	int		y;
-	int i;
 	t_node_cmd *dup;
 	int result;
 
-	y = 0;
-	i = 1;
 	dup = data->cmd;
 	start_process_pipex(data, pip, tab_pid);
   	dup = dup->next;
@@ -193,11 +189,8 @@ int	process_status_pid(t_data *data, pid_t *tab_pid, int *status)
 int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 {
 	char	*path_command;
-	int		y;
-	int		i;
 
-	y = -1;
-	i = 0; // ici le i est juste provisoire pour voir comment implementer ca
+	 // ici le i est juste provisoire pour voir comment implementer ca
 	path_command = NULL;
 	if (cmd->content[0])
 		path_command = create_path(cmd->content[0], data->env);

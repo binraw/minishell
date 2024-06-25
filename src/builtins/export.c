@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:15:19 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/04 09:35:03 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:31:11 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@
 int	add_env_value(t_data *data, char *value_content)
 {
 	t_node_env *new_node;
-	size_t		i;
 
 	new_node = NULL;
-	i = 0;
 
 	if ((control_export_value(value_content) == -1))
 		return (-1);
