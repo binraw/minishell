@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/25 11:17:38 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:25:06 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,8 +260,10 @@ int		ft_redir_one_process(t_node_cmd *cmd)
 	fd_out = value_final_out(cmd);
 	if (!(get_last_in(cmd->redir)) && get_last_out(cmd->redir))
 	{
+	
 		dup2(fd_out, STDOUT_FILENO);
     	close(fd_out);
+	
 	}
 	else if (get_last_in(cmd->redir) && !(get_last_out(cmd->redir)))
 	{

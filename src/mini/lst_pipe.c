@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/25 10:29:12 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:24:46 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,24 @@ int init_pip(t_data *data)
 		exe_cmd(data);
 		return (0);
 	}
-    pip = malloc(data->number_of_pip * sizeof(int*));
-	tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
-	if (!pip)
-		return (-1);
-	if (!tab_pid)
-		return (-1);
-    while (i < data->number_of_pip)
-    {
-        pip[i] = malloc(2 * sizeof(int));
-		if (!pip[i])
+	else 
+	{
+    	pip = malloc(data->number_of_pip * sizeof(int*));
+		tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
+		if (!pip)
 			return (-1);
-        i++;
-    }
-    pipex_process_multi(data, pip, tab_pid); // ici peut etre creer directement un autre 
-    return (0);
+		if (!tab_pid)
+			return (-1);
+    	while (i < data->number_of_pip)
+    	{
+        	pip[i] = malloc(2 * sizeof(int));
+			if (!pip[i])
+				return (-1);
+        	i++;
+    	}
+    	pipex_process_multi(data, pip, tab_pid); // ici peut etre creer directement un autre 
+	}
+	return (0);
 }
 
 
@@ -236,7 +239,7 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0])) == 0)
 		{
-
+			
 			if (cmd->content[1])
 			{
 				add_env_value(data, cmd->content[1]);
