@@ -1,0 +1,79 @@
+rentre bien dans la fonction screen
+declare -x COLORFGBG=7;0
+rentre bien dans la fonction screen
+declare -x COLORTERM=truecolor
+rentre bien dans la fonction screen
+declare -x COMMAND_MODE=unix2003
+rentre bien dans la fonction screen
+declare -x HOME=/Users/robintruvelot
+rentre bien dans la fonction screen
+declare -x HOMEBREW_CELLAR=/opt/homebrew/Cellar
+rentre bien dans la fonction screen
+declare -x HOMEBREW_PREFIX=/opt/homebrew
+rentre bien dans la fonction screen
+declare -x HOMEBREW_REPOSITORY=/opt/homebrew
+rentre bien dans la fonction screen
+declare -x INFOPATH=/opt/homebrew/share/info:
+rentre bien dans la fonction screen
+declare -x ITERM_PROFILE=Default
+rentre bien dans la fonction screen
+declare -x ITERM_SESSION_ID=w0t0p0:CB5FE478-978E-41D6-85A1-5FC1997757AE
+rentre bien dans la fonction screen
+declare -x LC_CTYPE=UTF-8
+rentre bien dans la fonction screen
+declare -x LC_TERMINAL=iTerm2
+rentre bien dans la fonction screen
+declare -x LC_TERMINAL_VERSION=3.4.23
+rentre bien dans la fonction screen
+declare -x LESS=-R
+rentre bien dans la fonction screen
+declare -x LOGNAME=robintruvelot
+rentre bien dans la fonction screen
+declare -x LSCOLORS=Gxfxcxdxbxegedabagacad
+rentre bien dans la fonction screen
+declare -x LS_COLORS=di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43
+rentre bien dans la fonction screen
+declare -x LaunchInstanceID=23844AFA-9528-4380-8C94-2D6AECBB7F69
+rentre bien dans la fonction screen
+declare -x MANPATH=/opt/homebrew/share/man::
+rentre bien dans la fonction screen
+declare -x OLDPWD=/Users/robintruvelot/mini
+rentre bien dans la fonction screen
+declare -x PAGER=less
+rentre bien dans la fonction screen
+declare -x PATH=/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin
+rentre bien dans la fonction screen
+declare -x PWD=/Users/robintruvelot/mini/rob
+rentre bien dans la fonction screen
+declare -x SECURITYSESSIONID=186b2
+rentre bien dans la fonction screen
+declare -x SHELL=/bin/zsh
+rentre bien dans la fonction screen
+declare -x SHLVL=1
+rentre bien dans la fonction screen
+declare -x SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.8lhYPExsHF/Listeners
+rentre bien dans la fonction screen
+declare -x TERM=xterm-256color
+rentre bien dans la fonction screen
+declare -x TERM_PROGRAM=iTerm.app
+rentre bien dans la fonction screen
+declare -x TERM_PROGRAM_VERSION=3.4.23
+rentre bien dans la fonction screen
+declare -x TERM_SESSION_ID=w0t0p0:CB5FE478-978E-41D6-85A1-5FC1997757AE
+rentre bien dans la fonction screen
+declare -x TMPDIR=/var/folders/39/44yn9hc951g6mbb8k5bs1p2r0000gn/T/
+rentre bien dans la fonction screen
+declare -x USER=robintruvelot
+rentre bien dans la fonction screen
+declare -x XPC_FLAGS=0x0
+rentre bien dans la fonction screen
+declare -x XPC_SERVICE_NAME=0
+rentre bien dans la fonction screen
+declare -x ZSH=/Users/robintruvelot/.oh-my-zsh
+rentre bien dans la fonction screen
+declare -x _=/Users/robintruvelot/mini/rob/./minishell
+rentre bien dans la fonction screen
+declare -x __CFBundleIdentifier=com.googlecode.iterm2
+rentre bien dans la fonction screen
+declare -x __CF_USER_TEXT_ENCODING=0x0:0:0
+Minishell: 

@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/25 15:27:31 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/26 09:56:25 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	exe_cmd(t_data *data)
 	fd[0] = 0;
 	fd[1] = 1;
 	dup = data->cmd;
-	pid = 0;
+	//pid = 0;
 	if (!data->str)
 		return (0);
 	path_command = create_path(dup->content[0], data->env);
@@ -65,7 +65,7 @@ int	exe_cmd(t_data *data)
 		pid = fork();
 		if (pid == -1)
 			return (-1);
-		if (pid != 0)	
+		if (pid == 0)	
 			execve(path_command, data->cmd->content, data->env);
 		//perror("execve");
 		

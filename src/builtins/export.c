@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:15:19 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/25 13:41:00 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/26 09:58:53 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ void	screen_export(t_data *data, int fd)
 	char *max_value;
 	size_t i;
 
-	printf("rentre bien dans la fonction screen\n");
 	i = 0;
 	current_node = data->env_node;
 	max_value = ft_strdup("~~~~");
