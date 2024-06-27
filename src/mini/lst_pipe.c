@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/25 09:26:58 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/27 13:39:03 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,32 +25,31 @@ int init_pip(t_data *data)
 		exe_cmd(data);
 		return (0);
 	}
-    pip = malloc(data->number_of_pip * sizeof(int*));
-	tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
-	if (!pip)
-		return (-1);
-	if (!tab_pid)
-		return (-1);
-    while (i < data->number_of_pip)
-    {
-        pip[i] = malloc(2 * sizeof(int));
-		if (!pip[i])
+	else 
+	{
+    	pip = malloc(data->number_of_pip * sizeof(int*));
+		tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
+		if (!pip)
 			return (-1);
-        i++;
-    }
-    pipex_process_multi(data, pip, tab_pid); // ici peut etre creer directement un autre 
-    return (0);
+		if (!tab_pid)
+			return (-1);
+    	while (i < data->number_of_pip)
+    	{
+        	pip[i] = malloc(2 * sizeof(int));
+			if (!pip[i])
+				return (-1);
+        	i++;
+    	}
+    	pipex_process_multi(data, pip, tab_pid); // ici peut etre creer directement un autre 
+	}
+	return (0);
 }
 
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 {
-	int		y;
-	int i;
 	t_node_cmd *dup;
 	int result;
 
-	y = 0;
-	i = 1;
 	dup = data->cmd;
 	start_process_pipex(data, pip, tab_pid);
   	dup = dup->next;
@@ -180,11 +179,8 @@ int	process_status_pid(t_data *data, pid_t *tab_pid, int *status)
 int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 {
 	char	*path_command;
-	int		y;
-	int		i;
 
-	y = -1;
-	i = 0; // ici le i est juste provisoire pour voir comment implementer ca
+	 // ici le i est juste provisoire pour voir comment implementer ca
 	path_command = NULL;
 	if (cmd->content[0])
 		path_command = create_path(cmd->content[0], data->env);
@@ -230,7 +226,7 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0])) == 0)
 		{
-
+			
 			if (cmd->content[1])
 			{
 				add_env_value(data, cmd->content[1]);

@@ -6,7 +6,7 @@
 /*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:57:44 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/05 15:48:17 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:33:35 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	handle_sigint(int sig)
 	(void) sig;
 
 	rl_on_new_line();
-	rl_replace_line("", 0);
 	printf("\n");
 	rl_redisplay();
 }
@@ -73,7 +72,6 @@ void	after_handle_sigquit(int sig)
 {
 	(void) sig;
 
-	rl_replace_line("new line bg\n", 0);
 }
 
 void	handle_sigint_after(int sig)
