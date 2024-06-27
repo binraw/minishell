@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:10:26 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/05/31 09:23:07 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/26 10:26:05 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	cmd_manage_env(t_data *data, char **pips)
 
 	i = 0;
 	j = 0;
-	// printf("aled\n");
 	while (pips[i])
 	{
 		j = 0;
@@ -31,7 +30,6 @@ void	cmd_manage_env(t_data *data, char **pips)
 			if (pips[i][j] == '$' && quote != 1)
 			{
 				pips[i] = trim_env(data, pips[i]);
-				// printf("pips = %s\n", pips[i]);
 				break ;
 			}
 			j++;
@@ -64,7 +62,6 @@ char	*trim_env(t_data *data, char *pip)
 		else
 		{
 			str[j] = pip[i];
-			// printf("pip2 = %s\nstr = %s\n", &pip[i], str);
 			i++;
 			j++;
 		}
@@ -79,7 +76,6 @@ void	cpy_env_to_str(char	*env, char *str, size_t *j)
 	size_t	i;
 
 	i = 0;
-	// printf("env = %s\n", env);
 	if (!env)
 		return ;
 	while (env[i])
@@ -102,7 +98,6 @@ size_t	trim_env_len(char *str, t_data *data)
 	while (str[i])
 	{
 		quote = manage_quotes(str[i], quote);
-		// printf("%s\n", &str[i]);
 		if (str[i] == '$' && quote != 1)
 			len += ft_strlen(var_to_env(&str[i + 1], &i, data));
 		else
@@ -129,9 +124,7 @@ char	*var_to_env(char *str, size_t *index, t_data *data)
 	if (i <= 1)
 		return (NULL);
 	cpy = malloc(sizeof(char) * (i + 1));
-	// printf("var to env %s\n", str);
 	i = ft_strlcpy(cpy, str, i + 1);
-	// printf("cpy = %s\n", cpy);
 	ptr = data->env_node;
 	while (ptr)
 	{

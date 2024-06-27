@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/24 12:39:05 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/25 09:26:58 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,7 +271,11 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 			// 	}
 			return (1);
 		}
-
+		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0])) == 0)
+		{
+			command_echo(data, pip);
+			return (1);
+		}
 
 	
 	return (0);

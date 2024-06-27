@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/24 12:41:24 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/26 10:59:38 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int init_env(t_data *data);
 int free_env(t_data *data);
 int command_env(t_data *data, int fd);
 int command_exit(int c);
+int	command_echo(t_data *data, int fd);
+bool	check_echo_arg(t_data *data, size_t *i, size_t j);
 int init_pip(t_data *data);
 int init_values_parse(t_data *data);
 int count_cmd(t_data *data);
@@ -134,7 +136,6 @@ int	ft_lstadd_back_cmd(t_node_cmd *lst, t_node_cmd *new_node);
 t_node_cmd	*ft_lstlast_cmd(t_node_cmd *lst);
 t_node_cmd	*ft_lstnew_cmd(int i);
 int init_node_cmd(t_data *data, char **tab);
-/*char	**init_cmd(t_data *data ,char *argv);*/
 t_node_cmd	*cmd_get_content(char *str, size_t index);
 int		ft_redir_one_process(t_node_cmd *cmd);
 int	open_all_rdocs(t_node_cmd *cmd);
@@ -175,6 +176,9 @@ void	ft_lstclear_redir(t_redir **lst);
 t_redir	*get_last_in(t_redir *redir);
 t_redir	*get_last_out(t_redir *redir);
 int		manage_quotes(char c, int quote);
+void	ft_trim_cmd_quote(t_node_cmd *cmd);
+char	*ft_trim_quote(char	*str);
+size_t	quote_len(char *str);
 size_t	ft_count_str(char *str, char sep);
 char	*tok_stop_redir(char *str, size_t *i);
 char	*tok_redir(char *str, size_t *i);
