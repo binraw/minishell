@@ -23,6 +23,7 @@ int init_pip(t_data *data)
 	if (data->number_of_pip == 0 && data->number_of_cmd == 1)
 	{
 		exe_cmd(data);
+		printf("sors ici\n");
 		return (0);
 	}
 	else 
@@ -264,7 +265,7 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0])) == 0)
 		{
-		
+			printf("notre builtin:\n");	
 			command_pwd(data, pip);
 			
 			return (1);
@@ -273,11 +274,7 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 		{
 			
 			command_cd(data);
-			// while (i < ft_lstsize(data->env_node))
-			// 	{
-			// 		screen_export(data,  pip);
-			// 		i++;
-			// 	}
+
 			return (1);
 		}
 

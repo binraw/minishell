@@ -54,24 +54,25 @@ int	command_cd(t_data *data)
 	char		*old_pwd;
 	char		*new_value;
 	
+	new_value = NULL;
 	old_pwd = ft_strdup(value_pwd(data->env_node));
-	if (data->cmd->content[1])
-	{
-		new_value = ft_strjoin("/", data->cmd->content[1]);
-		new_value = ft_strjoin(old_pwd, new_value);
-	}
 	if (!old_pwd)
 		return (printf("error oldpwd"), -1);
 	if (ft_strncmp(data->cmd->content[0], "cd", ft_strlen(data->cmd->content[0])) == 0 && !data->cmd->content[1])
 		cd_to_home(data);
-	if (ft_strncmp(data->cmd->content[0], "cd", ft_strlen(data->cmd->content[0])) == 0 && ft_strncmp(data->cmd->content[1], "..", ft_strlen(data->cmd->content[1])) == 0  )
+	if (data->cmd->content[1])
 	{
-		change_old_pwd(data);
+		new_value = ft_strjoin("/", data->cmd->content[1]);
+		new_value = ft_strjoin(old_pwd, new_value);
+	
+		if (ft_strncmp(data->cmd->content[0], "cd", ft_strlen(data->cmd->content[0])) == 0 && ft_strncmp(data->cmd->content[1], "..", ft_strlen(data->cmd->content[1])) == 0  )
+		{
+			change_old_pwd(data);
+		}
 	}
 	if (chdir(new_value) == 0)
 	{
-		printf("rentre dans la modif\n");
-		printf("%s\n", new_value);
+
 		modifyValue(data->env_node, "OLDPWD", old_pwd);
 		modifyValue(data->env_node, "PWD", new_value);
 	}
@@ -91,15 +92,17 @@ void	change_old_pwd(t_data *data)
 
 void modifyValue(t_node_env *head, const char *name, const char *newValue)
 {
-	
+	char *new_content;
+
+	new_content = ft_strjoin(name, "=");
+	new_content = ft_strjoin(new_content, newValue);
     while (head != NULL)
 	{
         if (strcmp(head->name, name) == 0)
 		{
 			
-            free(head->value);
-            head->value = strdup(newValue);
-			printf("nouvelle valeur apres cd  : %s\n", head->value);
+            //free(head->content);
+            head->content = ft_strdup(new_content);
             return ;
         }
         head = head->next;
@@ -109,12 +112,21 @@ void modifyValue(t_node_env *head, const char *name, const char *newValue)
 char	*value_old_pwd(t_node_env *head)
 {
 	t_node_env *current;
+	size_t i;
+	char *value;
 	
 	current = head;
+	i = 0;
 	 while (current != NULL)
 	{
         if (strcmp(current->name, "OLDPWD") == 0)
-            return (current->value);
+		{
+			while(current->content[i] != '=' && current->content[i])
+				i++;
+			i++;
+			value = ft_strdup((current->content + i));
+            return (value);
+		}
         current = current->next;
     }
 	return (0);
@@ -123,12 +135,23 @@ char	*value_old_pwd(t_node_env *head)
 char	*value_pwd(t_node_env *head)
 {
 	t_node_env *current;
+	size_t i;
+	char *value;
 	
+	i = 0;
 	current = head;
 	 while (current != NULL)
 	{
         if (strcmp(current->name, "PWD") == 0)
-            return (current->value);
+		{
+			while(current->content[i] != '=' && current->content[i])
+				i++;
+			i++;
+			value = ft_strdup((current->content + i));
+			printf("la valeur du content - celle de nom : %s\n", value);
+
+            return (value);
+		}
         current = current->next;
     }
 	return (NULL);

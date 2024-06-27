@@ -260,10 +260,10 @@ int		ft_redir_one_process(t_node_cmd *cmd)
 	fd_out = value_final_out(cmd);
 	if (!(get_last_in(cmd->redir)) && get_last_out(cmd->redir))
 	{
-		close(STDIN_FILENO);	
+		
 		dup2(fd_out, STDOUT_FILENO);
     	close(fd_out);
-	
+		close(STDIN_FILENO);	
 	}
 	else if (get_last_in(cmd->redir) && !(get_last_out(cmd->redir)))
 	{
