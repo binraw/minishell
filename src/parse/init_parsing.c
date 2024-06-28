@@ -6,20 +6,22 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/26 11:01:31 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/28 13:08:36 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini/mini.h"
 
 // on construit la structure cmd
-void	init_cmd(t_data *data, char *argv)
+int	init_cmd(t_data *data, char *argv)
 {
 	char		**pips;
 	size_t		i;
 	char		*tok;
 
 	i = 0;
+	if (parsing_error(argv))
+		return (0);
 	data->number_of_pip = ft_count_str(argv, '|') - 1;
 	data->number_of_cmd = data->number_of_pip + 1;
 	pips = malloc(sizeof(char *) * (data->number_of_cmd + 1));
@@ -33,6 +35,7 @@ void	init_cmd(t_data *data, char *argv)
 	pips[i] = NULL;
 	fill_cmd_content(data, pips);
 	ft_trim_cmd_quote(data->cmd);
+	return (1);
 }
 
 void	fill_cmd_content(t_data *data, char **pips)

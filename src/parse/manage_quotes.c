@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 10:27:14 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/06/26 11:26:31 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/27 14:00:05 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,32 @@ int	manage_quotes(char c, int quote)
 void	ft_trim_cmd_quote(t_node_cmd *cmd)
 {
 	size_t	i;
+	t_node_cmd *ptr;
+	t_redir		*r_ptr;
+	t_rdocs		*rd_ptr;
 
 	i = 0;
-	while (cmd)
+	ptr = cmd;
+	while (ptr)
 	{
-		while (cmd->content[i])
+		while (ptr->content[i])
 		{
-			cmd->content[i] = ft_trim_quote(cmd->content[i]);
+			ptr->content[i] = ft_trim_quote(ptr->content[i]);
 			i++;
 		}
-		while (cmd->redir)
+		r_ptr = ptr->redir;
+		while (r_ptr)
 		{
-			cmd->redir->content = ft_trim_quote(cmd->redir->content);
-			cmd->redir = cmd->redir->next;
+			r_ptr->content = ft_trim_quote(r_ptr->content);
+			r_ptr = r_ptr->next;
 		}
-		while (cmd->rdocs)
+		rd_ptr = ptr->rdocs;
+		while (rd_ptr)
 		{
-			cmd->rdocs->limit = ft_trim_quote(cmd->rdocs->limit);
-			cmd->rdocs = cmd->rdocs->next;
+			rd_ptr->limit = ft_trim_quote(rd_ptr->limit);
+			rd_ptr = rd_ptr->next;
 		}
-		cmd = cmd->next;
+		ptr = ptr->next;
 	}
 }
 

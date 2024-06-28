@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/26 10:59:38 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/28 13:08:47 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int	add_env_value(t_data *data, char *value_content);
 int command_pwd(t_data *data, int fd);
 int	command_cd(t_data *data);
 
-void	init_cmd(t_data *data ,char *argv);
+int	init_cmd(t_data *data ,char *argv);
 t_redir	*redir_lst_new(int type, char *tok);
 void	ft_lstclear_redir(t_redir **lst);
 t_redir	*get_last_in(t_redir *redir);
@@ -200,5 +200,8 @@ size_t	trim_env_len(char *str, t_data *data);
 char	*var_to_env(char *str, size_t *index, t_data *data);
 void	ft_lstclear_env(t_data *data);
 t_redir	*redir_get_last(t_redir *redir);
+bool	parsing_error(char	*str);
+bool	check_parsing_error(char *str, char c, size_t	*i);
+bool	print_parsing_error(char c);
 
 #endif

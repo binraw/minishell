@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/27 13:39:58 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/28 13:09:01 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int main(int argc, char **argv, char **envp)
             /*printf("Error input.\n");*/
             return (0);
         }
-			init_cmd(&vars, vars.str);
-			init_pip(&vars);
+			if (init_cmd(&vars, vars.str))
+				init_pip(&vars);
 	 } 
 
 	return (0);
