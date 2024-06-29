@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/28 13:08:47 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/06/29 12:57:13 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ char	*value_pwd(t_node_env *head);
 void modifyValue(t_node_env *head, const char *name, const char *newValue);
 int cd_to_home(t_data *data);
 void	screen_export(t_data *data, int fd);
-int remove_node(t_node_env *current_node, t_node_env *second_node, t_node_env *third_node);
+int remove_env_node(t_node_env *ptr, t_node_env *prev);
 void	change_old_pwd(t_data *data);
 char	*value_old_pwd(t_node_env *head);
 int	ft_lstsize(t_node_env *head);
