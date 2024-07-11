@@ -28,7 +28,7 @@ int main(int argc, char **argv, char **envp)
 		init_env(&vars);	
 		setup_readline_signals();
         vars.str = readline("Minishell: ");	
-	
+
 		after_readline_signals();
         if (vars.str == NULL)
         {
@@ -42,39 +42,85 @@ int main(int argc, char **argv, char **envp)
 	return (0);
 }
 
-int	exe_cmd(t_data *data)
-{
-	char	*path_command;
-	t_node_cmd	*dup;
-	pid_t	pid;
-	int fd[2];
 
-	fd[0] = 0;
-	fd[1] = 1;
-	dup = data->cmd;
-	//pid = 0;
-	if (!data->str)
-		return (0);
-	path_command = create_path(dup->content[0], data->env);
+// int	exe_cmd(t_data *data)
+// {
+// 	char	*path_command;
+// 	t_node_cmd	*dup;
+// 	pid_t	pid;
+// 	int fd[2];
+//
+// 	fd[0] = 0;
+// 	fd[1] = 1;
+// 	dup = data->cmd;
+// 	//pid = 0;
+// 	if (!data->str)
+// 		return (0);
+// 	path_command = create_path(dup->content[0], data->env);
+// 	 if (pipe(fd) == -1)
+// 	 return (-1);
+// 	if (data->cmd->redir)
+// 		ft_redir_one_process(dup, fd);
+// 	if ((control_builtin_to_command(data,
+// 					data->cmd, fd[1]) == 0))
+// 	{
+// 		pid = fork();
+// 		if (pid == -1)
+// 			return (-1);
+// 		if (pid == 0)	
+// 			execve(path_command, data->cmd->content,
+// 		  			data->env);
+// 		perror("execve");
+// 		return(status_one_cmd(pid));
+// 	}
+// 	return(0);
+// }
 
-	if (data->cmd->redir)
-		ft_redir_one_process(dup);
-	
-	if ((control_builtin_to_command(data, data->cmd, fd[1]) == 0))
-	{
-		pid = fork();
-		if (pid == -1)
-			return (-1);
-		if (pid == 0)	
-			execve(path_command, data->cmd->content, data->env);
-		//perror("execve");
-		
-		return(status_one_cmd(pid));
-	}
+// int	exe_cmd(t_data *data)
+// {
+// 	char	*path_command;
+// 	t_node_cmd	*dup;
+// 	pid_t	pid;
+// 	int fd[2];
+//
+// 	fd[0] = 0;
+// 	fd[1] = 1;
+// 	dup = data->cmd;
+// 	//pid = 0;
+// 	if (!data->str)
+// 		return (0);
+// 	path_command = create_path(dup->content[0], data->env);
+// 	if (data->cmd->redir)
+// 		ft_redir_one_process(dup, fd);
+// 	if ((control_builtin_to_command(data,
+//  					data->cmd, fd[1]) == 0))
+//  	{
+//
+// 		pid = fork();
+// 		if (pid == -1)
+// 			return (-1);
+// 		if (pid == 0)	
+// 			execve(path_command, data->cmd->content,
+// 		  			data->env);
+// 		perror("execve");
+// 		return(status_one_cmd(pid));
+// 	}
+// 	return(0);
+// }
 
 
-	return(0);
-}
+// int exe_first_cmd(t_data *data)
+// {
+// 	int fd[2];
+//
+// 	fd[0] = 0;
+// 	fd[1] = 1;
+// 	if (data->cmd->redir)
+// 		ft_redir_one_process(dup, fd);	execve(path_command, data->cmd->content,
+// 		  			data->env);
+// 	perror("execve");
+// 	return(status_one_cmd(pid));
+// }
 
 
 int status_one_cmd(pid_t pid)

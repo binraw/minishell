@@ -139,7 +139,7 @@ t_node_cmd	*ft_lstnew_cmd(int i);
 int init_node_cmd(t_data *data, char **tab);
 /*char	**init_cmd(t_data *data ,char *argv);*/
 t_node_cmd	*cmd_get_content(char *str, size_t index);
-int		ft_redir_one_process(t_node_cmd *cmd);
+int		ft_redir_one_process(t_node_cmd *cmd, int *fd);
 int	open_all_rdocs(t_node_cmd *cmd);
 int init_rdocs(t_rdocs *rdocs);
 int command_rdocs(t_data *data);
@@ -163,7 +163,7 @@ void	redir_in_to_pipe(int **pip, int y, int fd_in);
 void	redir_in_out_to_pipe(int **pip, int y, int fd_in, int fd_out);
 void	redir_out_to_pipe(int **pip, int y, int fd_out);
 void	redir_in_or_out(t_node_cmd *cmd, int **pip, int y);
-void	redir_one_in_out(int fd_in, int fd_out);
+void	redir_one_in_out(int fd_in, int fd_out, int *fd);
 int copy_env_tab(t_data *data, size_t y);
 void setup_readline_rdocs(void);
 int status_one_cmd(pid_t pid);
@@ -171,6 +171,8 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip);
 int	add_env_value(t_data *data, char *value_content);
 int command_pwd(t_data *data, int fd);
 int	command_cd(t_data *data);
+int     ft_redir_child_process_one(t_node_cmd *cmd);
+void	redir_one_in_out_alone(int fd_in, int fd_out);
 
 
 

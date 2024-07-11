@@ -20,18 +20,16 @@ int init_pip(t_data *data)
 
     i = 0;
 	command_rdocs(data);
-	if (data->number_of_pip == 0 && data->number_of_cmd == 1)
-	{
-		exe_cmd(data);
-		printf("sors ici\n");
-		return (0);
-	}
-	else 
-	{
-    	pip = malloc(data->number_of_pip * sizeof(int*));
+
+		if (data->number_of_pip == 0)
+			pip = NULL;
+		else
+		{
+    		pip = malloc(data->number_of_pip * sizeof(int*));
+		 	if (!pip)
+		 	return (-1);
+		}
 		tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
-		if (!pip)
-			return (-1);
 		if (!tab_pid)
 			return (-1);
     	while (i < data->number_of_pip)
@@ -41,8 +39,9 @@ int init_pip(t_data *data)
 				return (-1);
         	i++;
     	}
+
     	pipex_process_multi(data, pip, tab_pid); // ici peut etre creer directement un autre 
-	}
+
 	return (0);
 }
 
@@ -58,6 +57,13 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 	dup = data->cmd;
 	start_process_pipex(data, pip, tab_pid);
   	dup = dup->next;
+	if (dup == NULL)
+	{
+		result = status_process(data, tab_pid);
+		if (result == -1)
+			return (-1);
+		return (result);
+	}
 	if (loop_process_pipe(data, dup, pip, tab_pid) == -1)
 		return (-1);
 	result = status_process(data, tab_pid);
@@ -96,14 +102,21 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 	y = 0;
 	i = 0;
 	dup = data->cmd;
-	if (pipe(pip[y]) == -1)
-		return (-1);
+
+	if (data->number_of_pip != 0)
+		if (pipe(pip[y]) == -1)
+			return (-1);
 	tab_pid[i] = fork();
 	if (tab_pid[i] == -1)
 		return (-1);	
 
 	if (tab_pid[i] == 0)
-		child_process_multi(data, dup, pip[y]);
+	{
+		if (!pip)
+			child_process_multi(data, dup, NULL);
+		else
+			child_process_multi(data, dup, pip[y]);
+	}
 	return (0);
 }
 
@@ -114,6 +127,7 @@ int	loop_process_pipe(t_data *data, t_node_cmd *dup, int **pip, pid_t *tab_pid)
 
 	i = 1;
 	y = 0;
+
 	while (i < data->number_of_cmd)
     {
 		if ((i + 1) < (data->number_of_cmd))
@@ -158,7 +172,7 @@ int analyze_process_statuses(t_data *data, pid_t *tab_pid, int *status) // fonct
             return (128 + signal); // Common convention to return 128 + signal number
         }
 		else if (WIFEXITED(status[i]) && WEXITSTATUS(status[i]) != 0)
-            return WEXITSTATUS(status[i]);
+            return (WEXITSTATUS(status[i]));
 		i++;
     }
     if (WIFEXITED(status[data->number_of_cmd - 1]))
@@ -198,14 +212,16 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	path_command = NULL;
 	if (cmd->content[0])
 		path_command = create_path(cmd->content[0], data->env);
-	// if (!path_command)
-	// {
-	// 	printf("command not found\n");	
-	// 	return (-1);
-	// }
+
 	if (cmd->redir)
-		ft_redir_child_process(cmd, pip);
-	else
+	{
+		if (pip)
+			ft_redir_child_process(cmd, pip);
+		else
+			ft_redir_child_process_one(cmd);
+
+	}
+	else if (pip)
 		first_child(pip);
 
 	if ((control_builtin_to_command(data, cmd, 1) == 0))
