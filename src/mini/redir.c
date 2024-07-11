@@ -208,21 +208,6 @@ void	redir_in_or_out(t_node_cmd *cmd, int **pip, int y)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
 {
 	int fd_out;

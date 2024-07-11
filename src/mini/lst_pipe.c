@@ -102,7 +102,6 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 	y = 0;
 	i = 0;
 	dup = data->cmd;
-
 	if (data->number_of_pip != 0)
 		if (pipe(pip[y]) == -1)
 			return (-1);
