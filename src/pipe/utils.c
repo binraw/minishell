@@ -34,6 +34,8 @@ char	*create_path(char *cmd, char **envp)
 	char	*join_path_cmd;
 
 	i = -1;
+	if (!cmd)
+		return (NULL);
 	if (access(cmd, F_OK) == 0)
 		return (cmd);
 	paths = get_env(envp);

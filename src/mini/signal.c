@@ -59,7 +59,7 @@ void setup_readline_sigquit(void)
 
 void	after_readline_signals(void)
 {
-/*	rl_catch_signals = 0;*/
+
 	struct sigaction	act;
 
 	bzero(&act, sizeof(act));
@@ -78,7 +78,8 @@ void	handle_sigint_after(int sig)
 {
 	(void) sig;
 
-	printf("\n");
+	write(1, "\n", 1);
+	rl_on_new_line();
 }
 
 
@@ -86,7 +87,6 @@ void	handle_sigint_after(int sig)
 
 void setup_readline_sigquit_after(void)
 {
-	// Declare the sigaction structure
 	struct sigaction	act;
 
 	bzero(&act, sizeof(act));

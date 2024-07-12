@@ -20,7 +20,6 @@ int init_pip(t_data *data)
 
     i = 0;
 	command_rdocs(data);
-
 		if (data->number_of_pip == 0)
 			pip = NULL;
 		else
@@ -39,7 +38,6 @@ int init_pip(t_data *data)
 				return (-1);
         	i++;
     	}
-
     	pipex_process_multi(data, pip, tab_pid); // ici peut etre creer directement un autre 
 
 	return (0);
@@ -76,19 +74,9 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 
 int	status_process(t_data *data, pid_t *tab_pid)
 {
-	int	*status;
 	int result;
-
-	status = malloc((data->number_of_cmd) * sizeof(int));
-	if (!status)
-	{
-		perror("malloc");
-		return (-1);
-	}
-	result = process_status_pid(data, tab_pid, status);
+	result = process_status_pid(data, tab_pid);
 	printf("valeur de last-pid : %d\n", result);
-
-	free(status);
 	return (0);
 }
 
@@ -148,38 +136,32 @@ int	loop_process_pipe(t_data *data, t_node_cmd *dup, int **pip, pid_t *tab_pid)
 }
 
 
-int	process_status_pid(t_data *data, pid_t *tab_pid, int *status)
+int	process_status_pid(t_data *data, pid_t *tab_pid)
 {
-	(void)status;
-	(void)tab_pid;
 	t_node_cmd *dup;
 	int i;
-	int statu;
+	int status;
 	pid_t wpid;
 
-	statu = 0;
+	status = 0;
 	dup = data->cmd;
 	i = 0;
-	while (dup)
+	wpid = 0;
+	while (wpid != -1)
 	{
-
-		wpid = waitpid(0, &statu, 0);
+		wpid = waitpid(0, &status, 0);
 		if (wpid == tab_pid[data->number_of_cmd - 1])
-			data->last_pid = statu;
+			data->last_pid = status;
 		i++;
-		dup = dup->next;
 	}
-
-
 	if (WIFEXITED(data->last_pid))
 	{
 		return(WEXITSTATUS(data->last_pid));
 	}
-	else if (WIFSIGNALED(statu))
+	else if (WIFSIGNALED(status))
 	{
-		return(128 +  WTERMSIG(statu));
+		return(128 +  WTERMSIG(status));
 	}
-
 	return (0);
 }
 
@@ -193,8 +175,16 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	path_command = NULL;
 	if (cmd->content[0])
 		path_command = create_path(cmd->content[0], data->env);
+	if (!cmd->content[0])
+	{
+		printf("command not found\n");
+	 	exit(127);
+	}
 	if (!path_command && (control_builtin(cmd) == 0))
 	{
+		//probleme quand je unset PATH
+		printf("valeur cmd->content[0] %s\n", cmd->content[0]);
+		printf("valeur d control_builtin : %d\n", control_builtin(cmd));
 		printf("command not found\n");
 	 	exit(127);
 	}
@@ -325,8 +315,6 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		printf("command not found\n");
 	 	exit(127);
 	}
-
-
 	if (cmd->redir)
 		ft_dup_redir_second_child(data, cmd, pip, y);
 	else

@@ -47,7 +47,7 @@ int	open_redir_in(t_redir *dup)
         if (i < 0)
 		{
 			printf("cat: %s: Permission denied\n", dup->content);
-        	return (-1);
+        	exit(1);
 		}
 		close(i);
 	}
@@ -80,11 +80,11 @@ int	open_redir_d_out(t_redir *dup)
 	i = 0;
 	if (dup != last_out)
 	{
-		i = open(dup->content, (O_WRONLY | O_APPEND), 00644);
+		i = open(dup->content, (O_CREAT | O_WRONLY | O_APPEND), 00644);
 		if (i < 0)
 		{
 			printf("cat: %s: Permission denied\n", dup->content);
-			return (-1);
+			exit(1);
 		}
 		close(i);
 	}
@@ -132,7 +132,7 @@ int	value_final_in(t_node_cmd *cmd)
 	{
 		fd_in = open(get_last_in(cmd->redir)->content , (O_RDONLY), 00644);
 		if (fd_in <= 0)
-			exit(-1);
+			exit(1);
 	}
 	else 
 		fd_in = cmd->fd_rdoc;
@@ -147,7 +147,7 @@ int	value_final_out(t_node_cmd *cmd)
 	if (get_last_out(cmd->redir))
 	{
 		if (get_last_out(cmd->redir)->d_out)
-			fd_out = open(get_last_out(cmd->redir)->content, (O_WRONLY | O_APPEND), 00644);
+			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_APPEND), 00644);
 		else
 			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
 	}
@@ -268,36 +268,7 @@ int     ft_redir_child_process_one(t_node_cmd *cmd)
     return (0);
 }
 
-// int		ft_redir_one_process(t_node_cmd *cmd, int *fd)
-// {
-// 	int fd_out;
-// 	int	fd_in;
-//
-// 	if (open_all_redir(cmd) == -1)
-// 		return (-1);
-// 	fd_in = value_final_in(cmd);
-// 	fd_out = value_final_out(cmd);
-//
-// 	if (!(get_last_in(cmd->redir)) && get_last_out(cmd->redir))
-// 	{
-// 		close(fd[1]);	
-// 		dup2(fd_out, STDOUT_FILENO);
-//
-// 		close(fd[0]);	
-// 		close(fd_out);
-// 	}
-// 	else if (get_last_in(cmd->redir) && !(get_last_out(cmd->redir)))
-// 	{
-//
-// 		close(fd[0]);
-// 		dup2(fd_in, STDIN_FILENO);
-// 		close(fd[1]);
-// 		close(fd_in);
-// 	}
-// 	else
-// 		redir_one_in_out(fd_in, fd_out, fd);
-//     return (0);
-// }
+
 	
 void	redir_one_in_out(int fd_in, int fd_out, int *fd)
 {

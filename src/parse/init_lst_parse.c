@@ -67,6 +67,7 @@ void	init_cmd(t_data *data, char *argv)
 	i = 0;
 	data->number_of_pip = ft_count_str(argv, '|') - 1;
 	data->number_of_cmd = data->number_of_pip + 1;
+	// data->last_pid = 0; // RAJOUT CAR BIZARRE CAT CTRL -C
 	pips = malloc(sizeof(char *) * (data->number_of_cmd + 1));
 	tok = ft_strtok(argv, "|", false);
 	while (tok)
