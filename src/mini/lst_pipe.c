@@ -85,11 +85,11 @@ int	status_process(t_data *data, pid_t *tab_pid)
 		perror("malloc");
 		return (-1);
 	}
-	if (process_status_pid(data, tab_pid, status) == -1)
-		return (-1);
-	result = analyze_process_statuses(data, tab_pid, status);
+	result = process_status_pid(data, tab_pid, status);
+	printf("valeur de last-pid : %d\n", result);
+
 	free(status);
-	return (result);
+	return (0);
 }
 
 
@@ -148,57 +148,39 @@ int	loop_process_pipe(t_data *data, t_node_cmd *dup, int **pip, pid_t *tab_pid)
 }
 
 
-
-
-
-
-
-
-
-
-int analyze_process_statuses(t_data *data, pid_t *tab_pid, int *status) // fonction a changer 
-{
-	(void)tab_pid;
-	int i;
-	int signal;
-
-	i = 0;
-	while (i <data->number_of_cmd)
-	{
-        if (WIFSIGNALED(status[i]))
-		{
-            signal = WTERMSIG(status[i]);
-            return (128 + signal); // Common convention to return 128 + signal number
-        }
-		else if (WIFEXITED(status[i]) && WEXITSTATUS(status[i]) != 0)
-            return (WEXITSTATUS(status[i]));
-		i++;
-    }
-    if (WIFEXITED(status[data->number_of_cmd - 1]))
-        data->last_pid = WEXITSTATUS(status[data->number_of_cmd - 1]);
-	else if (WIFSIGNALED(status[data->number_of_cmd - 1]))
-	{
-        signal = WTERMSIG(status[data->number_of_cmd - 1]);
-        return (128 + signal); // Common convention to return 128 + signal number
-    }
-    return 0;
-}
-
 int	process_status_pid(t_data *data, pid_t *tab_pid, int *status)
 {
+	(void)status;
+	(void)tab_pid;
 	t_node_cmd *dup;
 	int i;
+	int statu;
+	pid_t wpid;
 
+	statu = 0;
 	dup = data->cmd;
 	i = 0;
 	while (dup)
 	{
-		waitpid(tab_pid[dup->index], &status[dup->index], 0);
+
+		wpid = waitpid(0, &statu, 0);
+		if (wpid == tab_pid[data->number_of_cmd - 1])
+			data->last_pid = statu;
 		i++;
 		dup = dup->next;
 	}
-	data->last_pid = status[i - 1]; // ici a voir car je pense pas besoin de garder le -1
-	return (data->last_pid);
+
+
+	if (WIFEXITED(data->last_pid))
+	{
+		return(WEXITSTATUS(data->last_pid));
+	}
+	else if (WIFSIGNALED(statu))
+	{
+		return(128 +  WTERMSIG(statu));
+	}
+
+	return (0);
 }
 
 
@@ -207,11 +189,15 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 {
 	char	*path_command;
 
-	 // ici le i est juste provisoire pour voir comment implementer ca
+
 	path_command = NULL;
 	if (cmd->content[0])
 		path_command = create_path(cmd->content[0], data->env);
-
+	if (!path_command && (control_builtin(cmd) == 0))
+	{
+		printf("command not found\n");
+	 	exit(127);
+	}
 	if (cmd->redir)
 	{
 		if (pip)
@@ -229,7 +215,6 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 		execve(path_command, cmd->content, data->env);
 		perror("execve");
 	}
-	exit(127);
 	return (0);
 }
 
@@ -262,7 +247,8 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 			}
 			else
 			{
-				while (i < ft_lstsize(data->env_node))
+
+		   		while (i < ft_lstsize(data->env_node))
 				{
 					screen_export(data,  pip);
 					i++;
@@ -280,16 +266,17 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0])) == 0)
 		{
-			printf("notre builtin:\n");	
 			command_pwd(data, pip);
-			
 			return (1);
 		}
 		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0])) == 0)
 		{
-			
 			command_cd(data);
-
+			return (1);
+		}
+		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0])) == 0)
+		{
+			command_echo(data, pip);
 			return (1);
 		}
 
@@ -300,7 +287,24 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 
 
 
-
+int	control_builtin(t_node_cmd *cmd)
+{
+		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0])) == 0)
+			return (1);
+		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0])) == 0)
+			return (1);
+		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0])) == 0)
+			return (1);
+		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0])) == 0)
+			return (1);
+		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0])) == 0)
+			return (1);
+		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0])) == 0)
+			return (1);
+		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0])) == 0)
+			return (1);
+	return (0);
+}
 
 
 
@@ -316,11 +320,12 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 	path_command = NULL;
 	if (cmd)
 		path_command = create_path(cmd->content[0], data->env);
-	// if (!path_command)
-	// {
-	// 	printf("command not found\n");
-	// 	return(-1);
-	// }
+	if (!path_command && (control_builtin(cmd) == 0))
+	{
+		printf("command not found\n");
+	 	exit(127);
+	}
+
 
 	if (cmd->redir)
 		ft_dup_redir_second_child(data, cmd, pip, y);
@@ -331,6 +336,5 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		execve(path_command, cmd->content, data->env);
 		perror("execve");
 	}
-	exit(127);
 	return (0);
 }

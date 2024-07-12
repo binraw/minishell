@@ -173,6 +173,7 @@ int command_pwd(t_data *data, int fd);
 int	command_cd(t_data *data);
 int     ft_redir_child_process_one(t_node_cmd *cmd);
 void	redir_one_in_out_alone(int fd_in, int fd_out);
+int	control_builtin(t_node_cmd *cmd);
 
 
 
@@ -180,9 +181,8 @@ void	redir_one_in_out_alone(int fd_in, int fd_out);
 
 
 
-
-
-
+int	command_echo(t_data *data, int fd);
+bool	check_echo_arg(t_data *data, size_t *i, size_t j);
 void	init_cmd(t_data *data ,char *argv);
 t_redir	*redir_lst_new(int type, char *tok);
 void	ft_lstclear_redir(t_redir **lst);
