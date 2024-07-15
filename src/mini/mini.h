@@ -93,7 +93,7 @@ int	exe_cmd(t_data *data);
 int init_env(t_data *data);
 int free_env(t_data *data);
 int command_env(t_data *data, int fd);
-int command_exit(int c);
+
 int init_pip(t_data *data);
 int init_values_parse(t_data *data);
 int count_cmd(t_data *data);
@@ -174,9 +174,9 @@ int	command_cd(t_data *data);
 int     ft_redir_child_process_one(t_node_cmd *cmd);
 void	redir_one_in_out_alone(int fd_in, int fd_out);
 int	control_builtin(t_node_cmd *cmd);
-
-
-
+int command_exit(t_node_cmd *cmd);
+int	ft_is_numeric(char	*str);
+int	exit_error_number(char *arg);
 
 
 

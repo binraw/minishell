@@ -18,7 +18,7 @@ void setup_readline_sigquit_after(void);
 void	handle_sigint_after(int sig);
 
 volatile sig_atomic_t interrupted = 0;
-// CHANGEZ TOUT LE NOMS DES VARIABLES
+
 void	handle_sigint(int sig)
 {
 	(void) sig;
@@ -32,12 +32,10 @@ void	handle_sigint(int sig)
 void	handle_sigquit(int sig)
 {
 	(void) sig;
-
 }
 
 void setup_readline_signals(void)
 {
-	// Declare the sigaction structure
 	struct sigaction	act;
 
 	bzero(&act, sizeof(act));
@@ -48,11 +46,9 @@ void setup_readline_signals(void)
 
 void setup_readline_sigquit(void)
 {
-	// Declare the sigaction structure
 	struct sigaction	act;
 
 	bzero(&act, sizeof(act));
-
 	act.sa_handler = SIG_IGN;
 	sigaction(SIGQUIT, &act, NULL);
 }
@@ -90,7 +86,6 @@ void setup_readline_sigquit_after(void)
 	struct sigaction	act;
 
 	bzero(&act, sizeof(act));
-
 	act.sa_handler = &handle_sigquit;
 	sigaction(SIGQUIT, &act, NULL);
 }
@@ -101,13 +96,10 @@ void	handle_rdocs(int sig)
 	interrupted = 1;
 	rl_on_new_line();  
 	ioctl(0,TIOCSTI, "\n");
-
-
 }
 
 void setup_readline_rdocs(void)
 {
-	// Declare the sigaction structure
 	struct sigaction	act;
 
 	bzero(&act, sizeof(act));

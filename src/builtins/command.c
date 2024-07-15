@@ -15,10 +15,7 @@
 
 
 
-int command_exit(int c)
-{
-    exit((unsigned char)c);
-}
+
 
 int command_pwd(t_data *data, int fd)
 {
@@ -100,8 +97,6 @@ void modifyValue(t_node_env *head, const char *name, const char *newValue)
 	{
         if (strcmp(head->name, name) == 0)
 		{
-			
-            //free(head->content);
             head->content = ft_strdup(new_content);
             return ;
         }
@@ -148,8 +143,6 @@ char	*value_pwd(t_node_env *head)
 				i++;
 			i++;
 			value = ft_strdup((current->content + i));
-			printf("la valeur du content - celle de nom : %s\n", value);
-
             return (value);
 		}
         current = current->next;
