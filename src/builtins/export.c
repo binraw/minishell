@@ -139,25 +139,46 @@ void	screen_export(t_data *data, int fd)
 {
 	t_node_env *current_node;
 	char *max_value;
+	char **value;
 	size_t i;
+	size_t y;
 
 	i = 0;
 	current_node = data->env_node;
 	max_value = ft_strdup("~~~~");
+	value = NULL;
 	while (current_node)
 	{
 		i = ft_strlen(current_node->name);
 		if (ft_strncmp(current_node->name, max_value, i + 1) < 0 && current_node->print == false)
 		{
 			free(max_value);
+			free(value);
 			max_value = ft_strdup(current_node->content);
 		}
 		current_node = current_node->next;
 	}
+	y = 0;
+	value = ft_split(max_value, '=');
+	if (!value)
+		return ;
+	if (value[0][0] == '_')
+		current_node = data->env_node;
+	else
+		{
 	ft_putstr_fd("declare -x ", fd);
-	ft_putstr_fd(max_value, fd);
+	ft_putstr_fd(value[0], fd);
+	ft_putstr_fd("=\"", fd);
+	while (value[++y])
+	{
+		if (y > 1)
+			ft_putstr_fd("=", fd);
+		ft_putstr_fd(value[y], fd);
+	}
+	ft_putstr_fd("\"", fd);
 	ft_putchar_fd('\n', fd);
 	current_node = data->env_node;
+	}
 	while (current_node)
 	{
 		i = ft_strlen(current_node->name);

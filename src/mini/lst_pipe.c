@@ -95,26 +95,23 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 			return (-1);
 	if ((data->number_of_cmd == 1) && (control_builtin(dup) == 1) && !dup->redir)
 	{
-		printf("ne doit pas rentrer ici quand plusieurs commande \n");
 		if (!pip)
 			road_builtin(data, dup, NULL, y);
 		else
 			road_builtin(data, dup, pip, y);
 	}
 	else 
-		{
-	tab_pid[i] = fork();
-	if (tab_pid[i] == -1)
-		return (-1);	
-	if (tab_pid[i] == 0)
 	{
-		if (!pip)
+		tab_pid[i] = fork();
+		if (tab_pid[i] == -1)
+			return (-1);	
+		if (tab_pid[i] == 0)
 		{
-			child_process_multi(data, dup, NULL);
+			if (!pip)
+				child_process_multi(data, dup, NULL);
+			else
+				child_process_multi(data, dup, pip[y]);
 		}
-		else
-			child_process_multi(data, dup, pip[y]);
-	}
 	}
 	return (0);
 }
@@ -143,7 +140,6 @@ int	loop_process_pipe(t_data *data, t_node_cmd *dup, int **pip, pid_t *tab_pid)
 		i++;
 		dup = dup->next;
     }	
-
 	return (0); 
 }
 
@@ -202,14 +198,12 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 			ft_redir_child_process(cmd, pip);
 		else
 			ft_redir_child_process_one(cmd);
-
 	}
 	else if (pip)
 		first_child(pip);
 
 	if ((control_builtin_multi_command(data, cmd, 1) == 0))
 	{
-
 		execve(path_command, cmd->content, data->env);
 		perror("execve");
 	}
