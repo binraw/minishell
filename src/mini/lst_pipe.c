@@ -102,6 +102,7 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 	}
 	else 
 	{
+
 		tab_pid[i] = fork();
 		if (tab_pid[i] == -1)
 			return (-1);	
@@ -180,8 +181,12 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	char	*path_command;
 
 	path_command = NULL;
+	
 	if (cmd->content[0])
+	{
+		
 		path_command = create_path(cmd->content[0], data->env);
+	}
 	if (!cmd->content[0])
 	{
 		printf("command not found\n");
@@ -192,6 +197,7 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 		printf("%s:command not found\n", cmd->content[0]);
 	 	exit(127);
 	}
+	
 	if (cmd->redir)
 	{
 		if (pip)
@@ -217,7 +223,7 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 	char	*path_command;
 
 	path_command = NULL;
-	if (cmd)
+	if ((cmd) && (control_builtin(cmd) == 0))
 		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command && (control_builtin(cmd) == 0))
 	{

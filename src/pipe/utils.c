@@ -21,7 +21,10 @@ char	**get_env(char **envp)
 	while (!ft_strnstr(envp[i], "PATH", 4) && i < 50)
 		i++;
 	if (i == 50)
+	{
+		
 		return (NULL);
+	}
 	paths = ft_split(envp[i] + 5, ':');
 	return (paths);
 }
