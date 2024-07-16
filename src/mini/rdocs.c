@@ -14,9 +14,7 @@
 
 
 
-// fonction a envoyer quand un rdocs est envoyer dans une commande
-// meme comportetment des infiles
-// f
+
 int init_rdocs(t_rdocs *rdocs)
 {
     int *fd;

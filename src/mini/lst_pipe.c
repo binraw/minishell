@@ -38,7 +38,7 @@ int init_pip(t_data *data)
 				return (-1);
         	i++;
     	}
-    	pipex_process_multi(data, pip, tab_pid); // ici peut etre creer directement un autre 
+    	pipex_process_multi(data, pip, tab_pid); 
 
 	return (0);
 }
@@ -93,8 +93,6 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 	if (data->number_of_pip != 0)
 		if (pipe(pip[y]) == -1)
 			return (-1);
-	// if (data->number_of_cmd != 1 && (control_builtin(dup) != 1))
-	// {
 	if ((data->number_of_cmd == 1) && (control_builtin(dup) == 1) && !dup->redir)
 	{
 		printf("ne doit pas rentrer ici quand plusieurs commande \n");
@@ -118,8 +116,6 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 			child_process_multi(data, dup, pip[y]);
 	}
 	}
-	// }
-
 	return (0);
 }
 
@@ -136,16 +132,11 @@ int	loop_process_pipe(t_data *data, t_node_cmd *dup, int **pip, pid_t *tab_pid)
 		if ((i + 1) < (data->number_of_cmd))
 			if (pipe(pip[y + 1]) == -1)
         		return (-1);
-		// if ((control_builtin(dup) == 0))
-		// {
 		tab_pid[i] = fork();
 		if (tab_pid[i] == -1)
 			return (-1);
 		if (tab_pid[i] == 0)
 			second_child_process_multi(data, dup, pip, y);
-		// }
-		// else
-		// 	road_builtin(data, dup, pip, y);
 		close(pip[y][0]);
 		close(pip[y][1]);
 		y++;
@@ -202,10 +193,7 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	}
 	if (!path_command && (control_builtin(cmd) == 0))
 	{
-		//probleme quand je unset PATH
-		// printf("valeur cmd->content[0] %s\n", cmd->content[0]);
-		// printf("valeur d control_builtin : %d\n", control_builtin(cmd));
-		// printf("command not found\n");
+		printf("%s:command not found\n", cmd->content[0]);
 	 	exit(127);
 	}
 	if (cmd->redir)
@@ -239,7 +227,7 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command && (control_builtin(cmd) == 0))
 	{
-		printf("command not found\n");
+		printf("%s:command not found\n", cmd->content[0]);
 	 	exit(127);
 	}
 	if (cmd->redir)
