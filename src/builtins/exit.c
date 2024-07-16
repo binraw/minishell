@@ -6,7 +6,7 @@
 //   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2024/07/15 10:43:53 by rtruvelo          #+#    #+#             //
-//   Updated: 2024/07/15 11:16:56 by rtruvelo         ###   ########.fr       //
+//   Updated: 2024/07/15 15:33:19 by rtruvelo         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -26,7 +26,6 @@ int command_exit(t_node_cmd *cmd)
 		ft_putstr_fd("bash: exit: too many arguments\n", 1);
 		return (2);
 	}
-
 }
 
 

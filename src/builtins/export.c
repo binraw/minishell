@@ -41,6 +41,14 @@ int	add_env_value(t_data *data, char *value_content)
 	return (0);
 }
 
+// add_env_value_return(t_data *data)
+// {
+// 	t_node_env *new_node;
+// 	char *str;
+//
+// 	str = ft_strdup("?=0");
+// 	new_node = ft_lstnew(str);
+
 int		control_export_name(t_data *data, char *value_content)
 {
 	char	*new_name;
@@ -51,7 +59,7 @@ int		control_export_name(t_data *data, char *value_content)
 	new_value = NULL;
 	new_name = NULL;
 	i = 0;
-	head = data->env_node;
+ 	head = data->env_node;
 	while(value_content[i] && value_content[i] != '=')
 		i++;
 	new_name = malloc(i + 1 * sizeof(char));

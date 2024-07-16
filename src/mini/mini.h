@@ -177,6 +177,13 @@ int	control_builtin(t_node_cmd *cmd);
 int command_exit(t_node_cmd *cmd);
 int	ft_is_numeric(char	*str);
 int	exit_error_number(char *arg);
+int	create_value_return(t_data *data, size_t i);
+int road_builtin(t_data *data, t_node_cmd *cmd, int **pip, int y);
+int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip);
+
+
+
+
 
 
 

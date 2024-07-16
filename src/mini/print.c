@@ -23,7 +23,7 @@ int main(int argc, char **argv, char **envp)
 	init_node_env(&vars, envp);
 	while (1)
 	 {
-		init_env(&vars);	
+		init_env(&vars);
 		setup_readline_signals();
         vars.str = readline("Minishell: ");	
 

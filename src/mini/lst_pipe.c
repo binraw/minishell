@@ -93,17 +93,33 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 	if (data->number_of_pip != 0)
 		if (pipe(pip[y]) == -1)
 			return (-1);
+	// if (data->number_of_cmd != 1 && (control_builtin(dup) != 1))
+	// {
+	if ((data->number_of_cmd == 1) && (control_builtin(dup) == 1) && !dup->redir)
+	{
+		printf("ne doit pas rentrer ici quand plusieurs commande \n");
+		if (!pip)
+			road_builtin(data, dup, NULL, y);
+		else
+			road_builtin(data, dup, pip, y);
+	}
+	else 
+		{
 	tab_pid[i] = fork();
 	if (tab_pid[i] == -1)
 		return (-1);	
-
 	if (tab_pid[i] == 0)
 	{
 		if (!pip)
+		{
 			child_process_multi(data, dup, NULL);
+		}
 		else
 			child_process_multi(data, dup, pip[y]);
 	}
+	}
+	// }
+
 	return (0);
 }
 
@@ -120,11 +136,16 @@ int	loop_process_pipe(t_data *data, t_node_cmd *dup, int **pip, pid_t *tab_pid)
 		if ((i + 1) < (data->number_of_cmd))
 			if (pipe(pip[y + 1]) == -1)
         		return (-1);
+		// if ((control_builtin(dup) == 0))
+		// {
 		tab_pid[i] = fork();
 		if (tab_pid[i] == -1)
 			return (-1);
 		if (tab_pid[i] == 0)
 			second_child_process_multi(data, dup, pip, y);
+		// }
+		// else
+		// 	road_builtin(data, dup, pip, y);
 		close(pip[y][0]);
 		close(pip[y][1]);
 		y++;
@@ -171,7 +192,6 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 {
 	char	*path_command;
 
-
 	path_command = NULL;
 	if (cmd->content[0])
 		path_command = create_path(cmd->content[0], data->env);
@@ -183,9 +203,9 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	if (!path_command && (control_builtin(cmd) == 0))
 	{
 		//probleme quand je unset PATH
-		printf("valeur cmd->content[0] %s\n", cmd->content[0]);
-		printf("valeur d control_builtin : %d\n", control_builtin(cmd));
-		printf("command not found\n");
+		// printf("valeur cmd->content[0] %s\n", cmd->content[0]);
+		// printf("valeur d control_builtin : %d\n", control_builtin(cmd));
+		// printf("command not found\n");
 	 	exit(127);
 	}
 	if (cmd->redir)
@@ -199,7 +219,7 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	else if (pip)
 		first_child(pip);
 
-	if ((control_builtin_to_command(data, cmd, 1) == 0))
+	if ((control_builtin_multi_command(data, cmd, 1) == 0))
 	{
 
 		execve(path_command, cmd->content, data->env);
@@ -207,93 +227,6 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	}
 	return (0);
 }
-
-
-int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
-{
-	int i;
-
-
-	i = 0;
-
-		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0])) == 0)
-		{
-	
-			command_env(data, pip);
-			return (1);
-		}
-		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0])) == 0)
-		{
-			
-			if (cmd->content[1])
-			{
-				add_env_value(data, cmd->content[1]);
-			}
-			else
-			{
-
-		   		while (i < ft_lstsize(data->env_node))
-				{
-					screen_export(data,  pip);
-					i++;
-				}
-				i = 0;
-				reset_print_env(data);
-			}
-
-			return (1);
-		}
-		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0])) == 0)
-		{
-			unset_command(data, cmd->content[1]);
-			return (1);
-		}
-		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0])) == 0)
-		{
-			command_pwd(data, pip);
-			return (1);
-		}
-		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0])) == 0)
-		{
-			command_cd(data);
-			return (1);
-		}
-		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0])) == 0)
-		{
-			command_echo(data, pip);
-			return (1);
-		}
-		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0])) == 0)
-			return (command_exit(cmd));
-	return (0);
-}
-
-
-
-int	control_builtin(t_node_cmd *cmd)
-{
-
-		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0])) == 0)
-			return (1);
-		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0])) == 0)
-			return (1);
-		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0])) == 0)
-			return (1);
-		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0])) == 0)
-			return (1);
-		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0])) == 0)
-			return (1);
-		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0])) == 0)
-			return (1);
-		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0])) == 0)
-			return (1);
-	return (0);
-}
-
-
-
-
-
 
 
 
@@ -313,7 +246,7 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		ft_dup_redir_second_child(data, cmd, pip, y);
 	else
 		second_child(data, pip, y, cmd);
-	if ((control_builtin_to_command(data, cmd, 1) == 0))
+	if ((control_builtin_multi_command(data, cmd, 1)== 0))
 	{
 		execve(path_command, cmd->content, data->env);
 		perror("execve");

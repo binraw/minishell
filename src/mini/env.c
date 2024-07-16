@@ -47,12 +47,19 @@ int copy_env_tab(t_data *data, size_t y)
 		dup = dup->next;
 		i++;
 	}
+	// create_value_return(data, i);
 	data->env[i] = NULL;
 	return (0);
 }
 
-
-
+// int	create_value_return(t_data *data, size_t i)
+// {
+// 	printf("rentre bien dans la creation de ?\n");
+// 	data->env[i] = ft_strdup("?=0");
+// 	i++;
+// 	data->env[i] = NULL;
+// 	return (0);
+// }
 
 
 int free_env(t_data *data)
