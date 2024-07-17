@@ -16,19 +16,31 @@ int init_env(t_data *data)
 {
 	size_t	y;
 	t_node_env	*copy;
+	size_t i;
 
 	y = 0;
+	i = 0;
 	copy = data->env_node;
 	while (copy != NULL)
 	{
 		copy = copy->next;
 		y++;
 	}
-
+	if (data->env)
+	{
+		while (data->env[i])
+		{
+			free(data->env[i]);
+			i++;
+		}
+		free(data->env);
+	}
 	data->env = malloc(sizeof(char*) * (y + 1));
 	if (!data->env)
 		return (-1);
 	copy_env_tab(data, y);
+	// for (int j= 0; data->env[j];j++)
+	// 	printf(" voila  : %s\n", data->env[j]);
 	return (0);
 }
 
@@ -93,15 +105,16 @@ int init_node_env(t_data *data, char **envp)
 	}
 	else 
 	{
-    	data->env_node = ft_lstnew(envp[i]);
+    	data->env_node = ft_lstnew(ft_strdup(envp[i]));
     	while (envp[++i])
     	{
-        	new_node = ft_lstnew(envp[i]);
+        	new_node = ft_lstnew(ft_strdup(envp[i]));
         	if (!new_node)
             	return (-1);
         	ft_lstadd_back(data->env_node, new_node);
     	}
 	}
+	data->env = NULL;
     return (0);
 }
 

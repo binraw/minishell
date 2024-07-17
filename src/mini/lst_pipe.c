@@ -72,6 +72,7 @@ int	status_process(t_data *data, pid_t *tab_pid)
 {
 	int result;
 	result = process_status_pid(data, tab_pid);
+	data->last_pid = result;
 	printf("valeur de last-pid : %d\n", result);
 	data->last_pid = result;
 	return (0);
@@ -164,9 +165,9 @@ int	process_status_pid(t_data *data, pid_t *tab_pid)
 	{
 		return(WEXITSTATUS(data->last_pid));
 	}
-	else if (WIFSIGNALED(status))
+	else if (WIFSIGNALED(data->last_pid))
 	{
-		return(128 +  WTERMSIG(status));
+		return(128 +  WTERMSIG(data->last_pid));
 	}
 	return (0);
 }

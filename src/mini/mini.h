@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/17 13:13:23 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:28:48 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ int init_pip(t_data *data);
 int init_values_parse(t_data *data);
 int count_cmd(t_data *data);
 int count_pip(t_data *data);
-int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
 int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip);
 int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y);
