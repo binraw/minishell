@@ -67,17 +67,18 @@ int		control_export_name(t_data *data, char *value_content)
 	ft_strlcpy(new_name, value_content, i);
 	ft_strlcpy(new_value, value_content + i, ft_strlen(value_content) - i);
 
-	while (data->env_node)
+	while (head)
 	{
-		if ((ft_strncmp(data->env_node->name, new_name, ft_strlen(new_name)) == 0))
+		if ((ft_strncmp(head->name, new_name, ft_strlen(new_name)) == 0))
 		{
-			free(data->env_node->value);
-			data->env_node->value  = ft_strdup(new_value);
+			free(head->value);
+			free(head->content);
+			head->value  = ft_strdup(new_value);
+			head->content = ft_strdup(value_content);
 			return (1);
 		}
-		data->env_node = data->env_node->next;
+		head = head->next;
 	}
-	data->env_node = head;
 	return (0);
 }	
 

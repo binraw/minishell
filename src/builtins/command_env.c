@@ -25,9 +25,12 @@ int command_env(t_data *data, int fd)
     {
 		if (dup->name && !dup->value)
 			dup = dup->next;
-		ft_putstr_fd(dup->content, fd);
-		ft_putstr_fd("\n", fd);
-        dup = dup->next;
+		else
+		{
+			ft_putstr_fd(dup->content, fd);
+			ft_putstr_fd("\n", fd);
+        	dup = dup->next;
+		}
     }
     return (0);
 }

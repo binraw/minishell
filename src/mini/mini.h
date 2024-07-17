@@ -95,8 +95,6 @@ int init_values_parse(t_data *data);
 int count_cmd(t_data *data);
 int count_pip(t_data *data);
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
-int	process_status_pid(t_data *data, pid_t *tab_pid, int *status);
-int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
 int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip);
 int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y);
 int free_data_values(t_data *data);
@@ -186,7 +184,7 @@ int remove_env_node(t_node_env *ptr, t_node_env *prev);
 
 int	command_echo(t_data *data, int fd);
 bool	check_echo_arg(t_data *data, size_t *i, size_t j);
-void	init_cmd(t_data *data ,char *argv);
+int	init_cmd(t_data *data ,char *argv);
 t_redir	*redir_lst_new(int type, char *tok);
 void	ft_lstclear_redir(t_redir **lst);
 t_redir	*get_last_in(t_redir *redir);
