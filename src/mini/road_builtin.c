@@ -6,7 +6,7 @@
 //   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2024/07/15 13:16:25 by rtruvelo          #+#    #+#             //
-//   Updated: 2024/07/16 10:43:34 by rtruvelo         ###   ########.fr       //
+//   Updated: 2024/07/17 13:07:12 by rtruvelo         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -51,7 +51,12 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 			
 			if (cmd->content[1])
 			{
-				add_env_value(data, cmd->content[1]);
+				i = 1;
+				while (cmd->content[i])
+				{
+				add_env_value(data, cmd->content[i]);
+				i++;
+				}
 			}
 			else
 			{
