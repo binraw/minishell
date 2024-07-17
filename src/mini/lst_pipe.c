@@ -73,7 +73,6 @@ int	status_process(t_data *data, pid_t *tab_pid)
 	int result;
 	result = process_status_pid(data, tab_pid);
 	data->last_pid = result;
-	printf("valeur de last-pid : %d\n", result);
 	return (0);
 }
 
