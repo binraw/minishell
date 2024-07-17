@@ -6,10 +6,9 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 14:25:42 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/05/29 10:01:08 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/06/24 12:16:36 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../mini/mini.h"
 
@@ -45,4 +44,18 @@ t_redir	*get_last_out(t_redir *redir)
 		ptr = ptr->next;
 	}
 	return (last);
+}
+
+t_redir *redir_get_last(t_redir *redir)
+{
+	t_redir	*ptr;
+
+	ptr = redir;
+	if (!ptr)
+		return (NULL);
+	while (ptr->next)
+	{
+		ptr = ptr->next;
+	}
+	return (ptr);
 }

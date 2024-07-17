@@ -1,35 +1,87 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_lst_parse.c                                   :+:      :+:    :+:   */
+/*   init_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/29 11:30:06 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:05:12 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini/mini.h"
 
-// fonction pour gerer les quotes
-int	manage_quotes(char c, int quote)
+// on construit la structure cmd
+int	init_cmd(t_data *data, char *argv)
 {
-	if (c == '\"')
+	char		**pips;
+	size_t		i;
+	char		*tok;
+
+	i = 0;
+	if (parsing_error(argv))
+		return (0);
+	data->number_of_pip = ft_count_str(argv, '|') - 1;
+	data->number_of_cmd = data->number_of_pip + 1;
+	pips = malloc(sizeof(char *) * (data->number_of_cmd + 1));
+	tok = ft_strtok(argv, "|", false);
+	while (tok)
 	{
-		if (quote == 0)
-			return (2);
-		if (quote == 2)
-			return (0);
+		pips[i] = tok;
+		tok = ft_strtok(NULL, "|", false);
+		i++;
 	}
-	else if (c == '\'')
+	pips[i] = NULL;
+	fill_cmd_content(data, pips);
+	ft_trim_cmd_quote(data->cmd);
+	return (1);
+}
+
+void	fill_cmd_content(t_data *data, char **pips)
+{
+	size_t		i;
+	t_node_cmd	*ptr;
+
+	i = 1;
+	cmd_manage_env(data, pips);
+	data->cmd = cmd_get_content(pips[0], 0);
+	free(pips[0]);
+	ptr = data->cmd;
+	while (pips[i])
 	{
-		if (quote == 0)
-			return (1);
-		if (quote == 1)
-			return (0);
+		ptr->next = cmd_get_content(pips[i], i);
+		free(pips[i]);
+		ptr = ptr->next;
+		i++;
 	}
-	return (quote);
+	free(pips);
+}
+
+// ca remplit cmd->content donc par exemple : [echo] [-n] [salut]
+t_node_cmd	*cmd_get_content(char *str, size_t index)
+{
+	size_t		i;
+	char		*tok;
+	t_node_cmd	*cmd;
+
+	i = 0;
+	cmd = ft_lstnew_cmd(index);
+	cmd->content = malloc(sizeof(char *) * (ft_count_str(str, ' ') + 1));
+	tok = ft_strtok(str, " \t", true);
+	while (tok)
+	{
+		if (*tok == '>' || *tok == '<')
+			fill_redirs(tok, &cmd->redir, &cmd->rdocs);
+		else
+		{
+			cmd->content[i] = tok;
+			i++;
+		}
+		tok = ft_strtok(NULL, " \t", true);
+	}
+	cmd->content[i] = NULL;
+	return (cmd);
 }
 
 // je compte les futurs token que je ferai avec strtok pour savoir quoi malloc
@@ -57,80 +109,14 @@ size_t	ft_count_str(char *str, char sep)
 	return (count);
 }
 
-// on construit la structure cmd
-void	init_cmd(t_data *data, char *argv)
-{
-	char		**pips;
-	size_t		i;
-	char		*tok;
-
-	i = 0;
-	data->number_of_pip = ft_count_str(argv, '|') - 1;
-	data->number_of_cmd = data->number_of_pip + 1;
-	// data->last_pid = 0; // RAJOUT CAR BIZARRE CAT CTRL -C
-	pips = malloc(sizeof(char *) * (data->number_of_cmd + 1));
-	tok = ft_strtok(argv, "|", false);
-	while (tok)
-	{
-		pips[i] = tok;
-		tok = ft_strtok(NULL, "|", false);
-		i++;
-	}
-	pips[i] = NULL;
-	fill_cmd_content(data, pips);
-}
-
-void	fill_cmd_content(t_data *data, char **pips)
-{
-	size_t		i;
-	t_node_cmd	*ptr;
-
-	i = 1;
-	data->cmd = cmd_get_content(pips[0], 0);
-	free(pips[0]);
-	ptr = data->cmd;
-	while (pips[i])
-	{
-		ptr->next = cmd_get_content(pips[i], i);
-		free(pips[i]);
-		ptr = ptr->next;
-		i++;
-	}
-	free(pips);
-}
-
-// ca remplit cmd->content donc par exemple : [echo] [-n] [salut]
-t_node_cmd	*cmd_get_content(char *str, size_t index)
-{
-	size_t		i;
-	char		*tok;
-	t_node_cmd	*cmd;
-
-	i = 0;
-	cmd = ft_lstnew_cmd(index);
-	cmd->content = malloc(sizeof(char *) * (ft_count_str(str, ' ') + 1));
-	cmd->content[i] = ft_strtok(str, " \t", true);
-	i++;
-	tok = ft_strtok(NULL, " \t", true);
-	while (tok)
-	{
-		if (*tok == '>' || *tok == '<')
-		{
-			fill_redirs(tok, &cmd->redir, &cmd->rdocs);
-			break ;
-		}
-		cmd->content[i] = tok;
-		i++;
-		tok = ft_strtok(NULL, " \t", true);
-	}
-	cmd->content[i] = NULL;
-	return (cmd);
-}
-
 // main de test
-// int	main()
+// int	main(int ac, char **av, char **envp)
 // {
+// 	(void)ac;
+// 	(void)av;
 // 	t_data	*data = malloc(sizeof(t_data));
+// 	init_node_env(data, envp);
+// 	init_env(data);
 // 	char	*str = NULL;
 // 	while(!str)
 // 		str = readline(NULL);
@@ -178,6 +164,8 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 // 		i++;
 // 	}
 // 	ft_lstclear_cmd(&data->cmd);
+// 	ft_lstclear_env(data);
+// 	free_env(data);
 // 	free(data);
 // 	return (0);
 // }

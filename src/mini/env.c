@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:51:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/06 15:51:23 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:03:19 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,13 +62,13 @@ int free_env(t_data *data)
 	i = 0;
 	if (data->env)
 	{
-	while (data->env[i])
-	{
-		free(data->env[i]);
-		i++;
-	}
-	// free(data->env);
-	data->env = NULL;
+		while (data->env[i])
+		{
+			free(data->env[i]);
+			i++;
+		}
+		free(data->env);
+		data->env = NULL;
 	}
 	return (0);
 }
@@ -103,4 +103,26 @@ int init_node_env(t_data *data, char **envp)
     	}
 	}
     return (0);
+}
+
+void	ft_lstclear_env(t_data *data)
+{
+	t_node_env	*current;
+	t_node_env	*next;
+
+	current = data->env_node;
+	if (!data->env_node)
+		return ;
+	while (current)
+	{
+		next = current->next;
+		if (current->content)
+			free(current->content);
+		if (current->name)
+			free(current->name);
+		if (current->value)
+			free(current->value);
+		free(current);
+		current = next;
+	}
 }

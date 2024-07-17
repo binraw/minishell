@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_pipe.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/25 15:24:46 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:03:53 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,6 @@ int init_pip(t_data *data)
 
 	return (0);
 }
-
-
-
-
 
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 {

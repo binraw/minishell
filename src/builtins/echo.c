@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:14:32 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/26 09:42:06 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:02:16 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,3 @@ bool	check_echo_arg(t_data *data, size_t *i, size_t j)
 	}
 	return (arg);
 }
-
