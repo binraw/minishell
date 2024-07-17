@@ -41,13 +41,7 @@ int	add_env_value(t_data *data, char *value_content)
 	return (0);
 }
 
-// add_env_value_return(t_data *data)
-// {
-// 	t_node_env *new_node;
-// 	char *str;
-//
-// 	str = ft_strdup("?=0");
-// 	new_node = ft_lstnew(str);
+
 
 int		control_export_name(t_data *data, char *value_content)
 {
@@ -63,7 +57,11 @@ int		control_export_name(t_data *data, char *value_content)
 	while(value_content[i] && value_content[i] != '=')
 		i++;
 	new_name = malloc(i + 1 * sizeof(char));
+	if (!new_name)
+		return (-1);
 	new_value = malloc(ft_strlen((value_content + i)) * sizeof(char));
+	if (!new_value)
+		return (-1);
 	ft_strlcpy(new_name, value_content, i);
 	ft_strlcpy(new_value, value_content + i, ft_strlen(value_content) - i);
 

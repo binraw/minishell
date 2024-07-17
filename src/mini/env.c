@@ -105,10 +105,10 @@ int init_node_env(t_data *data, char **envp)
 	}
 	else 
 	{
-    	data->env_node = ft_lstnew(envp[i]);
+    	data->env_node = ft_lstnew(ft_strdup(envp[i]));
     	while (envp[++i])
     	{
-        	new_node = ft_lstnew(envp[i]);
+        	new_node = ft_lstnew(ft_strdup(envp[i]));
         	if (!new_node)
             	return (-1);
         	ft_lstadd_back(data->env_node, new_node);
