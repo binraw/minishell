@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/17 09:03:53 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:06:09 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ int	status_process(t_data *data, pid_t *tab_pid)
 	int result;
 	result = process_status_pid(data, tab_pid);
 	printf("valeur de last-pid : %d\n", result);
+	data->last_pid = result;
 	return (0);
 }
 
