@@ -47,7 +47,7 @@ int	open_redir_in(t_redir *dup)
         if (i < 0)
 		{
 			printf("cat: %s: Permission denied\n", dup->content);
-        	return (-1);
+        	exit(1);
 		}
 		close(i);
 	}
@@ -80,11 +80,11 @@ int	open_redir_d_out(t_redir *dup)
 	i = 0;
 	if (dup != last_out)
 	{
-		i = open(dup->content, (O_WRONLY | O_APPEND), 00644);
+		i = open(dup->content, (O_CREAT | O_WRONLY | O_APPEND), 00644);
 		if (i < 0)
 		{
 			printf("cat: %s: Permission denied\n", dup->content);
-			return (-1);
+			exit(1);
 		}
 		close(i);
 	}
@@ -132,7 +132,7 @@ int	value_final_in(t_node_cmd *cmd)
 	{
 		fd_in = open(get_last_in(cmd->redir)->content , (O_RDONLY), 00644);
 		if (fd_in <= 0)
-			exit(-1);
+			exit(1);
 	}
 	else 
 		fd_in = cmd->fd_rdoc;
@@ -147,7 +147,7 @@ int	value_final_out(t_node_cmd *cmd)
 	if (get_last_out(cmd->redir))
 	{
 		if (get_last_out(cmd->redir)->d_out)
-			fd_out = open(get_last_out(cmd->redir)->content, (O_WRONLY | O_APPEND), 00644);
+			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_APPEND), 00644);
 		else
 			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
 	}
@@ -208,27 +208,16 @@ void	redir_in_or_out(t_node_cmd *cmd, int **pip, int y)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
 {
 	int fd_out;
 	int fd_in;
-
-	if (get_last_out(cmd->redir))
+	
+	if (open_all_redir(cmd) == -1)
+		return (-1);
+	fd_in = value_final_in(cmd);
+	fd_out = value_final_out(cmd);
+	if (!(get_last_in(cmd->redir)) && get_last_out(cmd->redir))
 	{
 		fd_out = value_final_out(cmd);
     	close(pip[0]);
@@ -236,7 +225,7 @@ int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
 		close(pip[1]);
     	close(fd_out);
 	}
-	else if (get_last_in(cmd->redir))
+	else if (get_last_in(cmd->redir) && !(get_last_out(cmd->redir)))
 	{
 		fd_in = value_final_in(cmd);
     	close(pip[0]);
@@ -245,38 +234,53 @@ int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
 		close(pip[1]);
     	close(fd_in);
 	}
+	else
+		redir_one_in_out(fd_in, fd_out, pip);
+
     return (0);
 }
 
 
-int		ft_redir_one_process(t_node_cmd *cmd)
+int     ft_redir_child_process_one(t_node_cmd *cmd)
 {
 	int fd_out;
-	int	fd_in;
-
+	int fd_in;
+	
 	if (open_all_redir(cmd) == -1)
 		return (-1);
 	fd_in = value_final_in(cmd);
 	fd_out = value_final_out(cmd);
+
 	if (!(get_last_in(cmd->redir)) && get_last_out(cmd->redir))
 	{
-		close(STDIN_FILENO);	
+		fd_out = value_final_out(cmd);
 		dup2(fd_out, STDOUT_FILENO);
     	close(fd_out);
-	
 	}
 	else if (get_last_in(cmd->redir) && !(get_last_out(cmd->redir)))
 	{
-		close(STDOUT_FILENO);
+		fd_in = value_final_in(cmd);
 		dup2(fd_in, STDIN_FILENO);
-		close(fd_in);
+    	close(fd_in);
 	}
 	else
-		redir_one_in_out(fd_in, fd_out);
+		redir_one_in_out_alone(fd_in, fd_out);
     return (0);
 }
+
+
 	
-void	redir_one_in_out(int fd_in, int fd_out)
+void	redir_one_in_out(int fd_in, int fd_out, int *fd)
+{
+	dup2(fd_in, STDIN_FILENO);
+	dup2(fd_out, STDOUT_FILENO);
+	close(fd[0]);
+	close(fd[1]);
+	close(fd_in);
+	close(fd_out);
+}
+
+void	redir_one_in_out_alone(int fd_in, int fd_out)
 {
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);

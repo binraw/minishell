@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/29 12:57:13 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:07:15 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,6 @@ int	exe_cmd(t_data *data);
 int init_env(t_data *data);
 int free_env(t_data *data);
 int command_env(t_data *data, int fd);
-int command_exit(int c);
-int	command_echo(t_data *data, int fd);
-bool	check_echo_arg(t_data *data, size_t *i, size_t j);
 int init_pip(t_data *data);
 int init_values_parse(t_data *data);
 int count_cmd(t_data *data);
@@ -103,6 +100,7 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
 int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip);
 int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y);
 int free_data_values(t_data *data);
+int	process_status_pid(t_data *data, pid_t *tab_pid);
 int init_values_redir(t_data *data);
 int	second_child(t_data *data, int **pip, int y, t_node_cmd *cmd);
 int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd, int **pip, int y);
@@ -137,7 +135,7 @@ t_node_cmd	*ft_lstlast_cmd(t_node_cmd *lst);
 t_node_cmd	*ft_lstnew_cmd(int i);
 int init_node_cmd(t_data *data, char **tab);
 t_node_cmd	*cmd_get_content(char *str, size_t index);
-int		ft_redir_one_process(t_node_cmd *cmd);
+int		ft_redir_one_process(t_node_cmd *cmd, int *fd);
 int	open_all_rdocs(t_node_cmd *cmd);
 int init_rdocs(t_rdocs *rdocs);
 int command_rdocs(t_data *data);
@@ -161,7 +159,7 @@ void	redir_in_to_pipe(int **pip, int y, int fd_in);
 void	redir_in_out_to_pipe(int **pip, int y, int fd_in, int fd_out);
 void	redir_out_to_pipe(int **pip, int y, int fd_out);
 void	redir_in_or_out(t_node_cmd *cmd, int **pip, int y);
-void	redir_one_in_out(int fd_in, int fd_out);
+void	redir_one_in_out(int fd_in, int fd_out, int *fd);
 int copy_env_tab(t_data *data, size_t y);
 void setup_readline_rdocs(void);
 int status_one_cmd(pid_t pid);
@@ -169,8 +167,26 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip);
 int	add_env_value(t_data *data, char *value_content);
 int command_pwd(t_data *data, int fd);
 int	command_cd(t_data *data);
+int     ft_redir_child_process_one(t_node_cmd *cmd);
+void	redir_one_in_out_alone(int fd_in, int fd_out);
+int	control_builtin(t_node_cmd *cmd);
+int command_exit(t_node_cmd *cmd);
+int	ft_is_numeric(char	*str);
+int	exit_error_number(char *arg);
+int	create_value_return(t_data *data, size_t i);
+int road_builtin(t_data *data, t_node_cmd *cmd, int **pip, int y);
+int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip);
+int remove_env_node(t_node_env *ptr, t_node_env *prev);
 
-int	init_cmd(t_data *data ,char *argv);
+
+
+
+
+
+
+int	command_echo(t_data *data, int fd);
+bool	check_echo_arg(t_data *data, size_t *i, size_t j);
+void	init_cmd(t_data *data ,char *argv);
 t_redir	*redir_lst_new(int type, char *tok);
 void	ft_lstclear_redir(t_redir **lst);
 t_redir	*get_last_in(t_redir *redir);

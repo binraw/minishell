@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:51:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/31 12:40:16 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/17 09:03:19 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int init_env(t_data *data)
 		copy = copy->next;
 		y++;
 	}
+
 	data->env = malloc(sizeof(char*) * (y + 1));
 	if (!data->env)
 		return (-1);
@@ -54,7 +55,6 @@ int copy_env_tab(t_data *data, size_t y)
 
 
 
-
 int free_env(t_data *data)
 {
 	size_t i;
@@ -80,14 +80,28 @@ int init_node_env(t_data *data, char **envp)
     t_node_env *new_node;
 
     i = 0;
-    data->env_node = ft_lstnew(ft_strdup(envp[i]));
-    while (envp[++i])
-    {
-        new_node = ft_lstnew(ft_strdup(envp[i]));
-        if (!new_node)
-            return (-1);
-        ft_lstadd_back(data->env_node, new_node);
-    }
+
+	if (!envp[0])
+	{
+		data->env_node = ft_lstnew("OLDPWD");
+		new_node = ft_lstnew("PWD=/home/rtruvelo/minishell");
+		ft_lstadd_back(data->env_node, new_node);
+		new_node = ft_lstnew("SHLVL=1");
+		ft_lstadd_back(data->env_node, new_node);
+		new_node = ft_lstnew("_=usr/bin/env");
+		ft_lstadd_back(data->env_node, new_node);
+	}
+	else 
+	{
+    	data->env_node = ft_lstnew(envp[i]);
+    	while (envp[++i])
+    	{
+        	new_node = ft_lstnew(envp[i]);
+        	if (!new_node)
+            	return (-1);
+        	ft_lstadd_back(data->env_node, new_node);
+    	}
+	}
     return (0);
 }
 

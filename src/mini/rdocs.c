@@ -14,9 +14,7 @@
 
 
 
-// fonction a envoyer quand un rdocs est envoyer dans une commande
-// meme comportetment des infiles
-// f
+
 int init_rdocs(t_rdocs *rdocs)
 {
     int *fd;
@@ -52,7 +50,7 @@ setup_readline_rdocs();
 }
 
 
-int	open_all_rdocs(t_node_cmd *cmd) // je pense pas besoin de prendre data en argument
+int	open_all_rdocs(t_node_cmd *cmd) 
 {
 	t_redir *last_in;
 	t_rdocs *dup;
@@ -85,8 +83,6 @@ int command_rdocs(t_data *data)
 	dup = data->cmd;
 	while (dup)
 	{
-		/*printf("content dup : %s\n", dup->content[0]);*/
-		/*printf("dup rdocs content : %p\n", dup->rdocs);*/
 		if (dup->rdocs)
 			open_all_rdocs(dup);
 		dup = dup->next;
