@@ -1,14 +1,14 @@
-// ************************************************************************** //
-//                                                                            //
-//                                                        :::      ::::::::   //
-//   road_builtin.c                                     :+:      :+:    :+:   //
-//                                                    +:+ +:+         +:+     //
-//   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        //
-//                                                +#+#+#+#+#+   +#+           //
-//   Created: 2024/07/15 13:16:25 by rtruvelo          #+#    #+#             //
-//   Updated: 2024/07/17 13:07:12 by rtruvelo         ###   ########.fr       //
-//                                                                            //
-// ************************************************************************** //
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   road_builtin.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/15 13:16:25 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/07/17 13:29:10 by hbouyssi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 
 #include "mini.h"
@@ -74,7 +74,7 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0])) == 0)
 		{
-			unset_command(data, cmd->content[1]);
+			unset_command(data, &cmd->content[1]);
 			return (1);
 		}
 		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0])) == 0)
@@ -136,7 +136,7 @@ int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0])) == 0)
 		{
-			unset_command(data, cmd->content[1]);
+			unset_command(data, &cmd->content[1]);
 			exit(0);
 		}
 		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0])) == 0)

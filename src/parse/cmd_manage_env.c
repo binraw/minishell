@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:10:26 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/06/26 10:26:05 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/17 10:08:16 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,15 @@ char	*trim_env(t_data *data, char *pip)
 	{
 		quote = manage_quotes(pip[i], quote);
 		if (pip[i] == '$' && quote != 1)
-			cpy_env_to_str(var_to_env(&pip[i + 1], &i, data), str, &j);
+		{
+			if (pip[i + 1] == '?')
+			{
+				cpy_return_to_str(ft_itoa(data->last_pid), str, &j);
+				i += 2;
+			}
+			else
+				cpy_env_to_str(var_to_env(&pip[i + 1], &i, data), str, &j);
+		}
 		else
 		{
 			str[j] = pip[i];
@@ -86,6 +94,39 @@ void	cpy_env_to_str(char	*env, char *str, size_t *j)
 	}
 }
 
+void	cpy_return_to_str(char	*nb, char *str, size_t *j)
+{
+	size_t	i;
+
+	i = 0;
+	if (!nb)
+		return ;
+	while (nb[i])
+	{
+		str[*j] = nb[i];
+		*j = *j + 1;
+		i++;
+	}
+	free(nb);
+}
+
+size_t	ft_intlen(int nb)
+{
+	size_t	len;
+
+	len = 0;
+	if (nb < 0)
+		len++;
+	if (nb == 0)
+		return (1);
+	while (nb != 0)
+	{
+		len++;
+		nb /= 10;
+	}
+	return (len);
+}
+
 size_t	trim_env_len(char *str, t_data *data)
 {
 	size_t	i;
@@ -99,7 +140,15 @@ size_t	trim_env_len(char *str, t_data *data)
 	{
 		quote = manage_quotes(str[i], quote);
 		if (str[i] == '$' && quote != 1)
-			len += ft_strlen(var_to_env(&str[i + 1], &i, data));
+		{
+			if (str[i + 1] == '?')
+			{
+				len += ft_intlen(data->last_pid);
+				i += 2;
+			}
+			else
+				len += ft_strlen(var_to_env(&str[i + 1], &i, data));
+		}
 		else
 		{
 			len++;

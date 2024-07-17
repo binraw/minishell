@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/17 09:07:15 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:28:48 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char	*value_old_pwd(t_node_env *head);
 int	ft_lstsize(t_node_env *head);
 int		control_export_value(char *value_content);
 int		control_export_name(t_data *data, char *value_content);
-int	unset_command(t_data *data, char *value);
+int	unset_command(t_data *data, char **content);
 void    ft_lstclear_cmd(t_node_cmd **lst);
 int	ft_lstadd_back_cmd(t_node_cmd *lst, t_node_cmd *new_node);
 t_node_cmd	*ft_lstlast_cmd(t_node_cmd *lst);
@@ -217,5 +217,7 @@ t_redir	*redir_get_last(t_redir *redir);
 bool	parsing_error(char	*str);
 bool	check_parsing_error(char *str, char c, size_t	*i);
 bool	print_parsing_error(char c);
+size_t	ft_intlen(int nb);
+void	cpy_return_to_str(char	*nb, char *str, size_t *j);
 
 #endif
