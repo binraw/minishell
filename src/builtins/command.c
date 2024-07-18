@@ -28,7 +28,10 @@ int command_pwd(t_data *data, int fd)
 	{
 		pos = malloc((size_t)size * sizeof(char *));
 		if (!pos)
-			return (perror("malloc() error"), -1);
+		{
+			perror("malloc() error");
+			exit(1);
+		}
 		if (getcwd(pos, (size_t)size) != NULL)
 		{
 			ft_putstr_fd(pos, fd);
@@ -54,7 +57,10 @@ int	command_cd(t_data *data)
 	new_value = NULL;
 	old_pwd = ft_strdup(value_pwd(data->env_node));
 	if (!old_pwd)
-		return (printf("error oldpwd"), -1);
+	{
+		printf("error oldpwd");
+		exit(1);
+	}
 	if (ft_strncmp(data->cmd->content[0], "cd", ft_strlen(data->cmd->content[0])) == 0 && !data->cmd->content[1])
 		cd_to_home(data);
 	if (data->cmd->content[1])
@@ -120,6 +126,8 @@ char	*value_old_pwd(t_node_env *head)
 				i++;
 			i++;
 			value = ft_strdup((current->content + i));
+			if (!value)
+				exit(1);
             return (value);
 		}
         current = current->next;
@@ -143,6 +151,8 @@ char	*value_pwd(t_node_env *head)
 				i++;
 			i++;
 			value = ft_strdup((current->content + i));
+			if (!value)
+				exit(1);
             return (value);
 		}
         current = current->next;
@@ -157,7 +167,10 @@ int cd_to_home(t_data *data)
 	
 	old_pwd = ft_strdup(value_pwd(data->env_node));
 	if (!old_pwd)
-		return (printf("error oldpwd"), -1);
+	{
+		printf("error oldpwd");
+		exit(1);
+	}
 	copy = data->env_node;
 	while (copy != NULL)
 	{
@@ -168,7 +181,7 @@ int cd_to_home(t_data *data)
 	if (!copy->value)
 	{
 		ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
-		return (1);
+		 exit(1);
 	}
 	if (chdir(copy->value) == 0)
 	{

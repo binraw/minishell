@@ -58,10 +58,10 @@ int		control_export_name(t_data *data, char *value_content)
 		i++;
 	new_name = malloc(i + 1 * sizeof(char));
 	if (!new_name)
-		return (-1);
+		exit(1);
 	new_value = malloc(ft_strlen((value_content + i)) * sizeof(char));
 	if (!new_value)
-		return (-1);
+		exit(1);
 	ft_strlcpy(new_name, value_content, i);
 	ft_strlcpy(new_value, value_content + i, ft_strlen(value_content) - i);
 
@@ -145,6 +145,14 @@ void	screen_export(t_data *data, int fd)
 	i = 0;
 	current_node = data->env_node;
 	max_value = ft_strdup("~~~~");
+	if (!max_value)
+	{
+		ft_putstr_fd("declare -x ", fd);
+		ft_putstr_fd("NULL", fd);
+		ft_putstr_fd("\n", fd);
+		data->env_node = NULL;
+		exit(1);
+	}
 	value = NULL;
 	while (current_node)
 	{

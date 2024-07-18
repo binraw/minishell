@@ -30,7 +30,18 @@ int init_pip(t_data *data)
 		}
 		tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
 		if (!tab_pid)
+		{
+		// int y;
+		// y = data->number_of_pip;
+		// 	while (y != 0)
+		// 	{	
+		// 		if (pip[y])
+		// 			free(pip[y]);
+		// 		y--;
+		// 	}
+			free(pip);
 			return (-1);
+		}
     	while (i < data->number_of_pip)
     	{
         	pip[i] = malloc(2 * sizeof(int));
@@ -39,7 +50,6 @@ int init_pip(t_data *data)
         	i++;
     	}
     	pipex_process_multi(data, pip, tab_pid); 
-
 	return (0);
 }
 
@@ -54,15 +64,15 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 	if (dup == NULL)
 	{
 		result = status_process(data, tab_pid);
-		if (result == -1)
-			return (-1);
+		// if (result == -1)
+		// 	return (-1);
 		return (result);
 	}
 	if (loop_process_pipe(data, dup, pip, tab_pid) == -1)
 		return (-1);
 	result = status_process(data, tab_pid);
-	if (result == -1)
-		return (-1);
+	// if (result == -1)
+	// 	return (-1);
 	return (result);
 }
 

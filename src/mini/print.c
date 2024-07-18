@@ -32,8 +32,9 @@ int main(int argc, char **argv, char **envp)
         {
             return (0);
         }
+
 			if (init_cmd(&vars, vars.str))
-				init_pip(&vars);
+					init_pip(&vars);
 	 } 
 	return (0);
 }

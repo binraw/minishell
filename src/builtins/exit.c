@@ -6,7 +6,7 @@
 //   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2024/07/15 10:43:53 by rtruvelo          #+#    #+#             //
-//   Updated: 2024/07/15 15:33:19 by rtruvelo         ###   ########.fr       //
+//   Updated: 2024/07/18 11:48:45 by rtruvelo         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -35,8 +35,12 @@ int	ft_is_numeric(char	*str)
 
 	i = 0;
 	while (str[i])
-		if (!ft_isdigit(str[i++]))
+	{
+		if (str[i] == '+')
+			i++;
+		else if (!ft_isdigit(str[i++]))
 			return (0);
+	}
 	return (1);
 }
 
