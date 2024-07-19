@@ -6,11 +6,13 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/17 09:05:12 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:16:10 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini/mini.h"
+
+// int	parsing_test(t_data *data);
 
 // on construit la structure cmd
 int	init_cmd(t_data *data, char *argv)
@@ -109,19 +111,9 @@ size_t	ft_count_str(char *str, char sep)
 	return (count);
 }
 
-// main de test
-// int	main(int ac, char **av, char **envp)
+// fonction de test
+// int	parsing_test(t_data *data)
 // {
-// 	(void)ac;
-// 	(void)av;
-// 	t_data	*data = malloc(sizeof(t_data));
-// 	init_node_env(data, envp);
-// 	init_env(data);
-// 	char	*str = NULL;
-// 	while(!str)
-// 		str = readline(NULL);
-// 	init_cmd(data, str);
-// 	free(str);
 // 	t_node_cmd	*ptr = data->cmd;
 // 	t_redir 	*red_ptr;
 // 	t_rdocs		*rdoc_ptr;
@@ -130,7 +122,7 @@ size_t	ft_count_str(char *str, char sep)
 // 	printf("number of pip = %i\n", data->number_of_pip);
 // 	while (ptr)
 // 	{
-// 		printf("node %i:\n", ptr->index);
+// 		printf("group %i:\n", ptr->index);
 // 		y = 0;
 // 		while (ptr->content[y])
 // 		{
@@ -153,7 +145,8 @@ size_t	ft_count_str(char *str, char sep)
 // 			red_ptr = red_ptr->next;
 // 		}
 // 		printf("\n");
-// 		printf("rdocs list :\n");
+// 		if (rdoc_ptr)
+// 			printf("rdocs list :\n");
 // 		while (rdoc_ptr)
 // 		{
 // 			printf("%s\n", rdoc_ptr->limit);
@@ -163,9 +156,5 @@ size_t	ft_count_str(char *str, char sep)
 // 		ptr = ptr->next;
 // 		i++;
 // 	}
-// 	ft_lstclear_cmd(&data->cmd);
-// 	ft_lstclear_env(data);
-// 	free_env(data);
-// 	free(data);
 // 	return (0);
 // }

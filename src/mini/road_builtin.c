@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:16:25 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/17 13:29:10 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:09:00 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0])) == 0)
 		{
-			command_echo(data, pip);
+			command_echo(cmd, pip);
 			return (1);
 		}
 		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0])) == 0)
@@ -158,7 +158,7 @@ int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0])) == 0)
 		{
-			command_echo(data, pip);
+			command_echo(cmd, pip);
 			exit(0);
 		}
 		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0])) == 0)

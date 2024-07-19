@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 10:27:14 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/06/27 14:00:05 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:15:02 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ void	ft_trim_cmd_quote(t_node_cmd *cmd)
 	t_redir		*r_ptr;
 	t_rdocs		*rd_ptr;
 
-	i = 0;
 	ptr = cmd;
 	while (ptr)
 	{
+		i = 0;
 		while (ptr->content[i])
 		{
 			ptr->content[i] = ft_trim_quote(ptr->content[i]);
@@ -102,19 +102,21 @@ size_t	quote_len(char *str)
 {
 	int		quote;
 	size_t	len;
+	size_t	i;
 
 	quote = 0;
 	len = 0;
-	while (*str)
+	i = 0;
+	while (str[i])
 	{
-		if (quote != manage_quotes(*str, quote))
+		if (quote != manage_quotes(str[i], quote))
 		{
-			quote = manage_quotes(*str, quote);
-			str++;
+			quote = manage_quotes(str[i], quote);
+			i++;
 		}
 		else
 		{
-			str++;
+			i++;
 			len++;
 		}
 	}

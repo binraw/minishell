@@ -6,13 +6,13 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:14:32 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/17 09:02:16 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:14:16 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini/mini.h"
 
-int	command_echo(t_data *data, int fd)
+int	command_echo(t_node_cmd *cmd, int fd)
 {
 	size_t	i;
 	size_t	j;
@@ -22,12 +22,12 @@ int	command_echo(t_data *data, int fd)
 	j = 0;
 	if (fd == 0)
 		fd = 1;
-	arg = check_echo_arg(data, &i, j);
-	while (data->cmd->content[i])
+	arg = check_echo_arg(cmd, &i, j);
+	while (cmd->content[i])
 	{
-		ft_putstr_fd(data->cmd->content[i], fd);
+		ft_putstr_fd(cmd->content[i], fd);
 		i++;
-		if (data->cmd->content[i])
+		if (cmd->content[i])
 			ft_putchar_fd(' ', fd);
 	}
 	if (arg == false)
@@ -35,21 +35,21 @@ int	command_echo(t_data *data, int fd)
 	return (0);
 }
 
-bool	check_echo_arg(t_data *data, size_t *i, size_t j)
+bool	check_echo_arg(t_node_cmd *cmd, size_t *i, size_t j)
 {
 	bool	arg;
 
 	arg = false;
-	while (data->cmd->content[*i])
+	while (cmd->content[*i])
 	{
-		if (data->cmd->content[*i][0] == '-')
+		if (cmd->content[*i][0] == '-')
 		{
 			j = 1;
-			while (data->cmd->content[*i][j - 1])
+			while (cmd->content[*i][j - 1])
 			{
-				if (!data->cmd->content[*i][j] && j > 1)
+				if (!cmd->content[*i][j] && j > 1)
 					arg = true;
-				else if (data->cmd->content[*i][j] != 'n')
+				else if (cmd->content[*i][j] != 'n')
 					return (arg);
 				j++;
 			}

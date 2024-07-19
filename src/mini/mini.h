@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/17 13:28:48 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:11:27 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,8 +182,8 @@ char	*get_next_line(int fd);
 
 
 
-int	command_echo(t_data *data, int fd);
-bool	check_echo_arg(t_data *data, size_t *i, size_t j);
+int	command_echo(t_node_cmd *cmd, int fd);
+bool	check_echo_arg(t_node_cmd *cmd, size_t *i, size_t j);
 int	init_cmd(t_data *data ,char *argv);
 t_redir	*redir_lst_new(int type, char *tok);
 void	ft_lstclear_redir(t_redir **lst);

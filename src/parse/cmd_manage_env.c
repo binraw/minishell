@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:10:26 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/07/17 10:08:16 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/17 14:07:40 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,12 @@ char	*trim_env(t_data *data, char *pip)
 			{
 				cpy_return_to_str(ft_itoa(data->last_pid), str, &j);
 				i += 2;
+			}
+			else if (!pip[i + 1] || pip[i + 1] == ' ' || pip[i + 1] == '\t' || pip[i + 1] == '$')
+			{
+				str[j] = pip[i];
+				i++;
+				j++;
 			}
 			else
 				cpy_env_to_str(var_to_env(&pip[i + 1], &i, data), str, &j);
@@ -145,6 +151,11 @@ size_t	trim_env_len(char *str, t_data *data)
 			{
 				len += ft_intlen(data->last_pid);
 				i += 2;
+			}
+			else if (!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '\t' || str[i + 1] == '$')
+			{
+				len++;
+				i++;
 			}
 			else
 				len += ft_strlen(var_to_env(&str[i + 1], &i, data));
