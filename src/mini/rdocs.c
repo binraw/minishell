@@ -22,6 +22,8 @@ int init_rdocs(t_rdocs *rdocs)
 
 setup_readline_rdocs();
     fd = malloc(2 * sizeof(int));
+	if (!fd)
+		return (-1);
     if (pipe(fd) == -1)
 		return (-1);
     rdocs->go = false;

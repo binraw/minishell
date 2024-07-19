@@ -38,7 +38,6 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 {
 	int i;
 
-
 	i = 0;
 		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0])) == 0)
 		{
@@ -51,6 +50,11 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 			
 			if (cmd->content[1])
 			{
+
+				if (data->number_of_cmd > 1)
+				{
+					return (1);
+				}
 				i = 1;
 				while (cmd->content[i])
 				{
@@ -84,6 +88,9 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0])) == 0)
 		{
+			
+			if (data->number_of_cmd > 1)
+				return (1);
 			command_cd(data);
 			return (1);
 		}
