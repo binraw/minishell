@@ -1,0 +1,25 @@
+>">" asd
+
+>> '$USER'
+
+cat << "$US"E"R"
+
+>> $HOME
+
+>> "$H"OM"E"
+
+>> "$USER'$USER'"
+
+unset
+
+unset $
+
+unset "$"
+
+cat << 'lim'
+
+> out
+
+< out
+
+
