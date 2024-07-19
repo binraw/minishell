@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/28 13:09:01 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:25:16 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,15 @@ int main(int argc, char **argv, char **envp)
 	 {
 		init_env(&vars);
 		setup_readline_signals();
-        vars.str = readline("Minishell: ");	
-
+		if (isatty(fileno(stdin)))
+        		vars.str = readline("Minishell: ");	
+		else
+		{
+			char *line;
+			line = get_next_line(fileno(stdin));
+			vars.str = ft_strtrim(line, "\n");
+			free(line);
+		}
 		after_readline_signals();
         if (vars.str == NULL)
         {

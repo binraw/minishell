@@ -6,7 +6,7 @@
 //   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2024/07/15 10:43:53 by rtruvelo          #+#    #+#             //
-//   Updated: 2024/07/18 11:48:45 by rtruvelo         ###   ########.fr       //
+//   Updated: 2024/07/19 10:23:42 by rtruvelo         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -14,7 +14,7 @@
 
 int command_exit(t_node_cmd *cmd)
 {
-	ft_putstr_fd("exit\n", 1);
+	// ft_putstr_fd("exit\n", 1);
 	if (!(cmd->content[1]))
 		exit(0);
 	if ((ft_is_numeric(cmd->content[1]) == 0))

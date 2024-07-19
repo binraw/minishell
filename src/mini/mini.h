@@ -175,7 +175,7 @@ int	create_value_return(t_data *data, size_t i);
 int road_builtin(t_data *data, t_node_cmd *cmd, int **pip, int y);
 int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip);
 int remove_env_node(t_node_env *ptr, t_node_env *prev);
-
+char	*get_next_line(int fd);
 
 
 
