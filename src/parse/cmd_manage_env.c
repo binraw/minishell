@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:10:26 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/07/17 14:07:40 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:58:31 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ void	cmd_manage_env(t_data *data, char **pips)
 	}
 }
 
+bool	is_dollar_print(char c, int quote)
+{
+	if (ft_isalpha(c) || c == '_')
+		return (false);
+	if (quote == 0 && (c == '\"' || c == '\''))
+		return (false);
+	return (true);
+}
+
 char	*trim_env(t_data *data, char *pip)
 {
 	char	*str;
@@ -64,7 +73,7 @@ char	*trim_env(t_data *data, char *pip)
 				cpy_return_to_str(ft_itoa(data->last_pid), str, &j);
 				i += 2;
 			}
-			else if (!pip[i + 1] || pip[i + 1] == ' ' || pip[i + 1] == '\t' || pip[i + 1] == '$')
+			else if (is_dollar_print(pip[i + 1], quote))
 			{
 				str[j] = pip[i];
 				i++;
@@ -152,7 +161,7 @@ size_t	trim_env_len(char *str, t_data *data)
 				len += ft_intlen(data->last_pid);
 				i += 2;
 			}
-			else if (!str[i + 1] || str[i + 1] == ' ' || str[i + 1] == '\t' || str[i + 1] == '$')
+			else if (is_dollar_print(str[i + 1], quote))
 			{
 				len++;
 				i++;
@@ -181,14 +190,14 @@ char	*var_to_env(char *str, size_t *index, t_data *data)
 	while (ft_isalnum(str[i]) || str[i] == '_')
 		i++;
 	*index = *index + i + 1;
-	if (i <= 1)
+	if (i < 1)
 		return (NULL);
 	cpy = malloc(sizeof(char) * (i + 1));
 	i = ft_strlcpy(cpy, str, i + 1);
 	ptr = data->env_node;
 	while (ptr)
 	{
-		if (ft_strncmp(cpy, ptr->name, i) == 0)
+		if (ft_strncmp(cpy, ptr->name, i + 1) == 0)
 		{
 			free(cpy);
 			return (ptr->value);

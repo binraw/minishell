@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:15:19 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/26 09:58:53 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:52:02 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,13 @@ int		control_export_name(t_data *data, char *value_content)
 	new_value = malloc(ft_strlen((value_content + i)) * sizeof(char));
 	if (!new_value)
 		exit(1);
-	ft_strlcpy(new_name, value_content, i);
+	ft_strlcpy(new_name, value_content, i + 1);
+	printf("new_name = %s\n", new_name);
 	ft_strlcpy(new_value, value_content + i, ft_strlen(value_content) - i);
 
 	while (head)
 	{
-		if ((ft_strncmp(head->name, new_name, ft_strlen(new_name)) == 0))
+		if ((ft_strncmp(head->name, new_name, ft_strlen(new_name) + 1) == 0))
 		{
 			free(head->value);
 			free(head->content);

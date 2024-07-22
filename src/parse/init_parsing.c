@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/19 10:16:10 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:55:37 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int	init_cmd(t_data *data, char *argv)
 	char		*tok;
 
 	i = 0;
+	data->last_pid = 0;
 	if (parsing_error(argv))
 		return (0);
 	data->number_of_pip = ft_count_str(argv, '|') - 1;
@@ -37,6 +38,7 @@ int	init_cmd(t_data *data, char *argv)
 	pips[i] = NULL;
 	fill_cmd_content(data, pips);
 	ft_trim_cmd_quote(data->cmd);
+	// parsing_test(data);
 	return (1);
 }
 
@@ -69,7 +71,7 @@ t_node_cmd	*cmd_get_content(char *str, size_t index)
 
 	i = 0;
 	cmd = ft_lstnew_cmd(index);
-	cmd->content = malloc(sizeof(char *) * (ft_count_str(str, ' ') + 1));
+	cmd->content = malloc(sizeof(char *) * (ft_count_cmd(str) + 1));
 	tok = ft_strtok(str, " \t", true);
 	while (tok)
 	{
@@ -109,6 +111,63 @@ size_t	ft_count_str(char *str, char sep)
 	if (i != 0 && str[i - 1] != sep)
 		count++;
 	return (count);
+}
+
+size_t	ft_count_cmd(char *str)
+{
+	size_t		i;
+	size_t		count;
+	int			quote;
+
+	i = 0;
+	count = 0;
+	quote = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			quote = manage_quotes(str[i], quote);
+		if (quote == 0 && (str[i] == '>' || str[i] == '<'))
+			i = ft_skip_redir(str, i);
+		else if (quote == 0 && str[i] != ' ' && str[i] != '\t' && (str[i] == 0 || (str[i - 1] != ' ' && str[i - 1] != '\t')))
+		{
+			count++;
+			i++;
+		}
+		else
+			i++;
+	}
+	return (count);
+}
+
+size_t	ft_skip_redir(char *str, size_t i)
+{
+	int quote;
+
+	quote = 0;
+	while (str[i] == '<' || str[i] == '>')
+		i++;
+	quote = manage_quotes(str[i], quote);
+	while (quote)
+	{
+		quote = manage_quotes(str[i], quote);
+		i++;
+	}
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	quote = manage_quotes(str[i], quote);
+	while (quote)
+	{
+		quote = manage_quotes(str[i], quote);
+		i++;
+	}
+	while (str[i] && (str[i] != ' ' || str[i] != '\t' || quote != 0))
+	{
+		quote = manage_quotes(str[i], quote);
+		i++;
+	}
+	return (i);
 }
 
 // fonction de test
