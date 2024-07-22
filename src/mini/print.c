@@ -42,7 +42,7 @@ int main(int argc, char **argv, char **envp)
 
 			if (init_cmd(&vars, vars.str))
 		{
-			printf("rentre dans pip\n");
+			
 					init_pip(&vars);
 		}
 	 } 

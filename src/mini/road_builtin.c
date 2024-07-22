@@ -39,6 +39,7 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 	int i;
 
 	i = 0;
+
 		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
 	
@@ -143,7 +144,6 @@ int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
-			printf("rentre dans built\n");
 			unset_command(data, &cmd->content[1]);
 			exit(0);
 		}

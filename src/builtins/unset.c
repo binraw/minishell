@@ -28,7 +28,7 @@ int	unset_command(t_data *data, char **content)
 		while (ptr)
 		{
 			next = ptr->next;
-			if (ft_strncmp(ptr->name, content[i], ft_strlen(content[i])) == 0)
+			if (ft_strncmp(ptr->name, content[i], ft_strlen(content[i]) + 1) == 0)
 				remove_env_node(ptr, prev);
 			else
 				prev = ptr;
