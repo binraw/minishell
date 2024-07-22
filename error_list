@@ -1,3 +1,8 @@
+
+
+segmentation fault :
+
+
 >">" asd
 
 >> '$USER'
@@ -21,5 +26,16 @@ cat << 'lim'
 > out
 
 < out
+
+
+
+
+MAUVAIS FONCTIONNEMENT :
+
+| echo -n oui
+
+"."
+
+|ls | ls
 
 

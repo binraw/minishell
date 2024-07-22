@@ -20,6 +20,7 @@ int init_pip(t_data *data)
 
     i = 0;
 	command_rdocs(data);
+
 		if (data->number_of_pip == 0)
 			pip = NULL;
 		else
@@ -96,6 +97,19 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 	y = 0;
 	i = 0;
 	dup = data->cmd;
+	if (!dup->content[0] && dup->redir)
+	{
+		open_all_redir(dup);
+		if(get_last_out(dup->redir))
+			value_final_out(dup);
+		else if	(get_last_in(dup->redir))
+		{
+			value_final_in(dup);
+			return (1);
+		}
+		return(0);
+	}
+		
 	if (data->number_of_pip != 0)
 		if (pipe(pip[y]) == -1)
 			return (-1);
