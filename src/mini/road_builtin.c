@@ -39,13 +39,13 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 	int i;
 
 	i = 0;
-		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
 	
 			command_env(data, pip);
 			return (1);
 		}
-		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
 			
 			if (cmd->content[1])
@@ -76,17 +76,17 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 
 			return (1);
 		}
-		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
 			unset_command(data, &cmd->content[1]);
 			return (1);
 		}
-		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
 			command_pwd(data, pip);
 			return (1);
 		}
-		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
 			
 			if (data->number_of_cmd > 1)
@@ -94,12 +94,12 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 			command_cd(data);
 			return (1);
 		}
-		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
 			command_echo(cmd, pip);
 			return (1);
 		}
-		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0]) + 1) == 0)
 			return (command_exit(cmd));
 	return (0);
 }
@@ -114,13 +114,13 @@ int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip)
 
 
 	i = 0;
-		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
 	
 			command_env(data, pip);
 			exit(0);
 		}
-		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
 			
 			if (cmd->content[1])
@@ -141,27 +141,28 @@ int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip)
 
 			exit(0);
 		}
-		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
+			printf("rentre dans built\n");
 			unset_command(data, &cmd->content[1]);
 			exit(0);
 		}
-		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
 			command_pwd(data, pip);
 			exit(0);
 		}
-		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
 			command_cd(data);
 			exit(0);
 		}
-		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
 			command_echo(cmd, pip);
 			exit(0);
 		}
-		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0])) == 0)
+		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0]) + 1) == 0)
 			return (command_exit(cmd));
 	return (0);
 }

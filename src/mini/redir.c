@@ -132,7 +132,10 @@ int	value_final_in(t_node_cmd *cmd)
 	{
 		fd_in = open(get_last_in(cmd->redir)->content , (O_RDONLY), 00644);
 		if (fd_in <= 0)
-			exit(1);
+		{
+			printf("bash: %s: No such file or directory\n", cmd->redir->content);
+			return(1);
+		}
 	}
 	else 
 		fd_in = cmd->fd_rdoc;

@@ -1,0 +1,41 @@
+
+
+segmentation fault :
+
+
+>">" asd
+
+>> '$USER'
+
+cat << "$US"E"R"
+
+>> $HOME
+
+>> "$H"OM"E"
+
+>> "$USER'$USER'"
+
+unset
+
+unset $
+
+unset "$"
+
+cat << 'lim'
+
+> out
+
+< out
+
+
+
+
+MAUVAIS FONCTIONNEMENT :
+
+| echo -n oui
+
+"."
+
+|ls | ls
+
+
