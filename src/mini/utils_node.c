@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:45:54 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/24 12:33:56 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/22 10:52:53 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_node_env	*ft_lstnew(char *content)
 		return (NULL);
 	element->content = content;
 	line = ft_strdup(content);
-    element->name = ft_strtok(line, "=", false);;
+    element->name = ft_strtok(line, "=", false);
     element->next = NULL;
 	element->print = false;
 	i = 1;
