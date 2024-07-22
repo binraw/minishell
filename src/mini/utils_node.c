@@ -25,7 +25,7 @@ t_node_env	*ft_lstnew(char *content)
 		return (NULL);
 	element->content = content;
 	line = ft_strdup(content);
-    element->name = ft_strtok(line, "=", false);;
+    element->name = ft_strtok(line, "=", false);
     element->next = NULL;
 	element->print = false;
 	i = 1;
