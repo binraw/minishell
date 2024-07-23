@@ -65,7 +65,7 @@ int open_redir_out(t_redir *dup)
 	{
 		i =  open(dup->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
 	   	if (i < 0)
-			return (-1);
+			exit(1);
 		close(i);
 	}
 	return (0);
@@ -150,9 +150,17 @@ int	value_final_out(t_node_cmd *cmd)
 	if (get_last_out(cmd->redir))
 	{
 		if (get_last_out(cmd->redir)->d_out)
+		{
 			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_APPEND), 00644);
+			if (fd_out < 0)
+				exit(1);
+		}
 		else
+		{
 			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
+			if (fd_out < 0)
+				exit(1);
+		}
 	}
 	return (fd_out);
 }

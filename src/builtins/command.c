@@ -50,12 +50,18 @@ int command_pwd(t_data *data, int fd)
 
 int	command_cd(t_data *data)
 {
-	// ici changer car ca doit etre le num de la commande
 	char		*old_pwd;
 	char		*new_value;
 	
 	new_value = NULL;
 	old_pwd = ft_strdup(value_pwd(data->env_node));
+	if (chdir(data->cmd->content[1]) == 0)
+	{
+		modifyValue(data->env_node, "OLDPWD", old_pwd);
+		modifyValue(data->env_node, "PWD", data->cmd->content[1]);
+		return (0);
+	}
+
 	if (!old_pwd)
 	{
 		printf("error oldpwd");
@@ -78,10 +84,12 @@ int	command_cd(t_data *data)
 
 		modifyValue(data->env_node, "OLDPWD", old_pwd);
 		modifyValue(data->env_node, "PWD", new_value);
+		return (0);
 	}
 	else
 	{
-		printf("%s\n", strerror(errno));
+		 print_error_cd(data->cmd);
+		// printf(" %s :%s\n", data->cmd->content[1], strerror(errno));
 		return (1);
 	}
 	return (0);

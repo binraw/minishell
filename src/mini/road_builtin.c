@@ -16,7 +16,6 @@
 
 int road_builtin(t_data *data, t_node_cmd *cmd, int **pip, int y)
 {
-
 		if (cmd->redir)
 		{
 			if (pip)
@@ -91,7 +90,9 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 		{
 			
 			if (data->number_of_cmd > 1)
+		{
 				return (1);
+		}
 			 data->last_pid = command_cd(data);
 			// printf("valeur datapid %d\n", data->last_pid);
 			return (1);
@@ -155,6 +156,16 @@ int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
+			if (data->number_of_cmd > 1)
+			{	
+				if (chdir(cmd->content[1]) == 0)
+					exit(0);
+				else
+				{
+					print_error_cd(cmd);
+					exit(0);
+				}
+			}
 			command_cd(data);
 			exit(0);
 		}
@@ -170,7 +181,13 @@ int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip)
 
 
 
-
+int print_error_cd(t_node_cmd *cmd)
+{
+	ft_putstr_fd("bash :", 2);
+	ft_putstr_fd(cmd->content[1], 2);
+	ft_putstr_fd(" :No such file or directory\n", 2);
+	return (0);
+}
 
 
 
