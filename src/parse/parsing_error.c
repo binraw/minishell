@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 11:10:07 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/07/19 13:03:06 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:58:27 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ bool	check_parsing_error(char *str, char c, size_t *i)
 
 bool	print_parsing_error(char c)
 {
-	write(1, "bash: syntax error near unexpected token `", 42);
+	write(2, "bash: syntax error near unexpected token `", 42);
 	if (c == '\0' || c == '\n')
-		write(1, "newline", 7);
+		write(2, "newline", 7);
 	else
-		write(1, &c, 1);
-	write(1, "\'\n", 2);
+		write(2, &c, 1);
+	write(2, "\'\n", 2);
 	return (true);
 }

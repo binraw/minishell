@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:10:26 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/07/22 10:58:31 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:23:02 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	cmd_manage_env(t_data *data, char **pips)
 		while (pips[i][j])
 		{
 			quote = manage_quotes(pips[i][j], quote);
-			if (pips[i][j] == '$' && quote != 1)
+			if ((pips[i][j] == '$' || pips[i][j] == '~') && quote != 1)
 			{
 				pips[i] = trim_env(data, pips[i]);
 				break ;
@@ -45,6 +45,17 @@ bool	is_dollar_print(char c, int quote)
 	if (quote == 0 && (c == '\"' || c == '\''))
 		return (false);
 	return (true);
+}
+
+bool	is_tilde_home(char c, int quote)
+{
+	if (quote != 0)
+		return (false);
+	if (c == ' ' || c == '\t' || c == '\n' || c == '\0' || c == '|')
+		return (true);
+	if (c == '<' || c == '>')
+		return (true);
+	return (false);
 }
 
 char	*trim_env(t_data *data, char *pip)
@@ -83,6 +94,11 @@ char	*trim_env(t_data *data, char *pip)
 			}
 			else
 				cpy_env_to_str(var_to_env(&pip[i + 1], &i, data), str, &j);
+		}
+		else if (pip[i] == '~' && is_tilde_home(pip[i + 1], quote))
+		{
+			cpy_env_to_str(tilde_to_home(data), str, &j);
+			i++;
 		}
 		else
 		{
@@ -171,6 +187,11 @@ size_t	trim_env_len(char *str, t_data *data)
 			else
 				len += ft_strlen(var_to_env(&str[i + 1], &i, data));
 		}
+		else if (str[i] == '~' && is_tilde_home(str[i + 1], quote))
+		{
+			len += ft_strlen(tilde_to_home(data));
+			i++;
+		}
 		else
 		{
 			len++;
@@ -208,4 +229,18 @@ char	*var_to_env(char *str, size_t *index, t_data *data)
 	}
 	free(cpy);
 	return (NULL);
+}
+
+char	*tilde_to_home(t_data *data)
+{
+	t_node_env	*ptr;
+
+	ptr = data->env_node;
+	while (ptr)
+	{
+		if (ft_strncmp("HOME", ptr->name, 5) == 0)
+			return (ptr->value);
+		ptr = ptr->next;
+	}
+	return ("~");
 }

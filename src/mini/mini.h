@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/22 09:34:51 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:22:14 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,5 +221,6 @@ size_t	ft_intlen(int nb);
 void	cpy_return_to_str(char	*nb, char *str, size_t *j);
 size_t	ft_count_cmd(char *str);
 size_t	ft_skip_redir(char *str, size_t i);
+char	*tilde_to_home(t_data *data);
 
 #endif

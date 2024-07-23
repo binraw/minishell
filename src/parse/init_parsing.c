@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/23 09:59:13 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/23 13:54:08 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ int	init_cmd(t_data *data, char *argv)
 
 	i = 0;
 	if (parsing_error(argv))
+	{
+		data->last_pid = 2;
 		return (0);
+	}
 	data->number_of_pip = ft_count_str(argv, '|') - 1;
 	data->number_of_cmd = data->number_of_pip + 1;
 	pips = malloc(sizeof(char *) * (data->number_of_cmd + 1));
@@ -126,10 +129,14 @@ size_t	ft_count_cmd(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
+		{
+			if (quote == 0 && (i == 0 || str[i - 1] == ' ' || str[i - 1] == '\t'))
+				count++;
 			quote = manage_quotes(str[i], quote);
+		}
 		if (quote == 0 && (str[i] == '>' || str[i] == '<'))
 			i = ft_skip_redir(str, i);
-		else if (quote == 0 && str[i] != ' ' && str[i] != '\t' && (str[i] == 0 || (str[i - 1] != ' ' && str[i - 1] != '\t')))
+		else if (quote == 0 && str[i] != ' ' && str[i] != '\t' && (i == 0 || str[i - 1] == ' ' || str[i - 1] == '\t'))
 		{
 			count++;
 			i++;
@@ -147,12 +154,6 @@ size_t	ft_skip_redir(char *str, size_t i)
 	quote = 0;
 	while (str[i] == '<' || str[i] == '>')
 		i++;
-	quote = manage_quotes(str[i], quote);
-	while (quote)
-	{
-		quote = manage_quotes(str[i], quote);
-		i++;
-	}
 	while (str[i] == ' ' || str[i] == '\t')
 		i++;
 	quote = manage_quotes(str[i], quote);
@@ -161,7 +162,7 @@ size_t	ft_skip_redir(char *str, size_t i)
 		quote = manage_quotes(str[i], quote);
 		i++;
 	}
-	while (str[i] && (str[i] != ' ' || str[i] != '\t' || quote != 0))
+	while ((str[i] && str[i] != ' ' && str[i] != '\t') || (str[i] && quote !=0))
 	{
 		quote = manage_quotes(str[i], quote);
 		i++;
