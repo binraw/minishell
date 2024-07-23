@@ -134,7 +134,7 @@ int	value_final_in(t_node_cmd *cmd)
 		if (fd_in <= 0)
 		{
 			printf("bash: %s: No such file or directory\n", cmd->redir->content);
-			return(1);
+			exit(1);
 		}
 	}
 	else 

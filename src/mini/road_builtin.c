@@ -92,7 +92,8 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 			
 			if (data->number_of_cmd > 1)
 				return (1);
-			command_cd(data);
+			 data->last_pid = command_cd(data);
+			// printf("valeur datapid %d\n", data->last_pid);
 			return (1);
 		}
 		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0]) + 1) == 0)

@@ -80,7 +80,10 @@ int	command_cd(t_data *data)
 		modifyValue(data->env_node, "PWD", new_value);
 	}
 	else
+	{
 		printf("%s\n", strerror(errno));
+		return (1);
+	}
 	return (0);
 }
 
