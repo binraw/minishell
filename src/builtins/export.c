@@ -63,7 +63,6 @@ int		control_export_name(t_data *data, char *value_content)
 	if (!new_value)
 		exit(1);
 	ft_strlcpy(new_name, value_content, i + 1);
-	printf("new_name = %s\n", new_name);
 	ft_strlcpy(new_value, value_content + i, ft_strlen(value_content) - i);
 
 	while (head)

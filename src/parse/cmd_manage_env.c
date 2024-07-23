@@ -70,6 +70,8 @@ char	*trim_env(t_data *data, char *pip)
 		{
 			if (pip[i + 1] == '?')
 			{
+				// printf(" print data-lastpid : %d\n", data->last_pid);
+
 				cpy_return_to_str(ft_itoa(data->last_pid), str, &j);
 				i += 2;
 			}

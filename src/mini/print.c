@@ -19,8 +19,11 @@ int main(int argc, char **argv, char **envp)
 	t_data vars;
 	(void)argv;
 	(void)argc;
+	int result;
 
+	result = 0;
 	init_node_env(&vars, envp);
+	vars.last_pid = 0;
 	while (1)
 	 {
 		init_env(&vars);
@@ -41,12 +44,12 @@ int main(int argc, char **argv, char **envp)
         }
 
 			if (init_cmd(&vars, vars.str))
-		{
+			{
 			
-					init_pip(&vars);
+					result = init_pip(&vars);
+			}
 		}
-	 } 
-	return (0);
+	return (vars.last_pid);
 }
 
 

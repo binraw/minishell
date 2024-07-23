@@ -22,7 +22,7 @@ int	init_cmd(t_data *data, char *argv)
 	char		*tok;
 
 	i = 0;
-	data->last_pid = 0;
+	// data->last_pid = 0;
 	if (parsing_error(argv))
 		return (0);
 	data->number_of_pip = ft_count_str(argv, '|') - 1;
