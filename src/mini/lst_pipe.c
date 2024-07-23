@@ -214,14 +214,14 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	}
 	if (!cmd->content[0])
 	{
-		 printf("command not found\n");
-		// data->last_pid = 127;
+		ft_putstr_fd("command not found\n", 2);
 	 	exit(127);
 	}
 	if (!path_command && (control_builtin(cmd) == 0))
 	{
-		// printf("ici\n");
-		 printf("%s: command not found\n", cmd->content[0]);
+		ft_putstr_fd(cmd->content[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+
 		// data->last_pid = 127;
 	 	exit(127);
 	}
@@ -255,7 +255,8 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		path_command = create_path(cmd->content[0], data->env);
 	if (!path_command && (control_builtin(cmd) == 0))
 	{
-		printf("%s: command not found\n", cmd->content[0]);
+		ft_putstr_fd(cmd->content[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 	 	exit(127);
 	}
 	if (cmd->redir)

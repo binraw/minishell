@@ -64,7 +64,7 @@ int	command_cd(t_data *data)
 
 	if (!old_pwd)
 	{
-		printf("error oldpwd");
+		ft_putstr_fd("error oldpwd", 2);
 		exit(1);
 	}
 	if (ft_strncmp(data->cmd->content[0], "cd", ft_strlen(data->cmd->content[0])) == 0 && !data->cmd->content[1])

@@ -23,7 +23,10 @@ int	init_cmd(t_data *data, char *argv)
 
 	i = 0;
 	if (parsing_error(argv))
+	{
+		data->last_pid = 2;
 		return (0);
+	}
 	data->number_of_pip = ft_count_str(argv, '|') - 1;
 	data->number_of_cmd = data->number_of_pip + 1;
 	pips = malloc(sizeof(char *) * (data->number_of_cmd + 1));
