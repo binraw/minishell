@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/23 09:47:42 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:58:07 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ int main(int argc, char **argv, char **envp)
 	t_data vars;
 	(void)argv;
 	(void)argc;
+	int result;
 
+	result = 0;
 	init_node_env(&vars, envp);
 	vars.last_pid = 0;
 	while (1)
@@ -42,12 +44,12 @@ int main(int argc, char **argv, char **envp)
         }
 
 			if (init_cmd(&vars, vars.str))
-		{
-			// printf("rentre dans pip\n");
-					init_pip(&vars);
+			{
+			
+					result = init_pip(&vars);
+			}
 		}
-	 } 
-	return (0);
+	return (vars.last_pid);
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:16:25 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/22 11:05:45 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:58:19 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 	int i;
 
 	i = 0;
+
 		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
 	
@@ -143,7 +144,6 @@ int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
-			// printf("rentre dans built\n");
 			unset_command(data, &cmd->content[1]);
 			exit(0);
 		}
