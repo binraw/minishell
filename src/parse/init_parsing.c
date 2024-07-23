@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/22 10:55:37 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:28:03 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	init_cmd(t_data *data, char *argv)
 	char		*tok;
 
 	i = 0;
-	data->last_pid = 0;
 	if (parsing_error(argv))
 		return (0);
 	data->number_of_pip = ft_count_str(argv, '|') - 1;

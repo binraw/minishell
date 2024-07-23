@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:15:19 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/22 10:52:02 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/23 09:46:30 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int		control_export_name(t_data *data, char *value_content)
 	if (!new_value)
 		exit(1);
 	ft_strlcpy(new_name, value_content, i + 1);
-	printf("new_name = %s\n", new_name);
 	ft_strlcpy(new_value, value_content + i, ft_strlen(value_content) - i);
 
 	while (head)
