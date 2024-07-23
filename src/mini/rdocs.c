@@ -32,8 +32,8 @@ setup_readline_rdocs();
         rdocs->str_rdocs = readline("> ");
 		if (!rdocs->str_rdocs)
 		{
-			printf("bash: warning: here-document at line 2 delimited by end-of-file (wanted `wc')\n");
-			return (-1);
+			ft_putstr_fd("bash: warning: here-document at line 2 delimited by end-of-file (wanted `wc')\n", 2);
+				return (-1);
 		}
         if (ft_strncmp(rdocs->str_rdocs,
                 rdocs->limit, (ft_strlen(rdocs->str_rdocs)) + 1) == 0)

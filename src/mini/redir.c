@@ -46,7 +46,9 @@ int	open_redir_in(t_redir *dup)
 		i = open(dup->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
         if (i < 0)
 		{
-			printf("cat: %s: Permission denied\n", dup->content);
+			ft_putstr_fd("cat: ", 2);
+			ft_putstr_fd(dup->content, 2);
+			ft_putstr_fd(": Permission denied\n", 2);
         	exit(1);
 		}
 		close(i);
@@ -65,7 +67,7 @@ int open_redir_out(t_redir *dup)
 	{
 		i =  open(dup->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
 	   	if (i < 0)
-			return (-1);
+			exit(1);
 		close(i);
 	}
 	return (0);
@@ -83,7 +85,9 @@ int	open_redir_d_out(t_redir *dup)
 		i = open(dup->content, (O_CREAT | O_WRONLY | O_APPEND), 00644);
 		if (i < 0)
 		{
-			printf("cat: %s: Permission denied\n", dup->content);
+			ft_putstr_fd("cat: ", 2);
+			ft_putstr_fd(dup->content, 2);
+			ft_putstr_fd(": Permission denied\n", 2);
 			exit(1);
 		}
 		close(i);
@@ -133,8 +137,11 @@ int	value_final_in(t_node_cmd *cmd)
 		fd_in = open(get_last_in(cmd->redir)->content , (O_RDONLY), 00644);
 		if (fd_in <= 0)
 		{
-			printf("bash: %s: No such file or directory\n", cmd->redir->content);
-			return(1);
+			ft_putstr_fd("bash: ", 2);
+			ft_putstr_fd(cmd->redir->content, 2);
+			ft_putstr_fd(": No such file or directory\n", 2);
+
+			exit(1);
 		}
 	}
 	else 
@@ -150,9 +157,17 @@ int	value_final_out(t_node_cmd *cmd)
 	if (get_last_out(cmd->redir))
 	{
 		if (get_last_out(cmd->redir)->d_out)
+		{
 			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_APPEND), 00644);
+			if (fd_out < 0)
+				exit(1);
+		}
 		else
+		{
 			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
+			if (fd_out < 0)
+				exit(1);
+		}
 	}
 	return (fd_out);
 }

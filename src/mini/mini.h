@@ -177,6 +177,7 @@ int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip);
 int remove_env_node(t_node_env *ptr, t_node_env *prev);
 char	*get_next_line(int fd);
 int open_all_redir(t_node_cmd *cmd);
+int print_error_cd(t_node_cmd *cmd);
 
 
 
