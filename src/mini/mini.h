@@ -178,7 +178,7 @@ int remove_env_node(t_node_env *ptr, t_node_env *prev);
 char	*get_next_line(int fd);
 int open_all_redir(t_node_cmd *cmd);
 int print_error_cd(t_node_cmd *cmd);
-
+int	free_exec_part(t_data *data, int **pip, pid_t *tab_pid);
 
 
 

@@ -40,7 +40,8 @@ int init_pip(t_data *data)
 		// 			free(pip[y]);
 		// 		y--;
 		// 	}
-			free(pip);
+			if (pip)
+				free(pip);
 			return (-1);
 		}
     	while (i < data->number_of_pip)
@@ -65,16 +66,16 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 	if (dup == NULL)
 	{
 		result = status_process(data, tab_pid);
-		// if (result == -1)
-		// 	return (-1);
+			free_exec_part(data, pip, tab_pid);
+
 		return (result);
 	}
 	if (loop_process_pipe(data, dup, pip, tab_pid) == -1)
 		return (-1);
 	result = status_process(data, tab_pid);
-	// printf("valeur de result avant %d \n" , result);
-	// if (result == -1)
-	// 	return (-1);
+	free_exec_part(data, pip, tab_pid);
+
+
 	return (result);
 }
 
@@ -136,7 +137,9 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 				result = child_process_multi(data, dup, NULL);
 			}
 			else
+			{
 				result = child_process_multi(data, dup, pip[y]);
+			}
 		}
 	}
 	return (data->last_pid);
@@ -184,7 +187,11 @@ int	process_status_pid(t_data *data, pid_t *tab_pid)
 	while (wpid != -1)
 	{
 		wpid = waitpid(0, &status, 0);
-		if (wpid == tab_pid[data->number_of_cmd - 1])
+		if (!data->cmd->content[0])
+			tab_pid[0] = 0;
+		else if(data->number_of_pip == 0 && (control_builtin(data->cmd) == 1))	
+			tab_pid[0] = 0;
+		if (wpid == tab_pid[data->number_of_pip])  // avant data->number_of_cmd - 1
 			data->last_pid = status;
 		i++;
 	}
@@ -219,10 +226,9 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	}
 	if (!path_command && (control_builtin(cmd) == 0))
 	{
+		
 		ft_putstr_fd(cmd->content[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-
-		// data->last_pid = 127;
 	 	exit(127);
 	}
 	

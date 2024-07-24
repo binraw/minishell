@@ -18,6 +18,7 @@
 int init_rdocs(t_rdocs *rdocs)
 {
     int *fd;
+	int fd_in;
 
 
 setup_readline_rdocs();
@@ -32,6 +33,7 @@ setup_readline_rdocs();
         rdocs->str_rdocs = readline("> ");
 		if (!rdocs->str_rdocs)
 		{
+			free(fd);
 			ft_putstr_fd("bash: warning: here-document at line 2 delimited by end-of-file (wanted `wc')\n", 2);
 				return (-1);
 		}
@@ -41,7 +43,9 @@ setup_readline_rdocs();
             free(rdocs->str_rdocs);
             rdocs->go = true;
 			close(fd[1]);
-            return (fd[0]);
+			fd_in = fd[0];
+			free(fd);
+            return (fd_in);
         }
 		if (interrupted == 1)
 			break ;
