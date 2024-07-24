@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 10:39:26 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/27 13:40:15 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/24 09:27:02 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	open_redir_in(t_redir *dup)
 	i = 0;
 	if (dup != last_in)
 	{
-		i = open(dup->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
+		i = open(dup->content, O_RDONLY, 00644);
         if (i < 0)
 		{
 			ft_putstr_fd("cat: ", 2);
