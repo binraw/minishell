@@ -20,8 +20,7 @@ int init_rdocs(t_rdocs *rdocs)
     int *fd;
 	int fd_in;
 
-
-setup_readline_rdocs();
+	setup_readline_rdocs();
     fd = malloc(2 * sizeof(int));
 	if (!fd)
 		return (-1);
@@ -75,9 +74,7 @@ int	open_all_rdocs(t_node_cmd *cmd)
 		dup = dup->next;	
 	}
 	if (last_in->rdocs)
-	{
 		cmd->fd_rdoc = fd;
-	}
 	return (0);
 }
 

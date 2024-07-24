@@ -20,38 +20,28 @@ int init_pip(t_data *data)
 
     i = 0;
 	command_rdocs(data);
-		
-		if (data->number_of_pip == 0)
-			pip = NULL;
-		else
-		{
-    		pip = malloc(data->number_of_pip * sizeof(int*));
-		 	if (!pip)
-		 	return (-1);
-		}
-		tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
-		if (!tab_pid)
-		{
-		// int y;
-		// y = data->number_of_pip;
-		// 	while (y != 0)
-		// 	{	
-		// 		if (pip[y])
-		// 			free(pip[y]);
-		// 		y--;
-		// 	}
-			if (pip)
-				free(pip);
+	if (data->number_of_pip == 0)
+		pip = NULL;
+	else
+	{
+    	pip = malloc(data->number_of_pip * sizeof(int*));
+		if (!pip)
 			return (-1);
-		}
-    	while (i < data->number_of_pip)
-    	{
-        	pip[i] = malloc(2 * sizeof(int));
-			if (!pip[i])
-				return (-1);
-        	i++;
-    	}
-    	//pipex_process_multi(data, pip, tab_pid); 
+	}
+	tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
+	if (!tab_pid)
+	{
+		if (pip)
+			free(pip);
+		return (-1);
+	}
+    while (i < data->number_of_pip)
+    {
+        pip[i] = malloc(2 * sizeof(int));
+		if (!pip[i])
+			return (-1);
+        i++;
+    }
 	return (pipex_process_multi(data, pip, tab_pid));
 }
 
@@ -74,12 +64,8 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 		return (-1);
 	result = status_process(data, tab_pid);
 	free_exec_part(data, pip, tab_pid);
-
-
 	return (result);
 }
-
-
 
 int	status_process(t_data *data, pid_t *tab_pid)
 {
@@ -113,7 +99,6 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 		}
 		return(0);
 	}
-		
 	if (data->number_of_pip != 0)
 		if (pipe(pip[y]) == -1)
 			return (-1);
@@ -126,20 +111,15 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 	}
 	else 
 	{
-
 		tab_pid[i] = fork();
 		if (tab_pid[i] == -1)
 			return (-1);	
 		if (tab_pid[i] == 0)
 		{
 			if (!pip)
-			{
 				result = child_process_multi(data, dup, NULL);
-			}
 			else
-			{
 				result = child_process_multi(data, dup, pip[y]);
-			}
 		}
 	}
 	return (data->last_pid);
@@ -152,7 +132,6 @@ int	loop_process_pipe(t_data *data, t_node_cmd *dup, int **pip, pid_t *tab_pid)
 
 	i = 1;
 	y = 0;
-
 	while (i < data->number_of_cmd)
     {
 		if ((i + 1) < (data->number_of_cmd))
@@ -175,13 +154,11 @@ int	loop_process_pipe(t_data *data, t_node_cmd *dup, int **pip, pid_t *tab_pid)
 
 int	process_status_pid(t_data *data, pid_t *tab_pid)
 {
-	t_node_cmd *dup;
 	int i;
 	int status;
 	pid_t wpid;
 
 	status = 0;
-	dup = data->cmd;
 	i = 0;
 	wpid = 0;
 	while (wpid != -1)
@@ -196,13 +173,9 @@ int	process_status_pid(t_data *data, pid_t *tab_pid)
 		i++;
 	}
 	if (WIFEXITED(data->last_pid))
-	{
 		return(WEXITSTATUS(data->last_pid));
-	}
 	else if (WIFSIGNALED(data->last_pid) && data->last_pid != 1)
-	{
 		return(128 +  WTERMSIG(data->last_pid));
-	}
 	return (data->last_pid);
 }
 
@@ -213,12 +186,8 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	char	*path_command;
 
 	path_command = NULL;
-	
 	if (cmd->content[0])
-	{
-		
 		path_command = create_path(cmd->content[0], data->env);
-	}
 	if (!cmd->content[0])
 	{
 		ft_putstr_fd("command not found\n", 2);
@@ -226,12 +195,10 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	}
 	if (!path_command && (control_builtin(cmd) == 0))
 	{
-		
 		ft_putstr_fd(cmd->content[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 	 	exit(127);
 	}
-	
 	if (cmd->redir)
 	{
 		if (pip)
@@ -241,7 +208,6 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	}
 	else if (pip)
 		first_child(pip);
-
 	if ((control_builtin_multi_command(data, cmd, 1) == 0))
 	{
 		execve(path_command, cmd->content, data->env);

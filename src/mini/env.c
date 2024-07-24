@@ -39,8 +39,6 @@ int init_env(t_data *data)
 	if (!data->env)
 		return (-1);
 	copy_env_tab(data, y);
-	// for (int j= 0; data->env[j];j++)
-	// 	printf(" voila  : %s\n", data->env[j]);
 	return (0);
 }
 
