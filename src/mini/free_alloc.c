@@ -12,3 +12,24 @@
 
 #include "mini.h"
 
+
+int	free_exec_part(t_data *data, int **pip, pid_t *tab_pid)
+{
+	int i;
+	int y;
+	
+	i = 0;
+	y = 0;
+	if (pip)
+	{
+		while (i < data->number_of_pip)
+		{
+			free(pip[i]);
+			i++;
+		}
+		free(pip);
+	}
+	if (tab_pid)
+		free(tab_pid);
+	return (0);
+}

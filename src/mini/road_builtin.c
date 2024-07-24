@@ -22,12 +22,9 @@ int road_builtin(t_data *data, t_node_cmd *cmd, int **pip, int y)
 				ft_redir_child_process(cmd, pip[y]);
 			else
 				ft_redir_child_process_one(cmd);
-
 		}
 		else if (pip)
 			first_child(pip[y]);
-
-
 	control_builtin_to_command(data, cmd, 1);
 	return (0);
 }
@@ -41,7 +38,6 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 
 		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
-	
 			command_env(data, pip);
 			return (1);
 		}
@@ -50,7 +46,6 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 			
 			if (cmd->content[1])
 			{
-
 				if (data->number_of_cmd > 1)
 				{
 					return (1);
@@ -64,7 +59,6 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 			}
 			else
 			{
-
 		   		while (i < ft_lstsize(data->env_node))
 				{
 					screen_export(data,  pip);
@@ -73,7 +67,6 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 				i = 0;
 				reset_print_env(data);
 			}
-
 			return (1);
 		}
 		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0]) + 1) == 0)
@@ -90,11 +83,8 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 		{
 			
 			if (data->number_of_cmd > 1)
-		{
 				return (1);
-		}
 			 data->last_pid = command_cd(data);
-			// printf("valeur datapid %d\n", data->last_pid);
 			return (1);
 		}
 		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0]) + 1) == 0)
@@ -119,20 +109,15 @@ int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip)
 	i = 0;
 		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
-	
 			command_env(data, pip);
 			exit(0);
 		}
 		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
-			
 			if (cmd->content[1])
-			{
 				add_env_value(data, cmd->content[1]);
-			}
 			else
 			{
-
 		   		while (i < ft_lstsize(data->env_node))
 				{
 					screen_export(data,  pip);
