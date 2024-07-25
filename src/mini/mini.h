@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/24 14:11:15 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/25 09:57:23 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	ft_lstsize(t_node_env *head);
 int		control_export_value(char *value_content);
 int		control_export_name(t_data *data, char *value_content);
 int	unset_command(t_data *data, char **content);
-void    ft_lstclear_cmd(t_node_cmd **lst);
+void    ft_lstclear_cmd(t_node_cmd *lst);
 int	ft_lstadd_back_cmd(t_node_cmd *lst, t_node_cmd *new_node);
 t_node_cmd	*ft_lstlast_cmd(t_node_cmd *lst);
 t_node_cmd	*ft_lstnew_cmd(int i);
@@ -168,6 +168,7 @@ int     ft_redir_child_process_one(t_node_cmd *cmd);
 void	redir_one_in_out_alone(int fd_in, int fd_out);
 int	control_builtin(t_node_cmd *cmd);
 int command_exit(t_node_cmd *cmd);
+int command_exit_free(t_data *data);
 int	ft_is_numeric(char	*str);
 int	exit_error_number(char *arg);
 int	create_value_return(t_data *data, size_t i);
@@ -226,5 +227,6 @@ char	*clean_redir(char *str);
 size_t	clean_redir_len(char *str);
 t_node_cmd	*cmd_get_redir(char *str, t_node_cmd *cmd);
 void	redir_manage_env(t_data *data, t_redir *redir);
+int		ft_lstclear_data(t_data *data);
 
 #endif

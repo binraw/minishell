@@ -1,14 +1,14 @@
-// ************************************************************************** //
-//                                                                            //
-//                                                        :::      ::::::::   //
-//   exit.c                                             :+:      :+:    :+:   //
-//                                                    +:+ +:+         +:+     //
-//   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        //
-//                                                +#+#+#+#+#+   +#+           //
-//   Created: 2024/07/15 10:43:53 by rtruvelo          #+#    #+#             //
-//   Updated: 2024/07/19 10:23:42 by rtruvelo         ###   ########.fr       //
-//                                                                            //
-// ************************************************************************** //
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/15 10:43:53 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/07/25 10:05:56 by hbouyssi         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../mini/mini.h"
 
@@ -28,6 +28,36 @@ int command_exit(t_node_cmd *cmd)
 	}
 }
 
+int command_exit_free(t_data *data)
+{
+	t_node_cmd	*cmd;
+	int			error;
+
+	cmd = data->cmd;
+	// ft_putstr_fd("exit\n", 1);
+	if (!(cmd->content[1]))
+	{
+		ft_lstclear_data(data);
+		exit(0);
+	}
+	if ((ft_is_numeric(cmd->content[1]) == 0))
+	{
+		error = exit_error_number(cmd->content[1]);
+		ft_lstclear_data(data);
+		exit(error);
+	}
+	else if (cmd->content[1] && !cmd->content[2])
+	{
+		error = ft_atoi(cmd->content[1]);
+		ft_lstclear_data(data);
+		exit(error);
+	}
+	else
+	{
+		ft_putstr_fd("bash: exit: too many arguments\n", 1);
+		return (2);
+	}
+}
 
 int	ft_is_numeric(char	*str)
 {
