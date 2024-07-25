@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:51:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/17 09:03:19 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/25 09:38:41 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,7 @@ int init_env(t_data *data)
 		y++;
 	}
 	if (data->env)
-	{
-		while (data->env[i])
-		{
-			free(data->env[i]);
-			i++;
-		}
-		free(data->env);
-	}
+		free_env(data);
 	data->env = malloc(sizeof(char*) * (y + 1));
 	if (!data->env)
 		return (-1);

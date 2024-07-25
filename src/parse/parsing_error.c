@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 11:10:07 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/07/23 13:58:27 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/25 08:33:16 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,29 @@ bool	parsing_error(char	*str)
 {
 	size_t	i;
 	bool	error;
+	int		quote;
 
 	i = 0;
 	error = false;
+	quote = 0;
 	if (!str)
 		return (true);
 	while (str[i] && !error)
 	{
-		if (str[i] == '>')
+		quote = manage_quotes(str[i], quote);
+		if (quote == 0 && str[i] == '>')
 		{
 			if (str[i + 1] == '>')
 				i++;
 			error = check_parsing_error(str, str[i], &i);
 		}
-		else if (str[i] == '<')
+		else if (quote == 0 && str[i] == '<')
 		{
 			if (str[i + 1] == '<')
 				i++;
 			error = check_parsing_error(str, str[i], &i);
 		}
-		else if (str[i] == '|')
+		else if (quote == 0 && str[i] == '|')
 			error = check_parsing_error(str, str[i], &i);
 		else
 			i++;

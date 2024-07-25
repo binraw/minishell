@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/23 14:52:52 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:02:54 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,38 +16,38 @@
 
 int main(int argc, char **argv, char **envp) 
 {
-	t_data vars;
+	t_data *data;
 	(void)argv;
 	(void)argc;
 	int result;
 
 	result = 0;
-	init_node_env(&vars, envp);
-	vars.last_pid = 0;
+	data = malloc(sizeof(t_data));
+	init_node_env(data, envp);
+	data->last_pid = 0;
+	data->path = NULL;
 	while (1)
 	{
-		init_env(&vars);
+		init_env(data);
 		setup_readline_signals();
 		if (isatty(fileno(stdin)))
-        		vars.str = readline("Minishell: ");	
+        		data->str = readline("Minishell: ");
 		else
 		{
 			char *line;
 			line = get_next_line(fileno(stdin));
-			vars.str = ft_strtrim(line, "\n");
+			data->str = ft_strtrim(line, "\n");
 			free(line);
 		}
 		after_readline_signals();
-        if (vars.str == NULL)
-        {
+        if (data->str == NULL)
             return (0);
-        }
-		if (init_cmd(&vars, vars.str))
-		{
-				result = init_pip(&vars);
-		}
+		if (init_cmd(data, data->str))
+			result = init_pip(data);
+		ft_lstclear_cmd(data->cmd);
+		free(data->str);
 	}
-	return (vars.last_pid);
+	return (ft_lstclear_data(data));
 }
 
 

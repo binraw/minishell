@@ -6,35 +6,46 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:10:26 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/07/23 11:23:02 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/24 14:09:42 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini/mini.h"
 
-void	cmd_manage_env(t_data *data, char **pips)
-{
-	size_t	i;
-	size_t	j;
-	int		quote;
+// void	cmd_manage_env(t_data *data)
+// {
+// 	size_t		i;
+// 	t_node_cmd	*ptr;
+// 	t_redir		*r_ptr;
 
-	i = 0;
-	j = 0;
-	while (pips[i])
+// 	ptr = data->cmd;
+// 	while (ptr)
+// 	{
+// 		i = 0;
+// 		while (ptr->content[i])
+// 		{
+// 			ptr->content[i] = trim_env(data, ptr->content[i]);
+// 			i++;
+// 		}
+// 		r_ptr = ptr->redir;
+// 		while (r_ptr)
+// 		{
+// 			r_ptr->content = trim_env(data, r_ptr->content);
+// 			r_ptr = r_ptr->next;
+// 		}
+// 		ptr = ptr->next;
+// 	}
+// }
+
+void	redir_manage_env(t_data *data, t_redir *redir)
+{
+	t_redir		*r_ptr;
+
+	r_ptr = redir;
+	while (r_ptr)
 	{
-		j = 0;
-		quote = 0;
-		while (pips[i][j])
-		{
-			quote = manage_quotes(pips[i][j], quote);
-			if ((pips[i][j] == '$' || pips[i][j] == '~') && quote != 1)
-			{
-				pips[i] = trim_env(data, pips[i]);
-				break ;
-			}
-			j++;
-		}
-		i++;
+		r_ptr->content = trim_env(data, r_ptr->content);
+		r_ptr = r_ptr->next;
 	}
 }
 
@@ -81,8 +92,6 @@ char	*trim_env(t_data *data, char *pip)
 		{
 			if (pip[i + 1] == '?')
 			{
-				// printf(" print data-lastpid : %d\n", data->last_pid);
-
 				cpy_return_to_str(ft_itoa(data->last_pid), str, &j);
 				i += 2;
 			}

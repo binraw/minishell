@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:45:54 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/22 10:52:53 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/25 10:59:57 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,3 +141,25 @@ void	ft_lstclear(t_node_env **lst, void (*del)(void *))
 	*lst = NULL;
 }
 
+int	ft_lstclear_data(t_data *data)
+{
+	t_data	*ptr;
+	int		last_pid;
+
+	ptr = data;
+	if (!ptr)
+		return (0);
+	last_pid = ptr->last_pid;
+	if (ptr->cmd)
+		ft_lstclear_cmd(ptr->cmd);
+	if (ptr->env)
+		free_env(ptr);
+	if (ptr->env_node)
+		ft_lstclear_env(ptr);
+	if (ptr->path)
+		free(ptr->path);
+	if (ptr->str)
+		free(ptr->str);
+	free(ptr);
+	return (last_pid);
+}
