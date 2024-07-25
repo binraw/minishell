@@ -160,6 +160,8 @@ int	ft_lstclear_data(t_data *data)
 		free(ptr->path);
 	if (ptr->str)
 		free(ptr->str);
+	if (ptr->tab_pid)
+		free(ptr->tab_pid);
 	free(ptr);
 	return (last_pid);
 }
