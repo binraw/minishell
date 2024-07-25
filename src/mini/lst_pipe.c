@@ -14,9 +14,7 @@
 
 int init_pip(t_data *data)
 {
-    // int **pip;
     int i;
-	// pid_t	*tab_pid;
 
     i = 0;
 	command_rdocs(data);
@@ -89,12 +87,12 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 	dup = data->cmd;
 	if (!dup->content[0] && dup->redir)
 	{
-		open_all_redir(dup);
+		open_all_redir(dup, data);
 		if(get_last_out(dup->redir))
-			value_final_out(dup);
+			value_final_out(dup, data);
 		else if	(get_last_in(dup->redir))
 		{
-			value_final_in(dup);
+			value_final_in(dup, data);
 			return (1);
 		}
 		return(0);
@@ -191,20 +189,22 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	if (!cmd->content[0])
 	{
 		ft_putstr_fd("command not found\n", 2);
+		ft_lstclear_data(data);
 	 	exit(127);
 	}
 	if (!path_command && (control_builtin(cmd) == 0))
 	{
 		ft_putstr_fd(cmd->content[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
+		ft_lstclear_data(data);
 	 	exit(127);
 	}
 	if (cmd->redir)
 	{
 		if (pip)
-			ft_redir_child_process(cmd, pip);
+			ft_redir_child_process(cmd, data);
 		else
-			ft_redir_child_process_one(cmd);
+			ft_redir_child_process_one(cmd, data);
 	}
 	else if (pip)
 		first_child(pip);
@@ -229,6 +229,7 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 	{
 		ft_putstr_fd(cmd->content[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
+		ft_lstclear_data(data);
 	 	exit(127);
 	}
 	if (cmd->redir)

@@ -15,7 +15,7 @@
 
 
 
-int open_all_redir(t_node_cmd *cmd)
+int open_all_redir(t_node_cmd *cmd, t_data *data)
 {
 	t_redir *dup;
 
@@ -23,18 +23,18 @@ int open_all_redir(t_node_cmd *cmd)
 	while (dup)
 	{
 		if (dup->in)	
-			open_redir_in(dup);
+			open_redir_in(dup, data);
 		else if (dup->out)
- 			open_redir_out(dup);
+ 			open_redir_out(dup, data);
 		else if (dup->d_out)
-			open_redir_d_out(dup);
+			open_redir_d_out(dup, data);
 		dup = dup->next;
 	}
 	return (0);
 }
 
 
-int	open_redir_in(t_redir *dup)
+int	open_redir_in(t_redir *dup, t_data *data)
 {
 	int i;
 	t_redir *last_in;
@@ -49,6 +49,7 @@ int	open_redir_in(t_redir *dup)
 			ft_putstr_fd("cat: ", 2);
 			ft_putstr_fd(dup->content, 2);
 			ft_putstr_fd(": Permission denied\n", 2);
+			ft_lstclear_data(data);
         	exit(1);
 		}
 		close(i);
@@ -56,7 +57,7 @@ int	open_redir_in(t_redir *dup)
 	return (0);
 }
 
-int open_redir_out(t_redir *dup)
+int open_redir_out(t_redir *dup, t_data *data)
 {
 	int i;
 	t_redir *last_out;
@@ -67,13 +68,16 @@ int open_redir_out(t_redir *dup)
 	{
 		i =  open(dup->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
 	   	if (i < 0)
+		{
+			ft_lstclear_data(data);
 			exit(1);
+		}
 		close(i);
 	}
 	return (0);
 }
 
-int	open_redir_d_out(t_redir *dup)
+int	open_redir_d_out(t_redir *dup, t_data *data)
 {
 	int i;
 	t_redir *last_out;
@@ -88,6 +92,7 @@ int	open_redir_d_out(t_redir *dup)
 			ft_putstr_fd("cat: ", 2);
 			ft_putstr_fd(dup->content, 2);
 			ft_putstr_fd(": Permission denied\n", 2);
+			ft_lstclear_data(data);
 			exit(1);
 		}
 		close(i);
@@ -109,10 +114,10 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
 	int fd_in;
 	int fd_out;
 
-	if (open_all_redir(cmd) == -1)
+	if (open_all_redir(cmd, data) == -1)
 		return (-1);
-	fd_in = value_final_in(cmd);
-	fd_out = value_final_out(cmd);
+	fd_in = value_final_in(cmd, data);
+	fd_out = value_final_out(cmd, data);
     if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)
             && get_last_in(cmd->redir) && !(get_last_out(cmd->redir)))
 		redir_in_to_pipe(pip, y, fd_in);
@@ -123,11 +128,11 @@ int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd , int **pip, int y)
         && !(get_last_in(cmd->redir)) && get_last_out(cmd->redir))
 		redir_out_to_pipe(pip, y, fd_out);
 	else 
-		redir_in_or_out(cmd, pip, y);
+		redir_in_or_out(cmd, pip, y, data);
    return (0);
 }
 
-int	value_final_in(t_node_cmd *cmd)
+int	value_final_in(t_node_cmd *cmd, t_data *data)
 {
 	int fd_in;
 
@@ -140,7 +145,7 @@ int	value_final_in(t_node_cmd *cmd)
 			ft_putstr_fd("bash: ", 2);
 			ft_putstr_fd(cmd->redir->content, 2);
 			ft_putstr_fd(": No such file or directory\n", 2);
-
+			ft_lstclear_data(data);
 			exit(1);
 		}
 	}
@@ -149,7 +154,7 @@ int	value_final_in(t_node_cmd *cmd)
 	return (fd_in);
 }
 
-int	value_final_out(t_node_cmd *cmd)
+int	value_final_out(t_node_cmd *cmd, t_data *data)
 {
 	int fd_out;
 
@@ -160,13 +165,19 @@ int	value_final_out(t_node_cmd *cmd)
 		{
 			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_APPEND), 00644);
 			if (fd_out < 0)
+			{
+				ft_lstclear_data(data);
 				exit(1);
+			}
 		}
 		else
 		{
 			fd_out = open(get_last_out(cmd->redir)->content, (O_CREAT | O_WRONLY | O_TRUNC), 00644);
 			if (fd_out < 0)
+			{
+				ft_lstclear_data(data);
 				exit(1);
+			}
 		}
 	}
 	return (fd_out);
@@ -206,19 +217,19 @@ void	redir_out_to_pipe(int **pip, int y, int fd_out)
         close(fd_out);
 }
 
-void	redir_in_or_out(t_node_cmd *cmd, int **pip, int y)
+void	redir_in_or_out(t_node_cmd *cmd, int **pip, int y, t_data *data)
 {
 	if (get_last_in(cmd->redir))
 		{
-			dup2(value_final_in(cmd), STDIN_FILENO);
-			close(value_final_in(cmd));
+			dup2(value_final_in(cmd, data), STDIN_FILENO);
+			close(value_final_in(cmd, data));
 		}
 		else 
 			dup2(pip[y][0], STDIN_FILENO);
 		if (get_last_out(cmd->redir))
 		{
-			dup2(value_final_out(cmd), STDOUT_FILENO);//javais mis de base fd_in
-			close(value_final_out(cmd));
+			dup2(value_final_out(cmd, data), STDOUT_FILENO);//javais mis de base fd_in
+			close(value_final_out(cmd, data));
 		}
 		close(pip[y][0]);
 		close(pip[y][1]);
@@ -226,18 +237,18 @@ void	redir_in_or_out(t_node_cmd *cmd, int **pip, int y)
 
 
 
-int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
+int     ft_redir_child_process(t_node_cmd *cmd, int *pip, t_data *data)
 {
 	int fd_out;
 	int fd_in;
 	
-	if (open_all_redir(cmd) == -1)
+	if (open_all_redir(cmd, data) == -1)
 		return (-1);
-	fd_in = value_final_in(cmd);
-	fd_out = value_final_out(cmd);
+	fd_in = value_final_in(cmd, data);
+	fd_out = value_final_out(cmd, data);
 	if (!(get_last_in(cmd->redir)) && get_last_out(cmd->redir))
 	{
-		fd_out = value_final_out(cmd);
+		fd_out = value_final_out(cmd, data);
     	close(pip[0]);
 		dup2(fd_out, STDOUT_FILENO);
 		close(pip[1]);
@@ -245,7 +256,7 @@ int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
 	}
 	else if (get_last_in(cmd->redir) && !(get_last_out(cmd->redir)))
 	{
-		fd_in = value_final_in(cmd);
+		fd_in = value_final_in(cmd, data);
     	close(pip[0]);
 		dup2(fd_in, STDIN_FILENO);
 		dup2(pip[1], STDOUT_FILENO);
@@ -259,25 +270,25 @@ int     ft_redir_child_process(t_node_cmd *cmd, int *pip)
 }
 
 
-int     ft_redir_child_process_one(t_node_cmd *cmd)
+int     ft_redir_child_process_one(t_node_cmd *cmd, t_data *data)
 {
 	int fd_out;
 	int fd_in;
 	
-	if (open_all_redir(cmd) == -1)
+	if (open_all_redir(cmd, data) == -1)
 		return (-1);
-	fd_in = value_final_in(cmd);
-	fd_out = value_final_out(cmd);
+	fd_in = value_final_in(cmd, data);
+	fd_out = value_final_out(cmd, data);
 
 	if (!(get_last_in(cmd->redir)) && get_last_out(cmd->redir))
 	{
-		fd_out = value_final_out(cmd);
+		fd_out = value_final_out(cmd, data);
 		dup2(fd_out, STDOUT_FILENO);
     	close(fd_out);
 	}
 	else if (get_last_in(cmd->redir) && !(get_last_out(cmd->redir)))
 	{
-		fd_in = value_final_in(cmd);
+		fd_in = value_final_in(cmd, data);
 		dup2(fd_in, STDIN_FILENO);
     	close(fd_in);
 	}
