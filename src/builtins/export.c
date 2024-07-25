@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:15:19 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/24 08:32:37 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:00:24 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	add_env_value(t_data *data, char *value_content)
 	if ((control_export_name(data, value_content) == 1))
 		return (0);
 
-	new_node = ft_lstnew(value_content);
+	new_node = ft_lstnew(ft_strdup(value_content));
 	if (!new_node->content)
 	{
 		free(new_node->name);

@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:45:54 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/25 09:47:22 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/25 10:59:57 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_node_env	*ft_lstnew(char *content)
 	element = malloc(sizeof(t_node_env));
 	if (!element)
 		return (NULL);
-	element->content = ft_strdup(content);
+	element->content = content;
 	line = ft_strdup(content);
     element->name = ft_strtok(line, "=", false);
     element->next = NULL;

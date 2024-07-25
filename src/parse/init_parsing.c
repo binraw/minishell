@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/25 10:00:58 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/25 10:58:41 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ t_node_cmd	*cmd_get_content(char *str, size_t index, t_data *data)
 		tok = ft_strtok(NULL, " \t", true);
 	}
 	cmd->content[i] = NULL;
+	free(str);
 	return (cmd);
 }
 
@@ -98,6 +99,8 @@ t_node_cmd	*cmd_get_redir(char *str, t_node_cmd *cmd)
 	{
 		if (*tok == '>' || *tok == '<')
 			fill_redirs(tok, &cmd->redir, &cmd->rdocs);
+		else
+			free(tok);
 		tok = ft_strtok(NULL, " \t", true);
 	}
 	free(str);
