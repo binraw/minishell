@@ -46,6 +46,8 @@ typedef struct data_s
     int         last_pid;
     bool	arg; // jmets ca pour verifier si un arg est present pour echo mais a voir si on peut faire autrement
     t_node_env  *env_node;
+ 	int **pip;
+	pid_t	*tab_pid;
 }   t_data;
 
 typedef struct node_cmd_s

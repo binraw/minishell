@@ -14,35 +14,35 @@
 
 int init_pip(t_data *data)
 {
-    int **pip;
+    // int **pip;
     int i;
-	pid_t	*tab_pid;
+	// pid_t	*tab_pid;
 
     i = 0;
 	command_rdocs(data);
 	if (data->number_of_pip == 0)
-		pip = NULL;
+		data->pip = NULL;
 	else
 	{
-    	pip = malloc(data->number_of_pip * sizeof(int*));
-		if (!pip)
+    	data->pip = malloc(data->number_of_pip * sizeof(int*));
+		if (!data->pip)
 			return (-1);
 	}
-	tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
-	if (!tab_pid)
+	data->tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
+	if (!data->tab_pid)
 	{
-		if (pip)
-			free(pip);
+		if (data->pip)
+			free(data->pip);
 		return (-1);
 	}
     while (i < data->number_of_pip)
     {
-        pip[i] = malloc(2 * sizeof(int));
-		if (!pip[i])
+        data->pip[i] = malloc(2 * sizeof(int));
+		if (!data->pip[i])
 			return (-1);
         i++;
     }
-	return (pipex_process_multi(data, pip, tab_pid));
+	return (pipex_process_multi(data, data->pip, data->tab_pid));
 }
 
 int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
