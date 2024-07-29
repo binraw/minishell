@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:10:26 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/07/24 14:09:42 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:05:51 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ bool	is_tilde_home(char c, int quote)
 {
 	if (quote != 0)
 		return (false);
-	if (c == ' ' || c == '\t' || c == '\n' || c == '\0' || c == '|')
+	if (ft_is_whitespace(c) || c == '\0' || c == '|')
 		return (true);
 	if (c == '<' || c == '>')
 		return (true);

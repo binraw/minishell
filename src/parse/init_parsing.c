@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/25 10:58:41 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/29 13:59:12 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,12 @@ t_node_cmd	*cmd_get_content(char *str, size_t index, t_data *data)
 	str = trim_env(data, str);
 	redir_manage_env(data, cmd->redir);
 	cmd->content = malloc(sizeof(char *) * (ft_count_cmd(str) + 1));
-	tok = ft_strtok(str, " \t", true);
+	tok = ft_strtok(str, " \t\n\v\f\r", true);
 	while (tok)
 	{
 		cmd->content[i] = tok;
 		i++;
-		tok = ft_strtok(NULL, " \t", true);
+		tok = ft_strtok(NULL, " \t\n\v\f\r", true);
 	}
 	cmd->content[i] = NULL;
 	free(str);
@@ -94,14 +94,14 @@ t_node_cmd	*cmd_get_redir(char *str, t_node_cmd *cmd)
 
 	cmd->redir = NULL;
 	cmd->rdocs = NULL;
-	tok = ft_strtok(str, " \t", true);
+	tok = ft_strtok(str, " \t\n\v\f\r", true);
 	while (tok)
 	{
 		if (*tok == '>' || *tok == '<')
 			fill_redirs(tok, &cmd->redir, &cmd->rdocs);
 		else
 			free(tok);
-		tok = ft_strtok(NULL, " \t", true);
+		tok = ft_strtok(NULL, " \t\n\v\f\r", true);
 	}
 	free(str);
 	return (cmd);
@@ -124,12 +124,12 @@ size_t	clean_redir_len(char *str)
 		{
 			while (str[i] == '>' || str[i] == '<')
 				i++;
-			while (str[i] == ' ' || str[i] == '\t')
+			while (ft_is_whitespace(str[i]))
 				i++;
 			while (str[i])
 			{
 				quote = manage_quotes(str[i], quote);
-				if (quote == 0 && (str[i] == ' ' || str[i] == '\t'))
+				if (quote == 0 && ft_is_whitespace(str[i]))
 					break ;
 				i++;
 			}
@@ -163,12 +163,12 @@ char	*clean_redir(char *str)
 		{
 			while (str[i] == '>' || str[i] == '<')
 				i++;
-			while (str[i] == ' ' || str[i] == '\t')
+			while (ft_is_whitespace(str[i]))
 				i++;
 			while (str[i])
 			{
 				quote = manage_quotes(str[i], quote);
-				if (quote == 0 && (str[i] == ' ' || str[i] == '\t'))
+				if (quote == 0 && ft_is_whitespace(str[i]))
 					break ;
 				i++;
 			}
@@ -211,6 +211,15 @@ size_t	ft_count_str(char *str, char sep)
 	return (count);
 }
 
+bool	ft_is_whitespace(char c)
+{
+	if (c == ' ')
+		return (true);
+	if (c >= 9 && c <= 13)
+		return (true);
+	return (false);
+}
+
 size_t	ft_count_cmd(char *str)
 {
 	size_t		i;
@@ -226,12 +235,12 @@ size_t	ft_count_cmd(char *str)
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 		{
-			if (quote == 0 && (i == 0 || str[i - 1] == ' ' || str[i - 1] == '\t'))
+			if (quote == 0 && (i == 0 || ft_is_whitespace(str[i - 1])))
 				count++;
 			quote = manage_quotes(str[i], quote);
 			i++;
 		}
-		else if (quote == 0 && str[i] != ' ' && str[i] != '\t' && (i == 0 || str[i - 1] == ' ' || str[i - 1] == '\t'))
+		else if (quote == 0 && !ft_is_whitespace(str[i]) && (i == 0 || ft_is_whitespace(str[i - 1])))
 		{
 			count++;
 			i++;

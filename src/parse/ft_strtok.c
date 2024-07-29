@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 11:16:27 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/06/24 12:16:14 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:01:17 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,11 @@ char	*tok_redir(char *str, size_t *i)
 	quote = 0;
 	while (str[*i] == '<' || str[*i] == '>')
 		*i = *i + 1;
-	while (str[*i] == ' ' || str[*i] == '\t')
+	while (ft_is_whitespace(str[*i]))
 		*i = *i + 1;
 	while (str[*i] && ((str[*i] != '<' && str[*i] != '>') || quote != 0))
 	{
-		if (quote == 0 && str[*i] == ' ')
+		if (quote == 0 && ft_is_whitespace(str[*i]))
 			break ;
 		if (str[*i] == '\'' || str[*i] == '\"')
 			quote = manage_quotes(str[*i], quote);
@@ -105,7 +105,7 @@ char	*tok_stop_redir(char *str, size_t *i)
 	c = str[*i];
 	str[*i] = 0;
 	tok = ft_strdup(str);
-	if (c == ' ' || c == '\t')
+	if (ft_is_whitespace(c))
 		*i = *i + 1;
 	else
 		str[*i] = c;

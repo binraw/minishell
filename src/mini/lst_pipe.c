@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/23 14:45:38 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/25 14:46:20 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,7 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		second_child(data, pip, y, cmd);
 	if ((control_builtin_multi_command(data, cmd, 1)== 0))
 	{
+		// close(1);
 		execve(path_command, cmd->content, data->env);
 		perror("execve");
 	}

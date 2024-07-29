@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/25 09:57:23 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:03:43 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,5 +230,6 @@ size_t	clean_redir_len(char *str);
 t_node_cmd	*cmd_get_redir(char *str, t_node_cmd *cmd);
 void	redir_manage_env(t_data *data, t_redir *redir);
 int		ft_lstclear_data(t_data *data);
+bool	ft_is_whitespace(char c);
 
 #endif
