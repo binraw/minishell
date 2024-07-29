@@ -104,7 +104,7 @@ int	process_status_pid(t_data *data, pid_t *tab_pid);
 int init_values_redir(t_data *data);
 int	second_child(t_data *data, int **pip, int y, t_node_cmd *cmd);
 int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd, int **pip, int y);
-int     ft_redir_child_process(t_node_cmd *cmd, t_data *data);
+int     ft_redir_child_process(t_node_cmd *cmd, int *pip, t_data *data);
 int first_child(int *pip);
 int	ft_lstadd_back(t_node_env *lst, t_node_env *new_node);
 t_node_env	*ft_lstlast(t_node_env *lst);
@@ -116,10 +116,9 @@ t_node_env	*ft_lstduplicate(const t_node_env *original);
 void	ft_lstclear(t_node_env **lst, void (*del)(void *));
 t_node_env	*ft_lstnew_basic(char *content);
 
-void modifyValue(t_node_env *head, const char *name, const char *newValue);
+int modifyValue(t_node_env *head, char *name, char *newValue);
 char	*value_pwd(t_node_env *head);
 
-void modifyValue(t_node_env *head, const char *name, const char *newValue);
 int cd_to_home(t_data *data);
 void	screen_export(t_data *data, int fd);
 int remove_env_node(t_node_env *ptr, t_node_env *prev);

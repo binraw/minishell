@@ -156,6 +156,9 @@ int	process_status_pid(t_data *data, pid_t *tab_pid)
 	int status;
 	pid_t wpid;
 
+
+	if (data->cmd->fd_rdoc != 0)
+		close(data->cmd->fd_rdoc);
 	status = 0;
 	i = 0;
 	wpid = 0;
@@ -184,7 +187,7 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	char	*path_command;
 
 	path_command = NULL;
-	if (cmd->content[0])
+	if (cmd->content[0] && (control_builtin(cmd) == 0))
 		path_command = create_path(cmd->content[0], data->env);
 	if (!cmd->content[0])
 	{
@@ -202,7 +205,7 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 	if (cmd->redir)
 	{
 		if (pip)
-			ft_redir_child_process(cmd, data);
+			ft_redir_child_process(cmd, pip, data);
 		else
 			ft_redir_child_process_one(cmd, data);
 	}

@@ -19,9 +19,9 @@ int road_builtin(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		if (cmd->redir)
 		{
 			if (pip)
-				ft_redir_child_process(cmd, pip[y]);
+				ft_redir_child_process(cmd, pip[y], data);
 			else
-				ft_redir_child_process_one(cmd);
+				ft_redir_child_process_one(cmd, data);
 		}
 		else if (pip)
 			first_child(pip[y]);

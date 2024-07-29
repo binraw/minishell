@@ -36,6 +36,7 @@ char	*create_path(char *cmd, char **envp)
 	char	*path_cmd;
 	char	*join_path_cmd;
 
+	printf("rentre ici\n");
 	i = -1;
 	if (!cmd)
 		return (NULL);

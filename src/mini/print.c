@@ -47,6 +47,9 @@ int main(int argc, char **argv, char **envp)
 		ft_lstclear_cmd(data->cmd);
 		free(data->str);
 	}
+	if (data->cmd->fd_rdoc != 0)
+		close(data->cmd->fd_rdoc);
+
 	return (ft_lstclear_data(data));
 }
 
