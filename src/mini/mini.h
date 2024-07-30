@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/30 11:56:51 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 15:06:03 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	open_all_rdocs(t_node_cmd *cmd);
 int init_rdocs(t_rdocs *rdocs);
 int command_rdocs(t_data *data);
 void	handle_sigint(int sig);
-void setup_readline_signals(void);
+void setup_readline_signals(t_data *data);
 void	handle_sigquit(int sig);
 int analyze_process_statuses(t_data *data,pid_t *tab_pid, int *status);
 void	after_readline_signals(t_data *data);
@@ -180,7 +180,7 @@ char	*get_next_line(int fd);
 int open_all_redir(t_node_cmd *cmd, t_data *data);
 int print_error_cd(t_node_cmd *cmd);
 int	free_exec_part(t_data *data, int **pip);
-
+t_data	*give_data(t_data *data);
 
 
 

@@ -47,8 +47,6 @@ int		control_export_name(t_data *data, char *value_content)
 {
 	char	*new_name;
 	char	*new_value;
-
-
 	t_node_env *head;
 	size_t	i;
 
@@ -81,10 +79,8 @@ int		control_export_name(t_data *data, char *value_content)
 			free(head->value);
 			free(head->content);
 			head->value  = ft_strdup(new_value);
-			// head->value = NULL;
 			if (!head->value)
 			{
-				
 				free(new_name);
 				free(new_value);
 				ft_lstclear_data(data);
@@ -99,12 +95,13 @@ int		control_export_name(t_data *data, char *value_content)
 				ft_lstclear_data(data);
 				exit(1);
 			}
-			free(new_name);
-			free(new_value);
+			
 			return (1);
 		}
 		head = head->next;
 	}
+	free(new_name);
+	free(new_value);
 	return (0);
 }	
 
@@ -178,7 +175,7 @@ void	screen_export(t_data *data, int fd)
 		ft_putstr_fd("declare -x ", fd);
 		ft_putstr_fd("NULL", fd);
 		ft_putstr_fd("\n", fd);
-		data->env_node = NULL;
+		ft_lstclear_data(data);
 		exit(1);
 	}
 	value = NULL;
@@ -203,7 +200,7 @@ void	screen_export(t_data *data, int fd)
 	if (value[0][0] == '_')
 		current_node = data->env_node;
 	else
-		{
+	{
 	ft_putstr_fd("declare -x ", fd);
 	ft_putstr_fd(value[0], fd);
 	ft_putstr_fd("=\"", fd);
