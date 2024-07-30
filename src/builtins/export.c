@@ -47,6 +47,8 @@ int		control_export_name(t_data *data, char *value_content)
 {
 	char	*new_name;
 	char	*new_value;
+
+
 	t_node_env *head;
 	size_t	i;
 
@@ -56,12 +58,19 @@ int		control_export_name(t_data *data, char *value_content)
  	head = data->env_node;
 	while(value_content[i] && value_content[i] != '=')
 		i++;
-	new_name = malloc(i + 1 * sizeof(char));
+ 	new_name = malloc(i + 1 * sizeof(char));
 	if (!new_name)
+	{
+		ft_lstclear_data(data);
 		exit(1);
+	}
 	new_value = malloc(ft_strlen((value_content + i)) * sizeof(char));
 	if (!new_value)
+	{
+		free(new_name);
+		ft_lstclear_data(data);
 		exit(1);
+	}
 	ft_strlcpy(new_name, value_content, i + 1);
 	ft_strlcpy(new_value, value_content + i + 1, ft_strlen(value_content) - i);
 
@@ -72,7 +81,26 @@ int		control_export_name(t_data *data, char *value_content)
 			free(head->value);
 			free(head->content);
 			head->value  = ft_strdup(new_value);
+			// head->value = NULL;
+			if (!head->value)
+			{
+				
+				free(new_name);
+				free(new_value);
+				ft_lstclear_data(data);
+				exit(1);
+			}
 			head->content = ft_strdup(value_content);
+			if (!head->content)
+			{
+				free(new_name);
+				free(new_value);
+				free(head->value);
+				ft_lstclear_data(data);
+				exit(1);
+			}
+			free(new_name);
+			free(new_value);
 			return (1);
 		}
 		head = head->next;

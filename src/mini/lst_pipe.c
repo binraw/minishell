@@ -29,15 +29,17 @@ int init_pip(t_data *data)
 	data->tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
 	if (!data->tab_pid)
 	{
-		if (data->pip)
-			free(data->pip);
+		ft_lstclear_data(data);	
 		return (-1);
 	}
     while (i < data->number_of_pip)
     {
         data->pip[i] = malloc(2 * sizeof(int));
 		if (!data->pip[i])
+		{
+			ft_lstclear_data(data);
 			return (-1);
+		}
         i++;
     }
 	return (pipex_process_multi(data, data->pip, data->tab_pid));
@@ -194,8 +196,13 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 		ft_lstclear_data(data);
 	 	exit(127);
 	}
-	if (!path_command && (control_builtin(cmd) == 0))
+	if ((!path_command && (control_builtin(cmd) == 0)) || cmd->content[0][0] == '\0')
 	{
+		if (pip)
+		{
+			close(pip[0]);
+			close(pip[1]);
+		}
 		ft_putstr_fd(cmd->content[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		ft_lstclear_data(data);
@@ -227,8 +234,10 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 	path_command = NULL;
 	if ((cmd) && (control_builtin(cmd) == 0))
 		path_command = create_path(cmd->content[0], data->env);
-	if (!path_command && (control_builtin(cmd) == 0))
+	if ((!path_command && (control_builtin(cmd) == 0)) || cmd->content[0][0] == '\0')
 	{
+		close(pip[y][0]);
+		close(pip[y][1]);
 		ft_putstr_fd(cmd->content[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		ft_lstclear_data(data);

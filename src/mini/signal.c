@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:57:44 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/30 13:38:02 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:45:41 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void setup_readline_signals(void)
 {
 	struct sigaction	act;
 
-	bzero(&act, sizeof(act));
+	ft_bzero(&act, sizeof(act));
 	act.sa_handler = &handle_sigint;
 	sigaction(SIGINT, &act, NULL);
 	setup_readline_sigquit();
@@ -69,6 +69,7 @@ void	after_readline_signals(t_data *data)
 	setup_readline_sigquit_after();
 }
 
+
 void	after_handle_sigquit(int sig)
 {
 	(void) sig;
@@ -90,7 +91,7 @@ void setup_readline_sigquit_after(void)
 {
 	struct sigaction	act;
 
-	bzero(&act, sizeof(act));
+	ft_bzero(&act, sizeof(act));
 	act.sa_handler = &handle_sigquit;
 	sigaction(SIGQUIT, &act, NULL);
 }
@@ -107,7 +108,7 @@ void setup_readline_rdocs(void)
 {
 	struct sigaction	act;
 
-	bzero(&act, sizeof(act));
+	ft_bzero(&act, sizeof(act));
 	act.sa_handler = &handle_rdocs;
 	sigaction(SIGINT, &act, NULL);
 	setup_readline_sigquit();
