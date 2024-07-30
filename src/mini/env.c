@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:51:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/25 09:38:41 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 09:36:30 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ int init_node_env(t_data *data, char **envp)
 
 	if (!envp[0])
 	{
-		data->env_node = ft_lstnew("OLDPWD");
-		new_node = ft_lstnew("PWD=/home/rtruvelo/minishell");
+		data->env_node = ft_lstnew(ft_strdup("OLDPWD"));
+		new_node = ft_lstnew(ft_strdup("PWD=/home/rtruvelo/minishell"));
 		ft_lstadd_back(data->env_node, new_node);
-		new_node = ft_lstnew("SHLVL=1");
+		new_node = ft_lstnew(ft_strdup("SHLVL=1"));
 		ft_lstadd_back(data->env_node, new_node);
-		new_node = ft_lstnew("_=usr/bin/env");
+		new_node = ft_lstnew(ft_strdup("_=usr/bin/env"));
 		ft_lstadd_back(data->env_node, new_node);
 	}
 	else 
