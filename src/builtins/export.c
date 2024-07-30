@@ -61,7 +61,10 @@ int		control_export_name(t_data *data, char *value_content)
 		exit(1);
 	new_value = malloc(ft_strlen((value_content + i)) * sizeof(char));
 	if (!new_value)
+	{
+		ft_lstclear_data(data);
 		exit(1);
+	}
 	ft_strlcpy(new_name, value_content, i + 1);
 	ft_strlcpy(new_value, value_content + i + 1, ft_strlen(value_content) - i);
 

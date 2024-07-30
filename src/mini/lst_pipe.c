@@ -29,15 +29,17 @@ int init_pip(t_data *data)
 	data->tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
 	if (!data->tab_pid)
 	{
-		if (data->pip)
-			free(data->pip);
+		ft_lstclear_data(data);	
 		return (-1);
 	}
     while (i < data->number_of_pip)
     {
         data->pip[i] = malloc(2 * sizeof(int));
 		if (!data->pip[i])
+		{
+			ft_lstclear_data(data);
 			return (-1);
+		}
         i++;
     }
 	return (pipex_process_multi(data, data->pip, data->tab_pid));

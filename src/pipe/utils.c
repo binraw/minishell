@@ -18,7 +18,7 @@ char	**get_env(char **envp)
 	int		i;
 
 	i = 0;
-	while (!envp[i] && !ft_strnstr(envp[i], "PATH", 4))
+	while (envp[i] && !ft_strnstr(envp[i], "PATH", 4))
 		i++;
 	if (!envp[i])
 		return (NULL);
