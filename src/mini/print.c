@@ -29,7 +29,7 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_env(data);
-		setup_readline_signals();
+		setup_readline_signals(data);
 		if (isatty(fileno(stdin)))
         		data->str = readline("Minishell: ");
 		else

@@ -177,7 +177,7 @@ int	process_status_pid(t_data *data, pid_t *tab_pid)
 	}
 	if (WIFEXITED(data->last_pid))
 		return(WEXITSTATUS(data->last_pid));
-	else if (WIFSIGNALED(data->last_pid) /*&& data->last_pid != 1*/)
+	else if (WIFSIGNALED(data->last_pid) && data->last_pid != 1)
 		return(128 +  WTERMSIG(data->last_pid));
 	return (data->last_pid);
 }
