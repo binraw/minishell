@@ -151,7 +151,7 @@ int	ft_lstclear_data(t_data *data)
 		return (0);
 	last_pid = ptr->last_pid;
 	if (ptr->cmd)
-		ft_lstclear_cmd(ptr->cmd);
+		ptr->cmd = ft_lstclear_cmd(ptr->cmd);
 	if (ptr->env)
 		free_env(ptr);
 	if (ptr->env_node)

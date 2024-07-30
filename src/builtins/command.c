@@ -82,7 +82,6 @@ int	command_cd(t_data *data)
 	}
 	if (chdir(new_value) == 0)
 	{
-
 		if (modifyValue(data->env_node, "OLDPWD", old_pwd) == -1)
 		{
 			ft_lstclear_data(data);

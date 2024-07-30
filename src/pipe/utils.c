@@ -18,13 +18,10 @@ char	**get_env(char **envp)
 	int		i;
 
 	i = 0;
-	while (!ft_strnstr(envp[i], "PATH", 4) && i < 50)
+	while (!envp[i] && !ft_strnstr(envp[i], "PATH", 4))
 		i++;
-	if (i == 50)
-	{
-		
+	if (!envp[i])
 		return (NULL);
-	}
 	paths = ft_split(envp[i] + 5, ':');
 	return (paths);
 }
@@ -36,7 +33,6 @@ char	*create_path(char *cmd, char **envp)
 	char	*path_cmd;
 	char	*join_path_cmd;
 
-	printf("rentre ici\n");
 	i = -1;
 	if (!cmd)
 		return (NULL);
