@@ -80,11 +80,11 @@ int		control_export_name(t_data *data, char *value_content)
 		{
 			free(head->value);
 			free(head->content);
-			// head->value  = ft_strdup(new_value);
-			head->value = NULL;
+			head->value  = ft_strdup(new_value);
+			// head->value = NULL;
 			if (!head->value)
 			{
-				printf("rentre ici\n");
+				
 				free(new_name);
 				free(new_value);
 				ft_lstclear_data(data);
