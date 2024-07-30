@@ -39,7 +39,7 @@ void setup_readline_signals(void)
 {
 	struct sigaction	act;
 
-	bzero(&act, sizeof(act));
+	ft_bzero(&act, sizeof(act));
 	act.sa_handler = &handle_sigint;
 	sigaction(SIGINT, &act, NULL);
 	setup_readline_sigquit();
@@ -56,20 +56,21 @@ void setup_readline_sigquit(void)
 
 void	after_readline_signals(t_data *data)
 {
- // (void) data;
 	struct sigaction	act;
 
-	bzero(&act, sizeof(act));
+	ft_bzero(&act, sizeof(act));
 	act.sa_handler = &handle_sigint_after;
 
-		if (rl_line_buffer[0] == '\0')
+	if (rl_line_buffer[0] == '\0')
 	{
 		if (data)
-	       	ft_lstclear_data(data);
-	   }
+		    ft_lstclear_data(data);
+		exit(0);
+	}
 	sigaction(SIGINT, &act, NULL);
 	setup_readline_sigquit_after();
 }
+
 
 void	after_handle_sigquit(int sig)
 {
@@ -92,7 +93,7 @@ void setup_readline_sigquit_after(void)
 {
 	struct sigaction	act;
 
-	bzero(&act, sizeof(act));
+	ft_bzero(&act, sizeof(act));
 	act.sa_handler = &handle_sigquit;
 	sigaction(SIGQUIT, &act, NULL);
 }
@@ -109,7 +110,7 @@ void setup_readline_rdocs(void)
 {
 	struct sigaction	act;
 
-	bzero(&act, sizeof(act));
+	ft_bzero(&act, sizeof(act));
 	act.sa_handler = &handle_rdocs;
 	sigaction(SIGINT, &act, NULL);
 	setup_readline_sigquit();

@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 11:10:07 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/07/25 08:33:16 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:13:04 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ bool	check_parsing_error(char *str, char c, size_t *i)
 	*i = *i + 1;
 	if (str[*i] == c)
 		return (print_parsing_error(str[*i]));
-	while (str[*i] == ' ' || str[*i] == '\t')
+	while (ft_is_whitespace(str[*i]))
 		*i = *i + 1;
 	if (c == '|')
 	{

@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:49:40 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/17 09:01:55 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 09:42:31 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,13 +225,13 @@ int cd_to_home(t_data *data)
 		exit(1);
 	}
 	copy = data->env_node;
-	while (copy != NULL)
+	while (copy)
 	{
 		if (ft_strncmp(copy->name, "HOME", ft_strlen(copy->name)) == 0)
 			break ;
 		copy = copy->next;
 	}
-	if (!copy->value)
+	if (!copy)
 	{
 		ft_putstr_fd("Minishell: cd: HOME not set\n", 2);
 		 exit(1);

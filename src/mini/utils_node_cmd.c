@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:12:31 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/25 10:00:25 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 10:55:21 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	ft_lstadd_back_cmd(t_node_cmd *lst, t_node_cmd *new_node)
 	return (0);
 }
 
-t_node_cmd*	ft_lstclear_cmd(t_node_cmd *lst)
+t_node_cmd	*ft_lstclear_cmd(t_node_cmd *lst)
 {
 	t_node_cmd	*current;
 	t_node_cmd	*next;
