@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 11:31:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/25 14:46:20 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:02:43 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,13 @@ int	pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid)
 	if (dup == NULL)
 	{
 		result = status_process(data, tab_pid);
-			free_exec_part(data, pip, tab_pid);
-
+		free_exec_part(data, pip);
 		return (result);
 	}
 	if (loop_process_pipe(data, dup, pip, tab_pid) == -1)
 		return (-1);
 	result = status_process(data, tab_pid);
-	free_exec_part(data, pip, tab_pid);
+	free_exec_part(data, pip);
 	return (result);
 }
 

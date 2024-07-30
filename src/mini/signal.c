@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:57:44 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/06/25 10:33:35 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:38:02 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,15 @@ void setup_readline_sigquit(void)
 
 void	after_readline_signals(t_data *data)
 {
- // (void) data;
 	struct sigaction	act;
 
-	bzero(&act, sizeof(act));
+	ft_bzero(&act, sizeof(act));
 	act.sa_handler = &handle_sigint_after;
-
-		if (rl_line_buffer[0] == '\0')
+	if (rl_line_buffer[0] == '\0')
 	{
-		if (data)
-	       	ft_lstclear_data(data);
-	   }
+		ft_lstclear_data(data);
+		exit(0);
+	}
 	sigaction(SIGINT, &act, NULL);
 	setup_readline_sigquit_after();
 }

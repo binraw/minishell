@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/30 10:54:42 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:56:51 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ int remove_env_node(t_node_env *ptr, t_node_env *prev);
 char	*get_next_line(int fd);
 int open_all_redir(t_node_cmd *cmd, t_data *data);
 int print_error_cd(t_node_cmd *cmd);
-int	free_exec_part(t_data *data, int **pip, pid_t *tab_pid);
+int	free_exec_part(t_data *data, int **pip);
 
 
 
@@ -230,5 +230,6 @@ t_node_cmd	*cmd_get_redir(char *str, t_node_cmd *cmd);
 void	redir_manage_env(t_data *data, t_redir *redir);
 int		ft_lstclear_data(t_data *data);
 bool	ft_is_whitespace(char c);
+bool	is_line_empty(char *str);
 
 #endif

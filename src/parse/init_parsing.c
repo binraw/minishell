@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/30 10:52:04 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 13:38:49 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int	init_cmd(t_data *data, char *argv)
 	char		*tok;
 
 	i = 0;
+	if (is_line_empty(argv))
+	{
+		data->cmd = NULL;
+		return (0);
+	}
 	if (parsing_error(argv))
 	{
 		data->last_pid = 2;
