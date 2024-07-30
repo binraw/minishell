@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/25 14:57:40 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 10:43:45 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int main(int argc, char **argv, char **envp)
             return (0);
 		if (init_cmd(data, data->str))
 			result = init_pip(data);
-		ft_lstclear_cmd(data->cmd);
+		data->cmd = ft_lstclear_cmd(data->cmd);
 		free(data->str);
 	}
 	return (ft_lstclear_data(data));

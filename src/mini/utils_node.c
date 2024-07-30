@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:45:54 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/25 10:59:57 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 10:44:55 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int	ft_lstclear_data(t_data *data)
 		return (0);
 	last_pid = ptr->last_pid;
 	if (ptr->cmd)
-		ft_lstclear_cmd(ptr->cmd);
+		ptr->cmd = ft_lstclear_cmd(ptr->cmd);
 	if (ptr->env)
 		free_env(ptr);
 	if (ptr->env_node)

@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/29 14:03:43 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 10:45:38 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	ft_lstsize(t_node_env *head);
 int		control_export_value(char *value_content);
 int		control_export_name(t_data *data, char *value_content);
 int	unset_command(t_data *data, char **content);
-void    ft_lstclear_cmd(t_node_cmd *lst);
+t_node_cmd	*ft_lstclear_cmd(t_node_cmd *lst);
 int	ft_lstadd_back_cmd(t_node_cmd *lst, t_node_cmd *new_node);
 t_node_cmd	*ft_lstlast_cmd(t_node_cmd *lst);
 t_node_cmd	*ft_lstnew_cmd(int i);
