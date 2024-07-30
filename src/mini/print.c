@@ -39,7 +39,7 @@ int main(int argc, char **argv, char **envp)
 			data->str = ft_strtrim(line, "\n");
 			free(line);
 		}
-		after_readline_signals();
+		after_readline_signals(data);
         if (data->str == NULL)
             return (0);
 		if (init_cmd(data, data->str))
@@ -47,6 +47,7 @@ int main(int argc, char **argv, char **envp)
 		data->cmd = ft_lstclear_cmd(data->cmd);
 		free(data->str);
 	}
+
 	return (ft_lstclear_data(data));
 }
 

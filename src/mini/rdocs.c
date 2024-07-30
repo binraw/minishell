@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 09:54:57 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/25 13:47:03 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 10:55:08 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int init_rdocs(t_rdocs *rdocs)
         if (ft_strncmp(rdocs->str_rdocs,
                 rdocs->limit, (ft_strlen(rdocs->str_rdocs)) + 1) == 0)
         {
-            free(rdocs->str_rdocs);
-			rdocs->str_rdocs = NULL;
+			if (rdocs->str_rdocs)
+            	free(rdocs->str_rdocs);
             rdocs->go = true;
 			close(fd[1]);
 			fd_in = fd[0];

@@ -23,6 +23,7 @@ void	handle_sigint(int sig)
 {
 	(void) sig;
 
+	 rl_replace_line("", 0);
 	rl_on_new_line();
 	printf("\n");
 	rl_redisplay();
@@ -53,13 +54,19 @@ void setup_readline_sigquit(void)
 	sigaction(SIGQUIT, &act, NULL);
 }
 
-void	after_readline_signals(void)
+void	after_readline_signals(t_data *data)
 {
-
+ // (void) data;
 	struct sigaction	act;
 
 	bzero(&act, sizeof(act));
 	act.sa_handler = &handle_sigint_after;
+
+		if (rl_line_buffer[0] == '\0')
+	{
+		if (data)
+	       	ft_lstclear_data(data);
+	   }
 	sigaction(SIGINT, &act, NULL);
 	setup_readline_sigquit_after();
 }

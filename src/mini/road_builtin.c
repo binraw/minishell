@@ -19,9 +19,9 @@ int road_builtin(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		if (cmd->redir)
 		{
 			if (pip)
-				ft_redir_child_process(cmd, pip[y]);
+				ft_redir_child_process(cmd, pip[y], data);
 			else
-				ft_redir_child_process_one(cmd);
+				ft_redir_child_process_one(cmd, data);
 		}
 		else if (pip)
 			first_child(pip[y]);
@@ -93,7 +93,7 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 			return (1);
 		}
 		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0]) + 1) == 0)
-			return (command_exit_free(data));
+			return (command_exit_free(data, cmd));
 	return (0);
 }
 
@@ -169,7 +169,11 @@ int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip)
 			exit(0);
 		}
 		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0]) + 1) == 0)
-			return (command_exit_free(data));
+	{
+			i = command_exit_free(data, cmd);
+			// ft_lstclear_data(data);
+			return (i);
+	}
 	return (0);
 }
 

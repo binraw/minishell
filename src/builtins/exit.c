@@ -23,17 +23,15 @@ int command_exit(t_node_cmd *cmd)
 		exit(ft_atoi(cmd->content[1]));
 	else
 	{
-		ft_putstr_fd("bash: exit: too many arguments\n", 1);
+		ft_putstr_fd("bash: exit: too many arguments\n", 2);
 		return (2);
 	}
 }
 
-int command_exit_free(t_data *data)
+int command_exit_free(t_data *data, t_node_cmd *cmd)
 {
-	t_node_cmd	*cmd;
 	int			error;
 
-	cmd = data->cmd;
 	// ft_putstr_fd("exit\n", 1);
 	if (!(cmd->content[1]))
 	{
@@ -54,8 +52,10 @@ int command_exit_free(t_data *data)
 	}
 	else
 	{
-		ft_putstr_fd("bash: exit: too many arguments\n", 1);
-		return (2);
+		
+		ft_putstr_fd("bash: exit: too many arguments\n", 2);
+		ft_lstclear_data(data);
+		 exit(1);
 	}
 }
 
@@ -76,8 +76,8 @@ int	ft_is_numeric(char	*str)
 
 int	exit_error_number(char *arg)
 {
-	ft_putstr_fd("bash: exit: ",1);
-	ft_putstr_fd(arg, 1);
-	ft_putstr_fd(": numeric argument required\n", 1);
+	ft_putstr_fd("bash: exit: ",2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
 	return (2);
 }

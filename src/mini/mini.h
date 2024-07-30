@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/30 10:45:38 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 10:54:42 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	process_status_pid(t_data *data, pid_t *tab_pid);
 int init_values_redir(t_data *data);
 int	second_child(t_data *data, int **pip, int y, t_node_cmd *cmd);
 int ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd, int **pip, int y);
-int     ft_redir_child_process(t_node_cmd *cmd, int *pip);
+int     ft_redir_child_process(t_node_cmd *cmd, int *pip, t_data *data);
 int first_child(int *pip);
 int	ft_lstadd_back(t_node_env *lst, t_node_env *new_node);
 t_node_env	*ft_lstlast(t_node_env *lst);
@@ -116,10 +116,9 @@ t_node_env	*ft_lstduplicate(const t_node_env *original);
 void	ft_lstclear(t_node_env **lst, void (*del)(void *));
 t_node_env	*ft_lstnew_basic(char *content);
 
-void modifyValue(t_node_env *head, const char *name, const char *newValue);
+int modifyValue(t_node_env *head, char *name, char *newValue);
 char	*value_pwd(t_node_env *head);
 
-void modifyValue(t_node_env *head, const char *name, const char *newValue);
 int cd_to_home(t_data *data);
 void	screen_export(t_data *data, int fd);
 int remove_env_node(t_node_env *ptr, t_node_env *prev);
@@ -142,22 +141,22 @@ void	handle_sigint(int sig);
 void setup_readline_signals(void);
 void	handle_sigquit(int sig);
 int analyze_process_statuses(t_data *data,pid_t *tab_pid, int *status);
-void	after_readline_signals(void);
+void	after_readline_signals(t_data *data);
 void	after_handle_sigquit(int sig);
 void setup_readline_sigquit(void);
 void	reset_print_env(t_data *data);
 int	status_process(t_data *data, pid_t *tab_pid);
 int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid);
 int	loop_process_pipe(t_data *data, t_node_cmd *dup, int **pip, pid_t *tab_pid);
-int	open_redir_in(t_redir *dup);
-int open_redir_out(t_redir *dup);
-int	open_redir_d_out(t_redir *dup);
-int	value_final_in(t_node_cmd *cmd);
-int	value_final_out(t_node_cmd *cmd);
+int	open_redir_in(t_redir *dup, t_data *data);
+int open_redir_out(t_redir *dup, t_data *data);
+int	open_redir_d_out(t_redir *dup, t_data *data);
+int	value_final_in(t_node_cmd *cmd, t_data *data);
+int	value_final_out(t_node_cmd *cmd, t_data *data);
 void	redir_in_to_pipe(int **pip, int y, int fd_in);
 void	redir_in_out_to_pipe(int **pip, int y, int fd_in, int fd_out);
 void	redir_out_to_pipe(int **pip, int y, int fd_out);
-void	redir_in_or_out(t_node_cmd *cmd, int **pip, int y);
+void	redir_in_or_out(t_node_cmd *cmd, int **pip, int y, t_data *data);
 void	redir_one_in_out(int fd_in, int fd_out, int *fd);
 int copy_env_tab(t_data *data, size_t y);
 void setup_readline_rdocs(void);
@@ -166,11 +165,11 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip);
 int	add_env_value(t_data *data, char *value_content);
 int command_pwd(t_data *data, int fd);
 int	command_cd(t_data *data);
-int     ft_redir_child_process_one(t_node_cmd *cmd);
+int     ft_redir_child_process_one(t_node_cmd *cmd, t_data *data);
 void	redir_one_in_out_alone(int fd_in, int fd_out);
 int	control_builtin(t_node_cmd *cmd);
 int command_exit(t_node_cmd *cmd);
-int command_exit_free(t_data *data);
+int command_exit_free(t_data *data, t_node_cmd *cmd);
 int	ft_is_numeric(char	*str);
 int	exit_error_number(char *arg);
 int	create_value_return(t_data *data, size_t i);
@@ -178,7 +177,7 @@ int road_builtin(t_data *data, t_node_cmd *cmd, int **pip, int y);
 int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip);
 int remove_env_node(t_node_env *ptr, t_node_env *prev);
 char	*get_next_line(int fd);
-int open_all_redir(t_node_cmd *cmd);
+int open_all_redir(t_node_cmd *cmd, t_data *data);
 int print_error_cd(t_node_cmd *cmd);
 int	free_exec_part(t_data *data, int **pip, pid_t *tab_pid);
 

@@ -168,7 +168,10 @@ void	screen_export(t_data *data, int fd)
 	y = 0;
 	value = ft_split(max_value, '=');
 	if (!value)
+	{
+		free(max_value);
 		return ;
+	}
 	if (value[0][0] == '_')
 		current_node = data->env_node;
 	else
@@ -193,6 +196,13 @@ void	screen_export(t_data *data, int fd)
 		{
 			current_node->print = true;
 			free(max_value);
+			y = 0;
+			while (value[y])
+			{
+				free(value[y]);
+				y++;
+			}
+			free(value);
 			return ;
 		}
 		current_node = current_node->next;
