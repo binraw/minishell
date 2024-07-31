@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:15:19 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/25 11:00:24 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/31 11:36:57 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ int		control_export_name(t_data *data, char *value_content)
 				ft_lstclear_data(data);
 				exit(1);
 			}
-			
+			free(new_name);
+			free(new_value);
 			return (1);
 		}
 		head = head->next;
