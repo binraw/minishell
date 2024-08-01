@@ -17,6 +17,8 @@ int init_pip(t_data *data)
     int i;
 
     i = 0;
+	if ((!data->cmd->content || !data->cmd->content[0]) && !data->cmd->redir)
+		return (0);
 	command_rdocs(data);
 	if (data->number_of_pip == 0)
 		data->pip = NULL;
@@ -45,6 +47,8 @@ int init_pip(t_data *data)
     }
 	if (data->pip && data->number_of_pip != 0)
 		data->pip[i] = NULL;
+
+
 	return (pipex_process_multi(data, data->pip, data->tab_pid));
 }
 
@@ -90,7 +94,6 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 	dup = data->cmd;
 	if (!dup->content[0] && dup->redir)
 	{
-		// printf("ici\n");
 		open_all_redir(dup, data);
 		if(get_last_out(dup->redir))
 			close(value_final_out(dup, data));
