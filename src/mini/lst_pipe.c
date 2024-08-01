@@ -22,7 +22,7 @@ int init_pip(t_data *data)
 		data->pip = NULL;
 	else
 	{
-    	data->pip = malloc(data->number_of_pip * sizeof(int*));
+    	data->pip = malloc(data->number_of_cmd * sizeof(int*));
 		if (!data->pip)
 			return (-1);
 	}
@@ -43,6 +43,8 @@ int init_pip(t_data *data)
 		}
         i++;
     }
+	if (data->pip && data->number_of_pip != 0)
+		data->pip[i] = NULL;
 	return (pipex_process_multi(data, data->pip, data->tab_pid));
 }
 
@@ -91,13 +93,13 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 		// printf("ici\n");
 		open_all_redir(dup, data);
 		if(get_last_out(dup->redir))
-			value_final_out(dup, data);
+			close(value_final_out(dup, data));
 		else if	(get_last_in(dup->redir))
 		{
 			value_final_in(dup, data);
-			return (1);
+			exit(0);
 		}
-		return(0);
+		exit(0);
 	}
 	if (data->number_of_pip != 0)
 		if (pipe(pip[y]) == -1)
@@ -247,7 +249,7 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 	char	*path_command;
 
 	path_command = NULL;
-	if (cmd->content[0][0] == '\0' && !cmd->redir)
+	if (!cmd->content[0] && !cmd->redir)
 	{
 		close(pip[y][0]);
 		close(pip[y][1]);
@@ -258,18 +260,22 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 	}
 	if (!cmd->content[0] && cmd->redir)
 	{
+		printf("ici\n");
 		open_all_redir(cmd, data);
 		if(get_last_out(cmd->redir))
 		{
-			value_final_out(cmd, data);
-			close(value_final_out(cmd, data));
+		close(value_final_out(cmd, data));
+			// close(value_final_out(cmd, data));
 		}
 		else if	(get_last_in(cmd->redir))
 		{
-			value_final_in(cmd, data);
-			return (1);
+			close(value_final_in(cmd, data));
+			
 		}
-		return(0);
+		// close(pip[y][0]);
+		// close(pip[y][1]);
+		ft_lstclear_data(data);
+		exit(0);
 	}
 
 	if ((cmd) && (control_builtin(cmd) == 0))
