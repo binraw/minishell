@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:10:26 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/07/29 14:05:51 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/08/01 10:58:08 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ char	*trim_env(t_data *data, char *pip)
 	i = 0;
 	j = 0;
 	quote = 0;
+	if (is_line_empty(pip))
+		return (pip);
 	len = (trim_env_len(pip, data) + 1);
 	str = malloc(sizeof(char) * len);
 	if (!str)
