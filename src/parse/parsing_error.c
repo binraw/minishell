@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 11:10:07 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/07/29 14:13:04 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/07/30 11:57:13 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,18 @@ bool	print_parsing_error(char c)
 		write(2, &c, 1);
 	write(2, "\'\n", 2);
 	return (true);
+}
+
+bool	is_line_empty(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if (!str)
+		return (true);
+	while (str[i] && ft_is_whitespace(str[i]))
+		i++;
+	if (!str[i])
+		return (true);
+	return (false);
 }

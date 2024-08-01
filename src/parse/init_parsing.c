@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/30 10:52:04 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/08/01 10:59:48 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ int	init_cmd(t_data *data, char *argv)
 	char		*tok;
 
 	i = 0;
+	if (is_line_empty(argv))
+	{
+		data->cmd = NULL;
+		return (0);
+	}
 	if (parsing_error(argv))
 	{
 		data->last_pid = 2;
@@ -76,6 +81,12 @@ t_node_cmd	*cmd_get_content(char *str, size_t index, t_data *data)
 	str = trim_env(data, str);
 	redir_manage_env(data, cmd->redir);
 	cmd->content = malloc(sizeof(char *) * (ft_count_cmd(str) + 1));
+	if (is_line_empty(str))
+	{
+		free(str);
+		cmd->content[0] = NULL;
+		return (cmd);
+	}
 	tok = ft_strtok(str, " \t\n\v\f\r", true);
 	while (tok)
 	{
