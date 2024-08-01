@@ -44,7 +44,7 @@ typedef struct data_s
     int         number_of_cmd;
     int         number_of_pip;
     int         last_pid;
-    bool	arg; // jmets ca pour verifier si un arg est present pour echo mais a voir si on peut faire autrement
+    bool	free_pid; // jmets ca pour verifier si un arg est present pour echo mais a voir si on peut faire autrement
     t_node_env  *env_node;
  	int **pip;
 	pid_t	*tab_pid;
@@ -179,7 +179,7 @@ int remove_env_node(t_node_env *ptr, t_node_env *prev);
 char	*get_next_line(int fd);
 int open_all_redir(t_node_cmd *cmd, t_data *data);
 int print_error_cd(t_node_cmd *cmd);
-int	free_exec_part(t_data *data, int **pip, pid_t *tab_pid);
+int	free_exec_part(t_data *data);
 t_data * give_data(t_data *data);
 
 

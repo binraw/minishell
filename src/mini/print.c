@@ -23,9 +23,12 @@ int main(int argc, char **argv, char **envp)
 
 	result = 0;
 	data = malloc(sizeof(t_data));
+	ft_bzero(data, sizeof(t_data));
 	init_node_env(data, envp);
 	data->last_pid = 0;
-	data->path = NULL;
+	data->free_pid = true;
+	// data->path = NULL;
+	
 	while (1)
 	{
 		init_env(data);
@@ -40,7 +43,10 @@ int main(int argc, char **argv, char **envp)
 			free(line);
 		}
 		if (!data->str)
-			after_readline_signals(data);
+		{
+			// after_readline_signals(data);
+			break ;	
+		}
 		
 		if (init_cmd(data, data->str))
 			result = init_pip(data);
@@ -48,7 +54,8 @@ int main(int argc, char **argv, char **envp)
 		free(data->str);
 	}
 
-	return (ft_lstclear_data(data));
+	ft_lstclear_data(data);
+	return (0);
 }
 
 

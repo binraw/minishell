@@ -95,7 +95,8 @@ int		control_export_name(t_data *data, char *value_content)
 				ft_lstclear_data(data);
 				exit(1);
 			}
-			
+			free(new_name);
+			free(new_value);
 			return (1);
 		}
 		head = head->next;
