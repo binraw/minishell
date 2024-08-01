@@ -97,9 +97,9 @@ int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 		else if	(get_last_in(dup->redir))
 		{
 			value_final_in(dup, data);
-			exit(0);
+			return(0);
 		}
-		exit(0);
+		return(0);
 	}
 	if (data->number_of_pip != 0)
 		if (pipe(pip[y]) == -1)
