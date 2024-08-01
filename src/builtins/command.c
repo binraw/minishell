@@ -65,17 +65,38 @@ int	command_cd(t_data *data)
 		{
 	if (chdir(data->cmd->content[1]) == 0)
 	{
+		content = ft_strjoin("/", data->cmd->content[1]);
+		new_value = ft_strjoin(old_pwd, content);
 		modifyValue(data->env_node, "OLDPWD", old_pwd);
-		modifyValue(data->env_node, "PWD", data->cmd->content[1]);
+		modifyValue(data->env_node, "PWD", new_value);
+		free(new_value);
+		free(content);
 		free(old_pwd);
 		return (0);
 	}
 	if (data->cmd->content[1])
 	{
 		new_value = ft_strjoin("/", data->cmd->content[1]);
+		if (!new_value)
+		{
+			ft_lstclear_data(data);
+			exit(1);
+		}
 		content = ft_strdup(new_value);
+		if (!content)
+		{
+			free(new_value);
+			ft_lstclear_data(data);
+			exit(1);
+		}
 		free(new_value);
 		new_value = ft_strjoin(old_pwd, content);
+		if (!new_value)
+		{
+			free(content);
+			ft_lstclear_data(data);
+			exit(1);
+		}
 		free(content);
 		if (ft_strncmp(data->cmd->content[0], "cd", ft_strlen(data->cmd->content[0])) == 0 && ft_strncmp(data->cmd->content[1], "..", ft_strlen(data->cmd->content[1])) == 0)
 			change_old_pwd(data);
@@ -114,8 +135,10 @@ void	change_old_pwd(t_data *data)
 	char	*old_pwd;
 
 	old_pwd = value_old_pwd(data->env_node);
+
 	if (!old_pwd)
 	{
+	
 		ft_lstclear_data(data);
 		exit(1);
 	}
@@ -142,11 +165,17 @@ int modifyValue(t_node_env *head, char *name, char *newValue)
 		return (-1);
 	content = ft_strdup(new_content);
 	if (!content)
+	{
+		free(new_content);
 		return (-1);
+	}
 	free(new_content);
 	new_content = ft_strjoin(content, newValue);
 	if (!new_content)
+	{
+		free(content);
 		return (-1);
+	}
 	free(content);
     while (head != NULL)
 	{
@@ -179,6 +208,7 @@ char	*value_old_pwd(t_node_env *head)
 				i++;
 			i++;
 			value = ft_strdup((current->content + i));
+			
 			if (!value)
 				return (0);
             return (value);

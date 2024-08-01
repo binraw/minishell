@@ -40,7 +40,8 @@ char	*create_path(char *cmd, char **envp)
 		return (cmd);
 	paths = get_env(envp);
 	if (!paths)
-		return (free(cmd), NULL);
+		return (NULL);
+		// return (free(cmd), NULL);
 	while (paths[++i])
 	{
 		join_path_cmd = ft_strjoin(paths[i], "/");

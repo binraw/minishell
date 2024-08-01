@@ -30,6 +30,7 @@ void	handle_sigint(int sig)
 	printf("\n");
 	rl_redisplay();
 	data->last_pid = 130;
+
 }
 
 
@@ -46,7 +47,8 @@ void setup_readline_signals(t_data *data)
 	act.sa_handler = &handle_sigint;
 	sigaction(SIGINT, &act, NULL);
 	setup_readline_sigquit();
-	give_data(data);	
+	give_data(data);
+
 }
 
 t_data * give_data(t_data *data)
@@ -78,11 +80,11 @@ void	after_readline_signals(t_data *data)
 	//
 	// if (rl_line_buffer[0] == '\0')
 	// {
-		// if (data)
-		//     ft_lstclear_data(data);
-
-		exit(0);
-// 	}
+	// 	if (data)
+	// 	    ft_lstclear_data(data);
+	//
+	// 	exit(0);
+	// }
 // 	sigaction(SIGINT, &act, NULL);
 // 	setup_readline_sigquit_after();
 }

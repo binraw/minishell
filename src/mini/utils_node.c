@@ -160,13 +160,16 @@ int	ft_lstclear_data(t_data *data)
 		free(ptr->path);
 	if (ptr->str)
 		free(ptr->str);
-	if (ptr->tab_pid)
+	if (!ptr->free_pid)
+	{
 		free(ptr->tab_pid);
+		ptr->free_pid = true;
+	}
 	if (ptr->pip)
 	{
 		int i;
 		i = 0;
-		while (i < data->number_of_pip)
+		while (data->pip[i])
 		{
 			free(ptr->pip[i]);
 			i++;

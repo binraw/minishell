@@ -81,7 +81,6 @@ int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 		}
 		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0]) + 1) == 0)
 		{
-			
 			if (data->number_of_cmd > 1)
 				return (1);
 			 data->last_pid = command_cd(data);

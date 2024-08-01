@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/30 15:06:03 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/08/01 11:05:04 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct data_s
     int         number_of_cmd;
     int         number_of_pip;
     int         last_pid;
-    bool	arg; // jmets ca pour verifier si un arg est present pour echo mais a voir si on peut faire autrement
+    bool	free_pid; // jmets ca pour verifier si un arg est present pour echo mais a voir si on peut faire autrement
     t_node_env  *env_node;
  	int **pip;
 	pid_t	*tab_pid;
@@ -179,8 +179,9 @@ int remove_env_node(t_node_env *ptr, t_node_env *prev);
 char	*get_next_line(int fd);
 int open_all_redir(t_node_cmd *cmd, t_data *data);
 int print_error_cd(t_node_cmd *cmd);
-int	free_exec_part(t_data *data, int **pip);
-t_data	*give_data(t_data *data);
+int	free_exec_part(t_data *data);
+t_data * give_data(t_data *data);
+
 
 
 
