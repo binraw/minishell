@@ -261,7 +261,10 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 	{
 		open_all_redir(cmd, data);
 		if(get_last_out(cmd->redir))
+		{
 			value_final_out(cmd, data);
+			close(value_final_out(cmd, data));
+		}
 		else if	(get_last_in(cmd->redir))
 		{
 			value_final_in(cmd, data);
