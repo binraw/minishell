@@ -20,18 +20,18 @@ int	free_exec_part(t_data *data)
 
 	i = 0;
 	y = 0;
-	if (data->pip)
-	{
-		while (data->pip[i])
-		{
-			free(data->pip[i]);
-			i++;
-		}
-		if (data->pip)
-			free(data->pip);
-	}
 	if (!data->free_pid)
 	{
+		if (data->pip)
+		{
+			while (data->pip[i])
+			{
+				free(data->pip[i]);
+				i++;
+			}
+			if (data->pip)
+				free(data->pip);
+		}
 		free(data->tab_pid);
 		data->free_pid = true;
 	}

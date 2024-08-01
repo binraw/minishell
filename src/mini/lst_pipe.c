@@ -25,9 +25,12 @@ int init_pip(t_data *data)
 	else
 	{
     	data->pip = malloc(data->number_of_cmd * sizeof(int*));
+
 		if (!data->pip)
 			return (-1);
 	}
+	if (!data->free_pid)
+		printf("aled\n");
 	data->tab_pid = malloc((data->number_of_cmd) * sizeof(pid_t));
 	data->free_pid = false;
 	if (!data->tab_pid)
@@ -47,8 +50,6 @@ int init_pip(t_data *data)
     }
 	if (data->pip && data->number_of_pip != 0)
 		data->pip[i] = NULL;
-
-
 	return (pipex_process_multi(data, data->pip, data->tab_pid));
 }
 
@@ -163,7 +164,6 @@ int	process_status_pid(t_data *data, pid_t *tab_pid)
 	int status;
 	pid_t wpid;
 
-
 	if (data->cmd->fd_rdoc != 0)
 		close(data->cmd->fd_rdoc);
 	status = 0;
@@ -176,7 +176,7 @@ int	process_status_pid(t_data *data, pid_t *tab_pid)
 			tab_pid[0] = 0;
 		else if(data->number_of_pip == 0 && (control_builtin(data->cmd) == 1))	
 			tab_pid[0] = 0;
-		if (wpid == tab_pid[data->number_of_pip])  // avant data->number_of_cmd - 1
+		if (wpid == tab_pid[data->number_of_pip])
 			data->last_pid = status;
 		i++;
 	}
@@ -205,10 +205,7 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 		ft_putstr_fd(": command not found\n", 2);
 		ft_lstclear_data(data);
 	 	exit(127);
-
-
 	}
-
 	if (cmd->content[0] && (control_builtin(cmd) == 0))
 		path_command = create_path(cmd->content[0], data->env);
 	if (!cmd->content[0])
@@ -263,24 +260,14 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 	}
 	if (!cmd->content[0] && cmd->redir)
 	{
-		printf("ici\n");
 		open_all_redir(cmd, data);
 		if(get_last_out(cmd->redir))
-		{
-		close(value_final_out(cmd, data));
-			// close(value_final_out(cmd, data));
-		}
+			close(value_final_out(cmd, data));
 		else if	(get_last_in(cmd->redir))
-		{
 			close(value_final_in(cmd, data));
-			
-		}
-		// close(pip[y][0]);
-		// close(pip[y][1]);
 		ft_lstclear_data(data);
 		exit(0);
 	}
-
 	if ((cmd) && (control_builtin(cmd) == 0))
 		path_command = create_path(cmd->content[0], data->env);
 	if ((!path_command && (control_builtin(cmd) == 0)) )
@@ -298,6 +285,7 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		second_child(data, pip, y, cmd);
 	if ((control_builtin_multi_command(data, cmd, 1)== 0))
 	{
+		
 		execve(path_command, cmd->content, data->env);
 		perror("execve");
 	}

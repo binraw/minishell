@@ -83,7 +83,6 @@ int init_node_env(t_data *data, char **envp)
     t_node_env *new_node;
 
     i = 0;
-
 	if (!envp[0])
 	{
 		data->env_node = ft_lstnew(ft_strdup("OLDPWD"));

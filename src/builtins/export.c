@@ -116,24 +116,24 @@ int		control_export_value(char *value_content)
 	{
 		if (value_content[i] == '$')
 		{
-			ft_putstr_fd("bash: export: `", 1);
-			ft_putstr_fd(value_content + i, 1);
-			ft_putstr_fd("`: not a valid identifier\n", 1);
+			ft_putstr_fd("bash: export: `", 2);
+			ft_putstr_fd(value_content + i, 2);
+			ft_putstr_fd("`: not a valid identifier\n", 2);
 			return (-1);
 		}
 		
 		else if (value_content[i] == '!')
 		{
-			ft_putstr_fd("bash: ", 1);
-			ft_putstr_fd(value_content, 1);
-			ft_putstr_fd(": event not found", 1);
+			ft_putstr_fd("bash: ", 2);
+			ft_putstr_fd(value_content, 2);
+			ft_putstr_fd(": event not found", 2);
 			return (-1);
 		}
 		else if (value_content[i] == '~')
 		{
-			ft_putstr_fd("bash: export: `", 1);
-			ft_putstr_fd(value_content, 1);
-			ft_putstr_fd("`: not a valid identifier\n", 1);
+			ft_putstr_fd("bash: export: `", 2);
+			ft_putstr_fd(value_content, 2);
+			ft_putstr_fd("`: not a valid identifier\n", 2);
 			return (-1);
 
 		}
@@ -141,16 +141,16 @@ int		control_export_value(char *value_content)
 	}
 	if ((value_content[0] >= '0' && value_content[0] <= '9') || value_content[0] == '~')
 	{
-		ft_putstr_fd("bash: export: `", 1);
-		ft_putstr_fd(value_content, 1);
-		ft_putstr_fd("`: not a valid identifier\n", 1);
+		ft_putstr_fd("bash: export: `", 2);
+		ft_putstr_fd(value_content, 2);
+		ft_putstr_fd("`: not a valid identifier\n", 2);
 		return (-1);
 	}
 	if (value_content[0] == '!')
 	{
-		ft_putstr_fd("bash: ", 1);
-		ft_putstr_fd(value_content, 1);
-		ft_putstr_fd(": event not found", 1);
+		ft_putstr_fd("bash: ", 2);
+		ft_putstr_fd(value_content, 2);
+		ft_putstr_fd(": event not found", 2);
 		return (-1);
 	}
 

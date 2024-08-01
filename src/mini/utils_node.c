@@ -162,20 +162,18 @@ int	ft_lstclear_data(t_data *data)
 		free(ptr->str);
 	if (!ptr->free_pid)
 	{
-		free(ptr->tab_pid);
-		ptr->free_pid = true;
-	}
-	if (ptr->pip)
-	{
-		int i;
-		i = 0;
-		while (data->pip[i])
+		free(ptr->tab_pid);	
+		if (ptr->pip)
 		{
-			free(ptr->pip[i]);
-			i++;
+			int i;
+			i = 0;
+			while (ptr->pip[i])
+			{
+				free(ptr->pip[i]);
+				i++;
+			}
+			free(ptr->pip);
 		}
-		free(ptr->pip);
-		
 	}
 	free(ptr);
 	data = NULL;

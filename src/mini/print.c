@@ -27,8 +27,6 @@ int main(int argc, char **argv, char **envp)
 	init_node_env(data, envp);
 	data->last_pid = 0;
 	data->free_pid = true;
-	// data->path = NULL;
-	
 	while (1)
 	{
 		init_env(data);
@@ -43,17 +41,14 @@ int main(int argc, char **argv, char **envp)
 			free(line);
 		}
 		if (!data->str)
-		{
-			// after_readline_signals(data);
 			break ;	
-		}
-		
 		if (init_cmd(data, data->str))
 			result = init_pip(data);
 		data->cmd = ft_lstclear_cmd(data->cmd);
+		if (!data->free_pid)
+			free_exec_part(data);
 		free(data->str);
 	}
-
 	ft_lstclear_data(data);
 	return (0);
 }
