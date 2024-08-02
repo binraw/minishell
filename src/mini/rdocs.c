@@ -18,7 +18,6 @@
 int init_rdocs(t_rdocs *rdocs)
 {
     int *fd;
-	int fd_in;
 
 	setup_readline_rdocs();
     fd = malloc(2 * sizeof(int));
@@ -31,28 +30,34 @@ int init_rdocs(t_rdocs *rdocs)
     {
         rdocs->str_rdocs = readline("> ");
 		if (!rdocs->str_rdocs)
-		{
-			free(fd);
-			ft_putstr_fd("bash: warning: here-document at line 2 delimited by end-of-file (wanted `wc')\n", 2);
-				return (-1);
-		}
+			return(rdocs_error(fd));
         if (ft_strncmp(rdocs->str_rdocs,
                 rdocs->limit, (ft_strlen(rdocs->str_rdocs)) + 1) == 0)
-        {
-			// if (rdocs->str_rdocs)
-			//          	free(rdocs->str_rdocs);
-            rdocs->go = true;
-			close(fd[1]);
-			fd_in = fd[0];
-			free(fd);
-            return (fd_in);
-        }
+   			return (stop_success_rdocs(rdocs, fd));
 		if (interrupted == 1)
 			break ;
         write(fd[1], rdocs->str_rdocs, ft_strlen(rdocs->str_rdocs));
         write(fd[1], "\n", 1);
     }
     return (-1);
+}
+
+int	rdocs_error(int *fd)
+{
+	free(fd);
+	ft_putstr_fd("bash: warning: here-document at line 2 delimited by end-of-file (wanted `wc')\n", 2);
+	return (-1);
+}
+
+int	stop_success_rdocs(t_rdocs *rdocs, int *fd)
+{
+	int fd_in;
+
+	rdocs->go = true;
+	close(fd[1]);
+	fd_in = fd[0];
+	free(fd);
+    return (fd_in);
 }
 
 

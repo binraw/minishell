@@ -32,5 +32,5 @@ int command_env(t_data *data, int fd)
         	dup = dup->next;
 		}
     }
-    return (0);
+    return (1);
 }

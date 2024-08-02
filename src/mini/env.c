@@ -83,16 +83,9 @@ int init_node_env(t_data *data, char **envp)
     t_node_env *new_node;
 
     i = 0;
+	new_node = NULL;
 	if (!envp[0])
-	{
-		data->env_node = ft_lstnew(ft_strdup("OLDPWD"));
-		new_node = ft_lstnew(ft_strdup("PWD=/home/rtruvelo/minishell"));
-		ft_lstadd_back(data->env_node, new_node);
-		new_node = ft_lstnew(ft_strdup("SHLVL=1"));
-		ft_lstadd_back(data->env_node, new_node);
-		new_node = ft_lstnew(ft_strdup("_=usr/bin/env"));
-		ft_lstadd_back(data->env_node, new_node);
-	}
+		create_env_no_env(data, new_node);
 	else 
 	{
     	data->env_node = ft_lstnew(ft_strdup(envp[i]));
@@ -106,6 +99,19 @@ int init_node_env(t_data *data, char **envp)
 	}
 	data->env = NULL;
     return (0);
+}
+
+
+int	create_env_no_env(t_data *data, t_node_env *new_node)
+{
+	data->env_node = ft_lstnew(ft_strdup("OLDPWD"));
+	new_node = ft_lstnew(ft_strdup("PWD=/home/rtruvelo/minishell"));
+	ft_lstadd_back(data->env_node, new_node);
+	new_node = ft_lstnew(ft_strdup("SHLVL=1"));
+	ft_lstadd_back(data->env_node, new_node);
+	new_node = ft_lstnew(ft_strdup("_=usr/bin/env"));
+	ft_lstadd_back(data->env_node, new_node);
+	return (0);
 }
 
 void	ft_lstclear_env(t_data *data)

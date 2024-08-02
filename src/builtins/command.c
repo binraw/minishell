@@ -42,7 +42,7 @@ int command_pwd(t_data *data, int fd)
 			size += size;
 		}
     }
-    return (0);
+    return (1);
 }
 
 int	command_cd(t_data *data)

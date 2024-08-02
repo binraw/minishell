@@ -20,6 +20,7 @@
 #include "../../lib/libft/libft.h"
 #include <signal.h>
 #include <sys/ioctl.h>
+#include<readline/history.h>
 
 
 // essai de mettre cmd dans une structure qui a la valeur de la commande
@@ -181,6 +182,28 @@ int open_all_redir(t_node_cmd *cmd, t_data *data);
 int print_error_cd(t_node_cmd *cmd);
 int	free_exec_part(t_data *data);
 t_data * give_data(t_data *data);
+int	start_child_process(t_data *data, t_node_cmd *dup, pid_t *tab_pid);
+int	redir_no_cmd(t_data *data, t_node_cmd *dup);
+void	no_found_command(t_data *data, t_node_cmd *cmd, int *pip);
+int	process_redir_child_one(t_data *data, t_node_cmd *cmd, int *pip);
+void	no_found_multi_command(t_data *data, t_node_cmd *cmd, int **pip, int y);
+void	open_redir_no_cmd_multi(t_data *data, t_node_cmd *cmd);
+int	create_env_no_env(t_data *data, t_node_env *new_node);
+int	rdocs_error(int *fd);
+int	stop_success_rdocs(t_rdocs *rdocs, int *fd);
+void	final_value_add(t_data *data, t_node_cmd *cmd, int fd_out);
+int	redir_out_first_child(t_data *data, t_node_cmd *cmd, int *pip, int fd_out);
+int	export_process(t_data *data, t_node_cmd *cmd, int pip);
+int	cd_process(t_data *data);
+void	export_process_child(t_data *data, t_node_cmd *cmd, int pip);
+void	cd_process_child(t_data *data, t_node_cmd *cmd);
+void	env_process_child(t_data *data, int pip);
+void	pwd_process_child(t_data *data, int pip);
+
+
+
+
+
 
 
 

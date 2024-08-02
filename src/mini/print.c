@@ -42,6 +42,7 @@ int main(int argc, char **argv, char **envp)
 		}
 		if (!data->str)
 			break ;	
+		add_history(data->str);
 		if (init_cmd(data, data->str))
 			result = init_pip(data);
 		data->cmd = ft_lstclear_cmd(data->cmd);
