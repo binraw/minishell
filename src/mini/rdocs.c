@@ -12,60 +12,57 @@
 
 #include "mini.h"
 
-
-
-
-int init_rdocs(t_rdocs *rdocs)
+int	init_rdocs(t_rdocs *rdocs)
 {
-    int *fd;
+	int	*fd;
 
 	setup_readline_rdocs();
-    fd = malloc(2 * sizeof(int));
+	fd = malloc(2 * sizeof(int));
 	if (!fd)
 		return (-1);
-    if (pipe(fd) == -1)
+	if (pipe(fd) == -1)
 		return (-1);
-    rdocs->go = false;
-    while (rdocs->go != true)
-    {
-        rdocs->str_rdocs = readline("> ");
+	rdocs->go = false;
+	while (rdocs->go != true)
+	{
+		rdocs->str_rdocs = readline("> ");
 		if (!rdocs->str_rdocs)
-			return(rdocs_error(fd));
-        if (ft_strncmp(rdocs->str_rdocs,
-                rdocs->limit, (ft_strlen(rdocs->str_rdocs)) + 1) == 0)
-   			return (stop_success_rdocs(rdocs, fd));
+			return (rdocs_error(fd));
+		if (ft_strncmp(rdocs->str_rdocs,
+				rdocs->limit, (ft_strlen(rdocs->str_rdocs)) + 1) == 0)
+			return (stop_success_rdocs(rdocs, fd));
 		if (interrupted == 1)
 			break ;
-        write(fd[1], rdocs->str_rdocs, ft_strlen(rdocs->str_rdocs));
-        write(fd[1], "\n", 1);
-    }
-    return (-1);
+		write(fd[1], rdocs->str_rdocs, ft_strlen(rdocs->str_rdocs));
+		write(fd[1], "\n", 1);
+	}
+	return (-1);
 }
 
 int	rdocs_error(int *fd)
 {
 	free(fd);
-	ft_putstr_fd("bash: warning: here-document at line 2 delimited by end-of-file (wanted `wc')\n", 2);
+	ft_putstr_fd("bash: warning: here-document at line 2 delimited", 2);
+	ft_putstr_fd("by end-of-file (wanted `wc')\n", 2);
 	return (-1);
 }
 
 int	stop_success_rdocs(t_rdocs *rdocs, int *fd)
 {
-	int fd_in;
+	int	fd_in;
 
 	rdocs->go = true;
 	close(fd[1]);
 	fd_in = fd[0];
 	free(fd);
-    return (fd_in);
+	return (fd_in);
 }
 
-
-int	open_all_rdocs(t_node_cmd *cmd) 
+int	open_all_rdocs(t_node_cmd *cmd)
 {
-	t_redir *last_in;
-	t_rdocs *dup;
-	int fd;
+	t_redir	*last_in;
+	t_rdocs	*dup;
+	int		fd;
 
 	last_in = get_last_in(cmd->redir);
 	if (!last_in)
@@ -73,21 +70,20 @@ int	open_all_rdocs(t_node_cmd *cmd)
 	dup = cmd->rdocs;
 	fd = 0;
 	while (dup)
-	{	
+	{
 		fd = init_rdocs(dup);
 		if (fd == -1)
 			return (-1);
-		dup = dup->next;	
+		dup = dup->next;
 	}
 	if (last_in->rdocs)
 		cmd->fd_rdoc = fd;
 	return (0);
 }
 
-
-int command_rdocs(t_data *data)
+int	command_rdocs(t_data *data)
 {
-	t_node_cmd *dup;
+	t_node_cmd	*dup;
 
 	dup = data->cmd;
 	while (dup)
