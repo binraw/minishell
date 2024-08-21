@@ -10,25 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
-
 #include "../mini/mini.h"
 #include <stdio.h>
 #include <string.h>
 
-//il faut gerer le cas ou plusieurs variable sont creer en une seule commande export
 int	add_env_value(t_data *data, char *value_content)
 {
-	t_node_env *new_node;
+	t_node_env	*new_node;
 
 	new_node = NULL;
-
 	if ((control_export_value(value_content) == -1))
 		return (-1);
 	if ((control_export_name(data, value_content) == 1))
 		return (0);
-
 	new_node = ft_lstnew(ft_strdup(value_content));
 	if (!new_node->content)
 	{
@@ -36,56 +30,47 @@ int	add_env_value(t_data *data, char *value_content)
 		free(new_node->value);
 		return (-1);
 	}
-
-	ft_lstadd_back(data->env_node, new_node); 
+	ft_lstadd_back(data->env_node, new_node);
 	return (0);
 }
 
-
-
-int		control_export_name(t_data *data, char *value_content)
+int	control_export_name(t_data *data, char *value_content)
 {
-	char	*new_name;
-	char	*new_value;
-	t_node_env *head;
-	size_t	i;
+	char		*new_name;
+	char		*new_value;
+	size_t		i;
 
 	new_value = NULL;
 	new_name = NULL;
 	i = 0;
- 	head = data->env_node;
-	while(value_content[i] && value_content[i] != '=')
+	while (value_content[i] && value_content[i] != '=')
 		i++;
- 	new_name = malloc(i + 1 * sizeof(char));
+	new_name = malloc(i + 1 * sizeof(char));
 	if (!new_name)
-	{
-		ft_lstclear_data(data);
-		exit(1);
-	}
+		empty_new_name(data);
 	new_value = malloc(ft_strlen((value_content + i)) * sizeof(char));
 	if (!new_value)
-	{
-		free(new_name);
-		ft_lstclear_data(data);
-		exit(1);
-	}
+		empty_new_value(data, new_name);
 	ft_strlcpy(new_name, value_content, i + 1);
 	ft_strlcpy(new_value, value_content + i + 1, ft_strlen(value_content) - i);
+	if (action_change_export(data, new_value, new_name, value_content) == 1)
+		return (1);
+	free(new_name);
+	free(new_value);
+	return (0);
+}
 
+int	action_change_export(t_data *data, char *new_value,
+						char *new_name, char *value_content)
+{
+	t_node_env	*head;
+
+	head = data->env_node;
 	while (head)
 	{
 		if ((ft_strncmp(head->name, new_name, ft_strlen(new_name) + 1) == 0))
 		{
-			free(head->value);
-			free(head->content);
-			head->value  = ft_strdup(new_value);
-			if (!head->value)
-			{
-				free(new_name);
-				free(new_value);
-				ft_lstclear_data(data);
-				exit(1);
-			}
+			change_value_export(data, head, new_name, new_value);
 			head->content = ft_strdup(value_content);
 			if (!head->content)
 			{
@@ -101,165 +86,60 @@ int		control_export_name(t_data *data, char *value_content)
 		}
 		head = head->next;
 	}
-	free(new_name);
-	free(new_value);
-	return (0);
-}	
-
-
-int		control_export_value(char *value_content)
-{
-	int i;
-
-	i = 0;
-	while(value_content[i])
-	{
-		if (value_content[i] == '$')
-		{
-			ft_putstr_fd("bash: export: `", 2);
-			ft_putstr_fd(value_content + i, 2);
-			ft_putstr_fd("`: not a valid identifier\n", 2);
-			return (-1);
-		}
-		
-		else if (value_content[i] == '!')
-		{
-			ft_putstr_fd("bash: ", 2);
-			ft_putstr_fd(value_content, 2);
-			ft_putstr_fd(": event not found", 2);
-			return (-1);
-		}
-		else if (value_content[i] == '~')
-		{
-			ft_putstr_fd("bash: export: `", 2);
-			ft_putstr_fd(value_content, 2);
-			ft_putstr_fd("`: not a valid identifier\n", 2);
-			return (-1);
-
-		}
-		i++;
-	}
-	if ((value_content[0] >= '0' && value_content[0] <= '9') || value_content[0] == '~')
-	{
-		ft_putstr_fd("bash: export: `", 2);
-		ft_putstr_fd(value_content, 2);
-		ft_putstr_fd("`: not a valid identifier\n", 2);
-		return (-1);
-	}
-	if (value_content[0] == '!')
-	{
-		ft_putstr_fd("bash: ", 2);
-		ft_putstr_fd(value_content, 2);
-		ft_putstr_fd(": event not found", 2);
-		return (-1);
-	}
-
 	return (0);
 }
 
+// void	empty_new_value(t_data *data, char *new_name)
+// {
+// 	free(new_name);
+// 	ft_lstclear_data(data);
+// 	exit(1);
+// }
+//
+// void	empty_new_name(t_data *data)
+// {
+// 	ft_lstclear_data(data);
+// 	exit(1);
+// }
 
-
+int	change_value_export(t_data *data, t_node_env *head,
+						char *new_name, char *new_value)
+{
+	free(head->value);
+	free(head->content);
+	head->value = ft_strdup(new_value);
+	if (!head->value)
+	{
+		free(new_name);
+		free(new_value);
+		ft_lstclear_data(data);
+		exit(1);
+	}
+	return (1);
+}
 
 void	screen_export(t_data *data, int fd)
 {
-	t_node_env *current_node;
-	char *max_value;
-	char **value;
-	size_t i;
-	size_t y;
+	t_node_env	*current_node;
+	char		*max_value;
+	char		**value;
+	size_t		i;
 
 	i = 0;
 	current_node = data->env_node;
 	max_value = ft_strdup("~~~~");
 	if (!max_value)
-	{
-		ft_putstr_fd("declare -x ", fd);
-		ft_putstr_fd("NULL", fd);
-		ft_putstr_fd("\n", fd);
-		ft_lstclear_data(data);
-		exit(1);
-	}
+		fail_dup_export(data, fd);
 	value = NULL;
-	while (current_node)
-	{
-		i = ft_strlen(current_node->name);
-		if (ft_strncmp(current_node->name, max_value, i + 1) < 0 && current_node->print == false)
-		{
-			free(max_value);
-			free(value);
-			max_value = ft_strdup(current_node->content);
-		}
-		current_node = current_node->next;
-	}
-	y = 0;
+	max_value = asign_max_export(current_node, max_value, value);
 	value = ft_split(max_value, '=');
 	if (!value)
 	{
 		free(max_value);
 		return ;
 	}
-	if (value[0][0] == '_')
-		current_node = data->env_node;
-	else
-	{
-	ft_putstr_fd("declare -x ", fd);
-	ft_putstr_fd(value[0], fd);
-	ft_putstr_fd("=\"", fd);
-	while (value[++y])
-	{
-		if (y > 1)
-			ft_putstr_fd("=", fd);
-		ft_putstr_fd(value[y], fd);
-	}
-	ft_putstr_fd("\"", fd);
-	ft_putchar_fd('\n', fd);
+	if (value[0][0] != '_')
+		print_export(value, fd);
 	current_node = data->env_node;
-	}
-	while (current_node)
-	{
-		i = ft_strlen(current_node->name);
-		if (ft_strncmp(current_node->content, max_value, i + 1) == 0)
-		{
-			current_node->print = true;
-			free(max_value);
-			y = 0;
-			while (value[y])
-			{
-				free(value[y]);
-				y++;
-			}
-			free(value);
-			return ;
-		}
-		current_node = current_node->next;
-	}
-}
-	
-
-int	ft_lstsize(t_node_env *head)
-{
-	size_t	i;
-	t_node_env	*tmp;
-
-	tmp = head;
-	i = 0;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		i++;
-	}
-	return (i);
-}
-
-void	reset_print_env(t_data *data)
-{
-	t_node_env *current_node;
-
-	current_node = data->env_node;
-	while (current_node)
-	{
-		current_node->print = false;
-		current_node = current_node->next;
-	}
-
+	asign_print(current_node, max_value, value);
 }

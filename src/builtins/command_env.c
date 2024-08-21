@@ -12,25 +12,23 @@
 
 #include "../mini/mini.h"
 
-
-
-int command_env(t_data *data, int fd)
+int	command_env(t_data *data, int fd)
 {
- 	t_node_env  *dup;
+	t_node_env	*dup;
 
 	dup = data->env_node;
 	if (dup == NULL)
-		ft_putstr_fd("NULL\n", fd);	
-    while (dup)
-    {
+		ft_putstr_fd("NULL\n", fd);
+	while (dup)
+	{
 		if (dup->name && !dup->value)
 			dup = dup->next;
 		else
 		{
 			ft_putstr_fd(dup->content, fd);
 			ft_putstr_fd("\n", fd);
-        	dup = dup->next;
+			dup = dup->next;
 		}
-    }
-    return (1);
+	}
+	return (1);
 }

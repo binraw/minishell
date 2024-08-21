@@ -117,7 +117,7 @@ t_node_env	*ft_lstduplicate(const t_node_env *original);
 void	ft_lstclear(t_node_env **lst, void (*del)(void *));
 t_node_env	*ft_lstnew_basic(char *content);
 
-int modifyValue(t_node_env *head, char *name, char *newValue);
+int modify_value(t_node_env *head, char *name, char *newValue);
 char	*value_pwd(t_node_env *head);
 
 int cd_to_home(t_data *data);
@@ -199,12 +199,25 @@ void	export_process_child(t_data *data, t_node_cmd *cmd, int pip);
 void	cd_process_child(t_data *data, t_node_cmd *cmd);
 void	env_process_child(t_data *data, int pip);
 void	pwd_process_child(t_data *data, int pip);
-
-
-
-
-
-
+void	command_valid_exit(t_data *data, t_node_cmd *cmd);
+int	write_error_export(char value);
+void	fail_dup_export(t_data *data, int fd);
+void	asign_print(t_node_env *current_node, char *max_value, char **value);
+void	print_export(char **value, int fd);
+char	*asign_max_export(t_node_env *current_node, char *max_value, char **value);
+int	change_value_export(t_data *data, t_node_env *head, char *new_name, char *new_value);
+void	empty_new_value(t_data *data, char *new_name);
+void	empty_new_name(t_data *data);
+int	action_change_export(t_data *data, char *new_value, char *new_name, char *value_content);
+void	empty_pos(t_data *data);
+void	move_position(t_data *data, char *old_pwd, char *new_value);
+void	content_data_free(t_data *data, char *content);
+char	*build_new_pos(t_data *data, char *old_pwd);
+void	change_content_pos(t_data *data, char *old_pwd, char *new_value);
+int	move_no_at_home(t_data *data, char *new_value, char *old_pwd);
+int	last_step_modify(t_node_env *head, char *name, char *new_content);
+void	move_to_home(t_data *data, t_node_env *copy, char *old_pwd);
+void	error_copy_env(t_data *data, char *old_pwd);
 
 
 
