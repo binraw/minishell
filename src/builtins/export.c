@@ -89,19 +89,6 @@ int	action_change_export(t_data *data, char *new_value,
 	return (0);
 }
 
-// void	empty_new_value(t_data *data, char *new_name)
-// {
-// 	free(new_name);
-// 	ft_lstclear_data(data);
-// 	exit(1);
-// }
-//
-// void	empty_new_name(t_data *data)
-// {
-// 	ft_lstclear_data(data);
-// 	exit(1);
-// }
-
 int	change_value_export(t_data *data, t_node_env *head,
 						char *new_name, char *new_value)
 {

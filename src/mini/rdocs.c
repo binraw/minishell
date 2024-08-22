@@ -31,7 +31,7 @@ int	init_rdocs(t_rdocs *rdocs)
 		if (ft_strncmp(rdocs->str_rdocs,
 				rdocs->limit, (ft_strlen(rdocs->str_rdocs)) + 1) == 0)
 			return (stop_success_rdocs(rdocs, fd));
-		if (interrupted == 1)
+		if (g_interrupted == 1)
 			break ;
 		write(fd[1], rdocs->str_rdocs, ft_strlen(rdocs->str_rdocs));
 		write(fd[1], "\n", 1);

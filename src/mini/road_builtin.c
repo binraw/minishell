@@ -10,55 +10,55 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "mini.h"
 
-
-int road_builtin(t_data *data, t_node_cmd *cmd, int **pip, int y)
+int	road_builtin(t_data *data, t_node_cmd *cmd, int **pip, int y)
 {
-		if (cmd->redir)
-		{
-			if (pip)
-				ft_redir_child_process(cmd, pip[y], data);
-			else
-				ft_redir_child_process_one(cmd, data);
-		}
-		else if (pip)
-			first_child(pip[y]);
+	if (cmd->redir)
+	{
+		if (pip)
+			ft_redir_child_process(cmd, pip[y], data);
+		else
+			ft_redir_child_process_one(cmd, data);
+	}
+	else if (pip)
+		first_child(pip[y]);
 	control_builtin_to_command(data, cmd, 1);
 	return (0);
 }
 
-
 int	control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip)
 {
-		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0]) + 1) == 0)
-			return (command_env(data, pip));
-		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0]) + 1) == 0)
-			export_process(data, cmd, pip);	
-		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0]) + 1) == 0)
-		{
-			unset_command(data, &cmd->content[1]);
-			return (1);
-		}
-		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0]) + 1) == 0)
-			return (command_pwd(data, pip));
-		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0]) + 1) == 0)
-			return (cd_process(data));
-		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0]) + 1) == 0)
-		{
-			command_echo(cmd, pip);
-			return (1);
-		}
-		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0]) + 1) == 0)
-			return (command_exit_free(data, cmd));
+	if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0]) + 1) == 0)
+		return (command_env(data, pip));
+	if (ft_strncmp(cmd->content[0], "export",
+			ft_strlen(cmd->content[0]) + 1) == 0)
+		export_process(data, cmd, pip);
+	if (ft_strncmp(cmd->content[0], "unset",
+			ft_strlen(cmd->content[0]) + 1) == 0)
+	{
+		unset_command(data, &cmd->content[1]);
+		return (1);
+	}
+	if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0]) + 1) == 0)
+		return (command_pwd(data, pip));
+	if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0]) + 1) == 0)
+		return (cd_process(data));
+	if (ft_strncmp(cmd->content[0], "echo",
+			ft_strlen(cmd->content[0]) + 1) == 0)
+	{
+		command_echo(cmd, pip);
+		return (1);
+	}
+	if (ft_strncmp(cmd->content[0], "exit",
+			ft_strlen(cmd->content[0]) + 1) == 0)
+		return (command_exit_free(data, cmd));
 	return (0);
 }
 
-
 int	export_process(t_data *data, t_node_cmd *cmd, int pip)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (cmd->content[1])
@@ -76,11 +76,11 @@ int	export_process(t_data *data, t_node_cmd *cmd, int pip)
 	{
 		while (i < ft_lstsize(data->env_node))
 		{
-			screen_export(data,  pip);
+			screen_export(data, pip);
 			i++;
 		}
 		reset_print_env(data);
-		}
+	}
 	return (1);
 }
 
@@ -92,38 +92,37 @@ int	cd_process(t_data *data)
 	return (1);
 }
 
-
 int	control_builtin_multi_command(t_data *data, t_node_cmd *cmd, int pip)
 {
-		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0]) + 1) == 0)
-			env_process_child(data, pip);
-		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0]) + 1) == 0)
-			export_process_child(data, cmd, pip);
-		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0]) + 1) == 0)
-		{
-			unset_command(data, &cmd->content[1]);
-			ft_lstclear_data(data);
-			exit(0);
-		}
-		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0]) + 1) == 0)
-			pwd_process_child(data, pip);
-		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0]) + 1) == 0)
-			cd_process_child(data, cmd);
-		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0]) + 1) == 0)
-		{
-			command_echo(cmd, pip);
-			ft_lstclear_data(data);
-			exit(0);
-		}
-		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0]) + 1) == 0)
-			return (command_exit_free(data, cmd));
+	if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0]) + 1) == 0)
+		env_process_child(data, pip);
+	if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0]) + 1) == 0)
+		export_process_child(data, cmd, pip);
+	if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0]) + 1) == 0)
+	{
+		unset_command(data, &cmd->content[1]);
+		ft_lstclear_data(data);
+		exit(0);
+	}
+	if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0]) + 1) == 0)
+		pwd_process_child(data, pip);
+	if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0]) + 1) == 0)
+		cd_process_child(data, cmd);
+	if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0]) + 1) == 0)
+	{
+		command_echo(cmd, pip);
+		ft_lstclear_data(data);
+		exit(0);
+	}
+	if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0]) + 1) == 0)
+		return (command_exit_free(data, cmd));
 	return (0);
 }
 
 
 void	export_process_child(t_data *data, t_node_cmd *cmd, int pip)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (cmd->content[1])
@@ -143,23 +142,23 @@ void	export_process_child(t_data *data, t_node_cmd *cmd, int pip)
 
 void	cd_process_child(t_data *data, t_node_cmd *cmd)
 {
-		if (data->number_of_cmd > 1)
-			{	
-				if (chdir(cmd->content[1]) == 0)
-				{
-					ft_lstclear_data(data);
-					exit(0);
-				}
-				else
-				{
-					print_error_cd(cmd);
-					ft_lstclear_data(data);
-					exit(0);
-				}
-			}
-			command_cd(data);
+	if (data->number_of_cmd > 1)
+	{	
+		if (chdir(cmd->content[1]) == 0)
+		{
 			ft_lstclear_data(data);
 			exit(0);
+		}
+		else
+		{
+			print_error_cd(cmd);
+			ft_lstclear_data(data);
+			exit(0);
+		}
+	}
+	command_cd(data);
+	ft_lstclear_data(data);
+	exit(0);
 }
 
 void	env_process_child(t_data *data, int pip)
@@ -172,9 +171,9 @@ void	env_process_child(t_data *data, int pip)
 
 void	pwd_process_child(t_data *data, int pip)
 {
-		command_pwd(data, pip);
-			ft_lstclear_data(data);
-			exit(0);
+	command_pwd(data, pip);
+	ft_lstclear_data(data);
+	exit(0);
 }
 
 
@@ -191,19 +190,19 @@ int print_error_cd(t_node_cmd *cmd)
 
 int	control_builtin(t_node_cmd *cmd)
 {
-		if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0])) == 0)
-			return (1);
-		if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0])) == 0)
-			return (1);
-		if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0])) == 0)
-			return (1);
-		if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0])) == 0)
-			return (1);
-		if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0])) == 0)
-			return (1);
-		if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0])) == 0)
-			return (1);
-		if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0])) == 0)
-			return (1);
+	if (ft_strncmp(cmd->content[0], "env", ft_strlen(cmd->content[0])) == 0)
+		return (1);
+	if (ft_strncmp(cmd->content[0], "export", ft_strlen(cmd->content[0])) == 0)
+		return (1);
+	if (ft_strncmp(cmd->content[0], "unset", ft_strlen(cmd->content[0])) == 0)
+		return (1);
+	if (ft_strncmp(cmd->content[0], "pwd", ft_strlen(cmd->content[0])) == 0)
+		return (1);
+	if (ft_strncmp(cmd->content[0], "cd", ft_strlen(cmd->content[0])) == 0)
+		return (1);
+	if (ft_strncmp(cmd->content[0], "echo", ft_strlen(cmd->content[0])) == 0)
+		return (1);
+	if (ft_strncmp(cmd->content[0], "exit", ft_strlen(cmd->content[0])) == 0)
+		return (1);
 	return (0);
 }
