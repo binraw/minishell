@@ -80,6 +80,8 @@ typedef struct node_env_s
 
 }	t_node_env;
 
+void		loop_main(t_data *data);
+int			process_init_pip(t_data *data);
 int			exe_cmd(t_data *data);
 int			init_env(t_data *data);
 int			free_env(t_data *data);
@@ -92,6 +94,7 @@ int			pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
 int			child_process_multi(t_data *data, t_node_cmd *cmd, int *pip);
 int			second_child_process_multi(t_data *data,
 				t_node_cmd *cmd, int **pip, int y);
+int			free_env(t_data *data);
 int			free_data_values(t_data *data);
 int			process_status_pid(t_data *data, pid_t *tab_pid);
 int			init_values_redir(t_data *data);
@@ -153,7 +156,6 @@ void		redir_in_or_out(t_node_cmd *cmd, int **pip, int y, t_data *data);
 void		redir_one_in_out(int fd_in, int fd_out, int *fd);
 int			copy_env_tab(t_data *data, size_t y);
 void		setup_readline_rdocs(void);
-int			status_one_cmd(pid_t pid);
 int			control_builtin_to_command(t_data *data, t_node_cmd *cmd, int pip);
 int			add_env_value(t_data *data, char *value_content);
 int			command_pwd(t_data *data, int fd);
@@ -241,7 +243,7 @@ void		fill_cmd_content(t_data *data, char **pips);
 t_redir		*fill_rdocs(char *tok, t_rdocs **rdocs);
 t_rdocs		*ft_lstnew_rdocs(char *str);
 void		ft_lstclear_rdocs(t_rdocs **lst);
-
+void		process_echo(t_data *data, t_node_cmd *cmd, int pip);
 void		cmd_manage_env(t_data *data);
 char		*trim_env(t_data *data, char *pip);
 void		cpy_env_to_str(char	*env, char *str, size_t *j);

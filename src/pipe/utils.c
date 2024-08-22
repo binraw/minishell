@@ -41,7 +41,6 @@ char	*create_path(char *cmd, char **envp)
 	paths = get_env(envp);
 	if (!paths)
 		return (NULL);
-		// return (free(cmd), NULL);
 	while (paths[++i])
 	{
 		join_path_cmd = ft_strjoin(paths[i], "/");
@@ -53,7 +52,6 @@ char	*create_path(char *cmd, char **envp)
 			free(path_cmd);
 	}
 	ft_free_tab(paths);
-	// free(cmd);
 	return (NULL);
 }
 

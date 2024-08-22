@@ -37,3 +37,21 @@ int	free_exec_part(t_data *data)
 	}
 	return (0);
 }
+
+int	free_env(t_data *data)
+{
+	size_t	i;
+
+	i = 0;
+	if (data->env)
+	{
+		while (data->env[i])
+		{
+			free(data->env[i]);
+			i++;
+		}
+		free(data->env);
+		data->env = NULL;
+	}
+	return (0);
+}

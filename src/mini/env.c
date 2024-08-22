@@ -12,11 +12,11 @@
 
 #include "mini.h"
 
-int init_env(t_data *data)
+int	init_env(t_data *data)
 {
-	size_t	y;
+	size_t		y;
 	t_node_env	*copy;
-	size_t i;
+	size_t		i;
 
 	y = 0;
 	i = 0;
@@ -28,17 +28,16 @@ int init_env(t_data *data)
 	}
 	if (data->env)
 		free_env(data);
-	data->env = malloc(sizeof(char*) * (y + 1));
+	data->env = malloc(sizeof(char *) * (y + 1));
 	if (!data->env)
 		return (-1);
 	copy_env_tab(data, y);
 	return (0);
 }
 
-
-int copy_env_tab(t_data *data, size_t y)
+int	copy_env_tab(t_data *data, size_t y)
 {
-	size_t	i;
+	size_t		i;
 	t_node_env	*dup;
 
 	i = 0;
@@ -55,52 +54,29 @@ int copy_env_tab(t_data *data, size_t y)
 	return (0);
 }
 
-
-
-
-int free_env(t_data *data)
+int	init_node_env(t_data *data, char **envp)
 {
-	size_t i;
+	int			i;
+	t_node_env	*new_node;
 
 	i = 0;
-	if (data->env)
-	{
-		while (data->env[i])
-		{
-			free(data->env[i]);
-			i++;
-		}
-		free(data->env);
-		data->env = NULL;
-	}
-	return (0);
-}
-
-
-int init_node_env(t_data *data, char **envp)
-{
-    int i;
-    t_node_env *new_node;
-
-    i = 0;
 	new_node = NULL;
 	if (!envp[0])
 		create_env_no_env(data, new_node);
-	else 
+	else
 	{
-    	data->env_node = ft_lstnew(ft_strdup(envp[i]));
-    	while (envp[++i])
-    	{
-        	new_node = ft_lstnew(ft_strdup(envp[i]));
-        	if (!new_node)
-            	return (-1);
-        	ft_lstadd_back(data->env_node, new_node);
-    	}
+		data->env_node = ft_lstnew(ft_strdup(envp[i]));
+		while (envp[++i])
+		{
+			new_node = ft_lstnew(ft_strdup(envp[i]));
+			if (!new_node)
+				return (-1);
+			ft_lstadd_back(data->env_node, new_node);
+		}
 	}
 	data->env = NULL;
-    return (0);
+	return (0);
 }
-
 
 int	create_env_no_env(t_data *data, t_node_env *new_node)
 {
