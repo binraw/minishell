@@ -34,8 +34,8 @@ int	manage_quotes(char c, int quote)
 
 void	ft_trim_cmd_quote(t_node_cmd *cmd)
 {
-	size_t	i;
-	t_node_cmd *ptr;
+	size_t		i;
+	t_node_cmd	*ptr;
 	t_redir		*r_ptr;
 	t_rdocs		*rd_ptr;
 

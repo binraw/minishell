@@ -6,7 +6,7 @@
 //   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2024/08/21 16:37:53 by rtruvelo          #+#    #+#             //
-//   Updated: 2024/08/21 16:38:05 by rtruvelo         ###   ########.fr       //
+//   Updated: 2024/08/22 14:35:46 by rtruvelo         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -43,28 +43,34 @@ void	move_position(t_data *data, char *old_pwd, char *new_value)
 	char	*content;
 
 	content = ft_strjoin("/", data->cmd->content[1]);
+	if (!content)
+		free_old_data(data, old_pwd);
 	new_value = ft_strjoin(old_pwd, content);
+	if (!new_value)
+		free_old_data(data, old_pwd);
 	if (modify_value(data->env_node, "OLDPWD", old_pwd) == -1)
 	{
 		free(new_value);
 		free(content);
-		free(old_pwd);
-		ft_lstclear_data(data);
-		exit(1);
+		free_old_data(data, old_pwd);
 	}
 	if (modify_value(data->env_node, "PWD", new_value) == -1)
 	{
 		free(new_value);
 		free(content);
-		free(old_pwd);
-		ft_lstclear_data(data);
-		exit(1);
+		free_old_data(data, old_pwd);
 	}
 	free(new_value);
 	free(content);
 	free(old_pwd);
 }
 
+void	free_old_data(t_data *data, char *old_pwd)
+{
+	free(old_pwd);
+	ft_lstclear_data(data);
+	exit(1);
+}
 char	*value_old_pwd(t_node_env *head)
 {
 	t_node_env	*current;

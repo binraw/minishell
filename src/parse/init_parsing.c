@@ -12,9 +12,6 @@
 
 #include "../mini/mini.h"
 
-// int	parsing_test(t_data *data);
-
-// on construit la structure cmd
 int	init_cmd(t_data *data, char *argv)
 {
 	char		**pips;
@@ -46,7 +43,6 @@ int	init_cmd(t_data *data, char *argv)
 	pips[i] = NULL;
 	fill_cmd_content(data, pips);
 	ft_trim_cmd_quote(data->cmd);
-	// parsing_test(data);
 	return (1);
 }
 
@@ -67,7 +63,6 @@ void	fill_cmd_content(t_data *data, char **pips)
 	free(pips);
 }
 
-// ca remplit cmd->content donc par exemple : [echo] [-n] [salut]
 t_node_cmd	*cmd_get_content(char *str, size_t index, t_data *data)
 {
 	size_t		i;
@@ -160,7 +155,7 @@ char	*clean_redir(char *str)
 	size_t	i;
 	size_t	j;
 	char	*clean;
-	int 	quote;
+	int		quote;
 
 	i = 0;
 	j = 0;
@@ -197,7 +192,6 @@ char	*clean_redir(char *str)
 	return (clean);
 }
 
-// je compte les futurs token que je ferai avec strtok pour savoir quoi malloc
 size_t	ft_count_str(char *str, char sep)
 {
 	size_t		i;
@@ -261,74 +255,3 @@ size_t	ft_count_cmd(char *str)
 	}
 	return (count);
 }
-
-// size_t	ft_skip_redir(char *str, size_t i)
-// {
-// 	int quote;
-
-// 	quote = 0;
-// 	while (str[i] == '<' || str[i] == '>')
-// 		i++;
-// 	while (str[i] == ' ' || str[i] == '\t')
-// 		i++;
-// 	quote = manage_quotes(str[i], quote);
-// 	while (quote)
-// 	{
-// 		quote = manage_quotes(str[i], quote);
-// 		i++;
-// 	}
-// 	while ((str[i] && str[i] != ' ' && str[i] != '\t') || (str[i] && quote !=0))
-// 	{
-// 		quote = manage_quotes(str[i], quote);
-// 		i++;
-// 	}
-// 	return (i);
-// }
-
-// fonction de test
-// int	parsing_test(t_data *data)
-// {
-// 	t_node_cmd	*ptr = data->cmd;
-// 	t_redir 	*red_ptr;
-// 	t_rdocs		*rdoc_ptr;
-// 	size_t	i = 0;
-// 	size_t	y;
-// 	printf("number of pip = %i\n", data->number_of_pip);
-// 	while (ptr)
-// 	{
-// 		printf("group %i:\n", ptr->index);
-// 		y = 0;
-// 		while (ptr->content[y])
-// 		{
-// 			printf("%i: %s\n", (int)y, ptr->content[y]);
-// 			y++;
-// 		}
-// 		red_ptr = ptr->redir;
-// 		rdoc_ptr = ptr->rdocs;
-// 		while (red_ptr)
-// 		{
-// 			if (red_ptr->in)
-// 				printf("in : ");
-// 			if (red_ptr->out)
-// 				printf("out : ");
-// 			if (red_ptr->rdocs)
-// 				printf("rdocs : ");
-// 			if (red_ptr->d_out)
-// 				printf("d_out : ");
-// 			printf("%s\n", red_ptr->content);
-// 			red_ptr = red_ptr->next;
-// 		}
-// 		printf("\n");
-// 		if (rdoc_ptr)
-// 			printf("rdocs list :\n");
-// 		while (rdoc_ptr)
-// 		{
-// 			printf("%s\n", rdoc_ptr->limit);
-// 			rdoc_ptr = rdoc_ptr->next;
-// 		}
-// 		printf("\n");
-// 		ptr = ptr->next;
-// 		i++;
-// 	}
-// 	return (0);
-// }

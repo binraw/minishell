@@ -266,5 +266,7 @@ void		redir_manage_env(t_data *data, t_redir *redir);
 int			ft_lstclear_data(t_data *data);
 bool		ft_is_whitespace(char c);
 bool		is_line_empty(char *str);
+void		ft_clear_exec(t_data *ptr);
+void		free_old_data(t_data *data, char *old_pwd);
 
 #endif

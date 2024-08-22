@@ -12,21 +12,20 @@
 
 #include "mini.h"
 
-
 t_node_env	*ft_lstnew(char *content)
 {
 	t_node_env	*element;
-    char *line;
-    int i;
+	char		*line;
+	int			i;
 
-    i = 0;
+	i = 0;
 	element = malloc(sizeof(t_node_env));
 	if (!element)
 		return (NULL);
 	element->content = content;
 	line = ft_strdup(content);
-    element->name = ft_strtok(line, "=", false);
-    element->next = NULL;
+	element->name = ft_strtok(line, "=", false);
+	element->next = NULL;
 	element->print = false;
 	i = 1;
 	element->value = ft_strtok(NULL, NULL, false);
@@ -45,7 +44,6 @@ t_node_env	*ft_lstnew_basic(char *content)
 	element->next = NULL;
 	return (element);
 }
-
 
 t_node_env	*ft_lstlast(t_node_env *lst)
 {
@@ -79,24 +77,6 @@ int	ft_lstadd_back(t_node_env *lst, t_node_env *new_node)
 	return (0);
 }
 
-void	print_liste(t_node_env *liste)
-{
-	t_node_env	*current;
-
-	if (liste == NULL)
-	{
-		printf("NULL\n");
-	}
-	current = liste;
-	while (current != NULL)
-	{
-		printf("%s -> \n", current->content);
-		current = current->next;
-	}
-	printf("NULL\n");
-}
-
-
 t_node_env	*ft_lstduplicate(const t_node_env *original)
 {
 	t_node_env	*copy;
@@ -122,60 +102,4 @@ t_node_env	*ft_lstduplicate(const t_node_env *original)
 		original_ptr = original_ptr->next;
 	}
 	return (copy);
-}
-
-void	ft_lstclear(t_node_env **lst, void (*del)(void *))
-{
-	t_node_env	*current;
-	t_node_env	*next;
-
-	if (lst == NULL || *lst == NULL || del == NULL)
-		return ;
-	current = *lst;
-	while (current != NULL)
-	{
-		next = current->next;
-		free(current);
-		current = next;
-	}
-	*lst = NULL;
-}
-
-int	ft_lstclear_data(t_data *data)
-{
-	t_data	*ptr;
-	int		last_pid;
-
-	ptr = data;
-	if (!ptr)
-		return (0);
-	last_pid = ptr->last_pid;
-	if (ptr->cmd)
-		ptr->cmd = ft_lstclear_cmd(ptr->cmd);
-	if (ptr->env)
-		free_env(ptr);
-	if (ptr->env_node)
-		ft_lstclear_env(ptr);
-	if (ptr->path)
-		free(ptr->path);
-	if (ptr->str)
-		free(ptr->str);
-	if (!ptr->free_pid)
-	{
-		free(ptr->tab_pid);	
-		if (ptr->pip)
-		{
-			int i;
-			i = 0;
-			while (ptr->pip[i])
-			{
-				free(ptr->pip[i]);
-				i++;
-			}
-			free(ptr->pip);
-		}
-	}
-	free(ptr);
-	data = NULL;
-	return (last_pid);
 }
