@@ -273,5 +273,12 @@ char		*loop_strtok(char *ptr, char *sep);
 char		*loop_var_to_env(char *cpy, t_node_env *ptr, size_t i);
 int			process_line_empty(t_data *data);
 int			process_parsing_error(t_data *data);
+void		loop_cmd_get_content(t_node_cmd *cmd, char *tok);
+int			double_loop_clean_redir_len(char *str, size_t i);
+int			loop_clean_redir_len(char *str, size_t i, int quote);
+char		*create_clean(char *str, char *clean, int quote, size_t i);
+size_t		loop_count_cmd(char *str, size_t count, int quote);
+size_t		cpy_str_pip(char **str, char **pip, size_t *i, size_t *j);
+char	*loop_trim_env(t_data *data, char *str, char *pip, int quote);
 
 #endif
