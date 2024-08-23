@@ -84,11 +84,3 @@ static void	*ft_free_malloc(char **str, size_t index)
 	free(str);
 	return (NULL);
 }
-
-// int main()
-// {
-// 	char *str = malloc(2147483650);
-// 	memset(str, 'A', 2147483650);
-// 	str[2147483649] = '\0';
-// 	ft_split(str, 'b');
-// }

@@ -22,6 +22,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	result = 0;
 	data = malloc(sizeof(t_data));
+	if (!data)
+		exit(1);
 	ft_bzero(data, sizeof(t_data));
 	init_node_env(data, envp);
 	data->last_pid = 0;

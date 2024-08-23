@@ -12,7 +12,6 @@
 
 #include "../mini/mini.h"
 
-// je decoupe la string avec des separateurs a la facon d'un GNL
 char	*ft_strtok(char	*str, char *sep, bool redir)
 {
 	static char	*ptr;
@@ -25,8 +24,7 @@ char	*ft_strtok(char	*str, char *sep, bool redir)
 		ptr = str;
 		if (!sep)
 			return (ft_strdup(str));
-		while (ft_strchr(sep, *ptr))
-			ptr++;
+		ptr = loop_strtok(ptr, sep);
 	}
 	else if (!ptr || !*ptr)
 		return (NULL);
@@ -41,6 +39,13 @@ char	*ft_strtok(char	*str, char *sep, bool redir)
 	tok = create_tok(sep, ptr, redir, &i);
 	ptr = &ptr[i];
 	return (tok);
+}
+
+char	*loop_strtok(char *ptr, char *sep)
+{
+	while (ft_strchr(sep, *ptr))
+		ptr++;
+	return (ptr);
 }
 
 char	*create_tok(char *sep, char *ptr, bool redir, size_t *i)
@@ -72,7 +77,6 @@ char	*create_tok(char *sep, char *ptr, bool redir, size_t *i)
 	return (tok);
 }
 
-// strtok les redirections
 char	*tok_redir(char *str, size_t *i)
 {
 	char	*tok;
@@ -96,7 +100,6 @@ char	*tok_redir(char *str, size_t *i)
 	return (tok);
 }
 
-// j'arrete strtok quand je trouve '>' ou '<'
 char	*tok_stop_redir(char *str, size_t *i)
 {
 	char	c;

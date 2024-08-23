@@ -12,8 +12,6 @@
 
 #include "../mini/mini.h"
 
-// les fonctions pour recup les derniers de chaque type
-
 t_redir	*get_last_in(t_redir *redir)
 {
 	t_redir	*ptr;

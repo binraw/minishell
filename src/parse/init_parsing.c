@@ -20,16 +20,9 @@ int	init_cmd(t_data *data, char *argv)
 
 	i = 0;
 	if (is_line_empty(argv))
-	{
-		data->cmd = NULL;
-		return (0);
-	}
+		return (process_line_empty(data));
 	if (parsing_error(argv))
-	{
-		data->last_pid = 2;
-		data->cmd = NULL;
-		return (0);
-	}
+		return (process_parsing_error(data));
 	data->number_of_pip = ft_count_str(argv, '|') - 1;
 	data->number_of_cmd = data->number_of_pip + 1;
 	pips = malloc(sizeof(char *) * (data->number_of_cmd + 1));
@@ -44,6 +37,19 @@ int	init_cmd(t_data *data, char *argv)
 	fill_cmd_content(data, pips);
 	ft_trim_cmd_quote(data->cmd);
 	return (1);
+}
+
+int	process_line_empty(t_data *data)
+{
+	data->cmd = NULL;
+	return (0);
+}
+
+int	process_parsing_error(t_data *data)
+{
+	data->last_pid = 2;
+	data->cmd = NULL;
+	return (0);
 }
 
 void	fill_cmd_content(t_data *data, char **pips)
@@ -92,6 +98,20 @@ t_node_cmd	*cmd_get_content(char *str, size_t index, t_data *data)
 	cmd->content[i] = NULL;
 	free(str);
 	return (cmd);
+}
+
+char	*loop_cmd_get_content(t_node_cmd *cmd, char *tok)
+{
+	size_t	i;
+
+	i = 0;
+	while (tok)
+	{
+		cmd->content[i] = tok;
+		i++;
+		tok = ft_strtok(NULL, " \t\n\v\f\r", true);
+	}
+	cmd->content[i] = NULL;
 }
 
 t_node_cmd	*cmd_get_redir(char *str, t_node_cmd *cmd)

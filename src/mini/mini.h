@@ -268,5 +268,10 @@ bool		ft_is_whitespace(char c);
 bool		is_line_empty(char *str);
 void		ft_clear_exec(t_data *ptr);
 void		free_old_data(t_data *data, char *old_pwd);
+void		ft_lstclear_content(t_node_cmd *current);
+char		*loop_strtok(char *ptr, char *sep);
+char		*loop_var_to_env(char *cpy, t_node_env *ptr, size_t i);
+int			process_line_empty(t_data *data);
+int			process_parsing_error(t_data *data);
 
 #endif

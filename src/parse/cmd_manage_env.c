@@ -229,6 +229,11 @@ char	*var_to_env(char *str, size_t *index, t_data *data)
 	cpy = malloc(sizeof(char) * (i + 1));
 	i = ft_strlcpy(cpy, str, i + 1);
 	ptr = data->env_node;
+	return (loop_var_to_env(cpy, ptr, i));
+}
+
+char	*loop_var_to_env(char *cpy, t_node_env *ptr, size_t i)
+{
 	while (ptr)
 	{
 		if (ft_strncmp(cpy, ptr->name, i + 1) == 0)

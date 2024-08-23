@@ -13,7 +13,7 @@
 #include "../mini/mini.h"
 #include <stdio.h>
 
-int	unset_command(t_data *data, char **content) 
+int	unset_command(t_data *data, char **content)
 {
 	t_node_env	*ptr;
 	t_node_env	*next;
@@ -28,7 +28,8 @@ int	unset_command(t_data *data, char **content)
 		while (ptr)
 		{
 			next = ptr->next;
-			if (ft_strncmp(ptr->name, content[i], ft_strlen(content[i]) + 1) == 0)
+			if (ft_strncmp(ptr->name, content[i],
+					ft_strlen(content[i]) + 1) == 0)
 				remove_env_node(ptr, prev);
 			else
 				prev = ptr;
@@ -39,7 +40,7 @@ int	unset_command(t_data *data, char **content)
 	return (0);
 }
 
-int remove_env_node(t_node_env *ptr, t_node_env *prev)
+int	remove_env_node(t_node_env *ptr, t_node_env *prev)
 {
 	if (!ptr)
 		return (-1);

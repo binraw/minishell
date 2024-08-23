@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "./mini.h"
 
 t_node_cmd	*ft_lstnew_cmd(int i)
@@ -80,25 +79,15 @@ t_node_cmd	*ft_lstclear_cmd(t_node_cmd *lst)
 {
 	t_node_cmd	*current;
 	t_node_cmd	*next;
-	size_t		i;
 
 	if (!lst)
 		return (NULL);
 	current = lst;
 	while (current != NULL)
 	{
-		i = 0;
 		next = current->next;
 		if (current->content)
-		{
-			while (current->content[i])
-			{
-				free(current->content[i]);
-				i++;
-			}
-			free(current->content[i]);
-			free(current->content);
-		}
+			ft_lstclear_content(current);
 		if (current->redir)
 			ft_lstclear_redir(&current->redir);
 		if (current->rdocs)
