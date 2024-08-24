@@ -89,7 +89,7 @@ t_node_cmd	*cmd_get_content(char *str, size_t index, t_data *data)
 		return (cmd);
 	}
 	tok = ft_strtok(str, " \t\n\v\f\r", true);
-	loop_cmd_get_content(cmd , tok);
+	loop_cmd_get_content(cmd, tok);
 	free(str);
 	return (cmd);
 }
@@ -176,8 +176,6 @@ int	loop_clean_redir_len(char *str, size_t i, int quote)
 	return (i);
 }
 
-
-
 char	*clean_redir(char *str)
 {
 	size_t	i;
@@ -185,7 +183,6 @@ char	*clean_redir(char *str)
 	int		quote;
 
 	i = 0;
-
 	quote = 0;
 	if (!str)
 		return (NULL);
@@ -217,8 +214,6 @@ char	*create_clean(char *str, char *clean, int quote, size_t i)
 	free(str);
 	return (clean);
 }
-
-
 
 size_t	ft_count_str(char *str, char sep)
 {

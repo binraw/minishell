@@ -255,7 +255,7 @@ bool		parsing_error(char	*str);
 bool		check_parsing_error(char *str, char c, size_t	*i);
 bool		print_parsing_error(char c);
 size_t		ft_intlen(int nb);
-void		cpy_return_to_str(char	*nb, char *str, size_t *j);
+void		cpy_return_to_str(char	*nb, char *str, size_t *j, size_t *k);
 size_t		ft_count_cmd(char *str);
 size_t		ft_skip_redir(char *str, size_t i);
 char		*tilde_to_home(t_data *data);
@@ -279,6 +279,13 @@ int			loop_clean_redir_len(char *str, size_t i, int quote);
 char		*create_clean(char *str, char *clean, int quote, size_t i);
 size_t		loop_count_cmd(char *str, size_t count, int quote);
 size_t		cpy_str_pip(char **str, char **pip, size_t *i, size_t *j);
-char	*loop_trim_env(t_data *data, char *str, char *pip, int quote);
-
+char		*loop_trim_env(t_data *data, char *str, char *pip, int quote);
+int			condition_trim_env_len(t_data *data, char *str,
+				size_t *i, int quote);
+int			loop_trim_env_len(t_data *data, char *str, size_t len, int quote);
+void		double_loop_trim_cmd_quote(t_node_cmd *ptr,
+				t_rdocs *rd_ptr, t_redir *r_ptr);
+char		*loop_trim_quote(char *trim, char *str, size_t i, size_t j);
+bool		loop_parsing_error(char *str, size_t i, bool error, int quote);
+size_t		cpy_env_tilde_to_home(t_data *data, char *str, size_t j, size_t *i);
 #endif

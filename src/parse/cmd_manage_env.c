@@ -12,31 +12,6 @@
 
 #include "../mini/mini.h"
 
-// void	cmd_manage_env(t_data *data)
-// {
-// 	size_t		i;
-// 	t_node_cmd	*ptr;
-// 	t_redir		*r_ptr;
-
-// 	ptr = data->cmd;
-// 	while (ptr)
-// 	{
-// 		i = 0;
-// 		while (ptr->content[i])
-// 		{
-// 			ptr->content[i] = trim_env(data, ptr->content[i]);
-// 			i++;
-// 		}
-// 		r_ptr = ptr->redir;
-// 		while (r_ptr)
-// 		{
-// 			r_ptr->content = trim_env(data, r_ptr->content);
-// 			r_ptr = r_ptr->next;
-// 		}
-// 		ptr = ptr->next;
-// 	}
-// }
-
 void	redir_manage_env(t_data *data, t_redir *redir)
 {
 	t_redir		*r_ptr;
@@ -87,99 +62,57 @@ char	*trim_env(t_data *data, char *pip)
 	if (!str)
 		return (NULL);
 	ft_bzero(str, len);
-	// str = loop_trim_env(data, str, pip, quote);
+	str = loop_trim_env(data, str, pip, quote);
+	if (pip)
+		free(pip);
+	return (str);
+}
+
+char	*loop_trim_env(t_data *data, char *str, char *pip, int quote)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	j = 0;
 	while (pip[i])
 	{
 		quote = manage_quotes(pip[i], quote);
 		if (pip[i] == '$' && quote != 1)
 		{
 			if (pip[i + 1] == '?')
-			{
-				cpy_return_to_str(ft_itoa(data->last_pid), str, &j);
-				i += 2;
-			}
+				cpy_return_to_str(ft_itoa(data->last_pid), str, &j, &i);
 			else if (is_dollar_print(pip[i + 1], quote))
-			{
-				str[j] = pip[i];
-				i++;
-				j++;
-			}
+				cpy_str_pip(&str, &pip, &i, &j);
 			else
 				cpy_env_to_str(var_to_env(&pip[i + 1], &i, data), str, &j);
 		}
 		else if (pip[i] == '~' && is_tilde_home(pip[i + 1], quote))
-		{
-			cpy_env_to_str(tilde_to_home(data), str, &j);
-			i++;
-		}
+			i = cpy_env_tilde_to_home(data, str, j, &i);
 		else
-		{
-			str[j] = pip[i];
-			i++;
-			j++;
-		}
+			cpy_str_pip(&str, &pip, &i, &j);
 	}
-	if (pip)
-		free(pip);
 	return (str);
 }
 
-
-// char	*loop_trim_env(t_data *data, char *str, char *pip, int quote)
-// {
-// 	size_t	i;
-// 	size_t	j;
-//
-// 	i = 0;
-// 	j = 0;
-// 	while (pip[i])
-// 	{
-// 		quote = manage_quotes(pip[i], quote);
-// 		if (pip[i] == '$' && quote != 1)
-// 		{
-// 			if (pip[i + 1] == '?')
-// 				cpy_return_to_str(ft_itoa(data->last_pid), str, &j, &i);
-// 			else if (is_dollar_print(pip[i + 1], quote))
-// 				cpy_str_pip(&str, &pip, &i, &j);
-// 			// {
-// 			// 	str[j] = pip[i];
-// 			// 	i++;
-// 			// 	j++;
-// 			// }
-// 			else
-// 				cpy_env_to_str(var_to_env(&pip[i + 1], &i, data), str, &j);
-// 		}
-// 		else if (pip[i] == '~' && is_tilde_home(pip[i + 1], quote))
-// 		{
-// 			cpy_env_to_str(tilde_to_home(data), str, &j);
-// 			i++;
-// 		}
-// 		else
-// 			cpy_str_pip(&str, &pip, &i, &j);
-// 		// {
-// 		// 	str[j] = pip[i];
-// 		// 	i++;
-// 		// 	j++;
-// 		// }
-// 	}
-// 	if (pip)
-// 		free(pip);
-// 	return (str);
-// }
+size_t	cpy_env_tilde_to_home(t_data *data, char *str, size_t j, size_t *i)
+{
+	cpy_env_to_str(tilde_to_home(data), str, &j);
+	*i = *i + 1;
+	return (*i);
+}
 
 size_t	cpy_str_pip(char **str, char **pip, size_t *i, size_t *j)
 {
-
-
-	*str[*j] = *pip[*i];
-	*i = *i + 1;
-	*j = *j + 1;
-	return (*i + *j);
+	if (*str && *pip)
+	{
+		(*str)[*j] = (*pip)[*i];
+		*i = *i + 1;
+		*j = *j + 1;
+		return (*i + *j);
+	}
+	return (0);
 }
-
-
-
-
 
 void	cpy_env_to_str(char	*env, char *str, size_t *j)
 {
@@ -196,7 +129,7 @@ void	cpy_env_to_str(char	*env, char *str, size_t *j)
 	}
 }
 
-void	cpy_return_to_str(char	*nb, char *str, size_t *j)
+void	cpy_return_to_str(char	*nb, char *str, size_t *j, size_t *k)
 {
 	size_t	i;
 
@@ -209,6 +142,7 @@ void	cpy_return_to_str(char	*nb, char *str, size_t *j)
 		*j = *j + 1;
 		i++;
 	}
+	*k = *k + 2;
 	free(nb);
 }
 
@@ -238,24 +172,19 @@ size_t	trim_env_len(char *str, t_data *data)
 	i = 0;
 	len = 0;
 	quote = 0;
+	return (loop_trim_env_len(data, str, len, quote));
+}
+
+int	loop_trim_env_len(t_data *data, char *str, size_t len, int quote)
+{
+	size_t	i;
+
+	i = 0;
 	while (str[i])
 	{
 		quote = manage_quotes(str[i], quote);
 		if (str[i] == '$' && quote != 1)
-		{
-			if (str[i + 1] == '?')
-			{
-				len += ft_intlen(data->last_pid);
-				i += 2;
-			}
-			else if (is_dollar_print(str[i + 1], quote))
-			{
-				len++;
-				i++;
-			}
-			else
-				len += ft_strlen(var_to_env(&str[i + 1], &i, data));
-		}
+			len += condition_trim_env_len(data, str, &i, quote);
 		else if (str[i] == '~' && is_tilde_home(str[i + 1], quote))
 		{
 			len += ft_strlen(tilde_to_home(data));
@@ -267,6 +196,26 @@ size_t	trim_env_len(char *str, t_data *data)
 			i++;
 		}
 	}
+	return (len);
+}
+
+int	condition_trim_env_len(t_data *data, char *str, size_t *i, int quote)
+{
+	size_t	len;
+
+	len = 0;
+	if (str[*i + 1] == '?')
+	{
+		len += ft_intlen(data->last_pid);
+		*i = *i + 2;
+	}
+	else if (is_dollar_print(str[*i + 1], quote))
+	{
+		len++;
+		*i = *i + 1;
+	}
+	else
+		len += ft_strlen(var_to_env(&str[*i + 1], i, data));
 	return (len);
 }
 

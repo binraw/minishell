@@ -40,6 +40,7 @@ void	ft_trim_cmd_quote(t_node_cmd *cmd)
 	t_rdocs		*rd_ptr;
 
 	ptr = cmd;
+	rd_ptr = NULL;
 	while (ptr)
 	{
 		i = 0;
@@ -49,18 +50,24 @@ void	ft_trim_cmd_quote(t_node_cmd *cmd)
 			i++;
 		}
 		r_ptr = ptr->redir;
-		while (r_ptr)
-		{
-			r_ptr->content = ft_trim_quote(r_ptr->content);
-			r_ptr = r_ptr->next;
-		}
-		rd_ptr = ptr->rdocs;
-		while (rd_ptr)
-		{
-			rd_ptr->limit = ft_trim_quote(rd_ptr->limit);
-			rd_ptr = rd_ptr->next;
-		}
+		double_loop_trim_cmd_quote(ptr, rd_ptr, r_ptr);
 		ptr = ptr->next;
+	}
+}
+
+void	double_loop_trim_cmd_quote(t_node_cmd *ptr,
+								t_rdocs *rd_ptr, t_redir *r_ptr)
+{
+	while (r_ptr)
+	{
+		r_ptr->content = ft_trim_quote(r_ptr->content);
+		r_ptr = r_ptr->next;
+	}
+	rd_ptr = ptr->rdocs;
+	while (rd_ptr)
+	{
+		rd_ptr->limit = ft_trim_quote(rd_ptr->limit);
+		rd_ptr = rd_ptr->next;
 	}
 }
 
@@ -68,17 +75,23 @@ char	*ft_trim_quote(char	*str)
 {
 	size_t	len;
 	char	*trim;
-	int		quote;
 	size_t	i;
 	size_t	j;
 
-	quote = 0;
 	i = 0;
 	j = 0;
 	len = quote_len(str);
 	if (len == ft_strlen(str))
 		return (str);
 	trim = malloc(sizeof(char) * (len + 1));
+	return (loop_trim_quote(trim, str, i, j));
+}
+
+char	*loop_trim_quote(char *trim, char *str, size_t i, size_t j)
+{
+	int	quote;
+
+	quote = 0;
 	while (str[i])
 	{
 		if (quote != manage_quotes(str[i], quote))

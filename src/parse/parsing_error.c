@@ -23,6 +23,11 @@ bool	parsing_error(char	*str)
 	quote = 0;
 	if (!str)
 		return (true);
+	return (loop_parsing_error(str, i, error, quote));
+}
+
+bool	loop_parsing_error(char *str, size_t i, bool error, int quote)
+{
 	while (str[i] && !error)
 	{
 		quote = manage_quotes(str[i], quote);

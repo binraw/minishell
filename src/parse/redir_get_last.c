@@ -44,7 +44,7 @@ t_redir	*get_last_out(t_redir *redir)
 	return (last);
 }
 
-t_redir *redir_get_last(t_redir *redir)
+t_redir	*redir_get_last(t_redir *redir)
 {
 	t_redir	*ptr;
 
