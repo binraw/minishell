@@ -14,6 +14,7 @@
 
 int	init_pip(t_data *data)
 {
+	reset_signal_handlers();
 	if ((!data->cmd->content || !data->cmd->content[0]) && !data->cmd->redir)
 		return (0);
 	command_rdocs(data);

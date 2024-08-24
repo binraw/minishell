@@ -12,7 +12,6 @@
 
 #include "../mini/mini.h"
 
-// fonction pour gerer les quotes
 int	manage_quotes(char c, int quote)
 {
 	if (c == '\"')
@@ -85,30 +84,6 @@ char	*ft_trim_quote(char	*str)
 		return (str);
 	trim = malloc(sizeof(char) * (len + 1));
 	return (loop_trim_quote(trim, str, i, j));
-}
-
-char	*loop_trim_quote(char *trim, char *str, size_t i, size_t j)
-{
-	int	quote;
-
-	quote = 0;
-	while (str[i])
-	{
-		if (quote != manage_quotes(str[i], quote))
-		{
-			quote = manage_quotes(str[i], quote);
-			i++;
-		}
-		else
-		{
-			trim[j] = str[i];
-			i++;
-			j++;
-		}
-	}
-	trim[j] = 0;
-	free(str);
-	return (trim);
 }
 
 size_t	quote_len(char *str)

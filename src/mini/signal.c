@@ -34,7 +34,6 @@ void	handle_sigint(int sig)
 void	handle_sigquit(int sig)
 {
 	(void) sig;
-	printf("ici\n");
 }
 
 void	setup_readline_signals(t_data *data)

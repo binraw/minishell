@@ -288,4 +288,7 @@ void		double_loop_trim_cmd_quote(t_node_cmd *ptr,
 char		*loop_trim_quote(char *trim, char *str, size_t i, size_t j);
 bool		loop_parsing_error(char *str, size_t i, bool error, int quote);
 size_t		cpy_env_tilde_to_home(t_data *data, char *str, size_t j, size_t *i);
+void		reset_signal_handlers(void);
+bool		is_dollar_print(char c, int quote);
+bool		is_tilde_home(char c, int quote);
 #endif

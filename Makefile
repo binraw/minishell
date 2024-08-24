@@ -7,7 +7,8 @@ parse/utils_lst_redir.c parse/fill_redirs.c parse/ft_strtok.c parse/cmd_manage_e
 builtins/echo.c parse/manage_quotes.c parse/parsing_error.c mini/road_builtin.c builtins/exit.c mini/get_next_line.c mini/get_next_line_utils.c \
 mini/free_alloc.c builtins/utils_export.c builtins/more_export.c builtins/utils_cd.c builtins/assets_cd.c builtins/command_pwd.c \
 mini/open_redir.c mini/value_redir.c mini/redir_one_child.c mini/process_builtins.c mini/utils_builtins.c mini/utils_signal.c \
-mini/assets_pipe.c mini/process_pipe.c mini/utils_free.c
+mini/assets_pipe.c mini/process_pipe.c mini/utils_free.c parse/utils_manage_env.c parse/utils_parse.c parse/trim_env.c parse/utils_init_parsing.c \
+parse/clean_redir.c
 
 
 CC = cc
