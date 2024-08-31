@@ -6,7 +6,7 @@
 //   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2024/08/22 13:32:56 by rtruvelo          #+#    #+#             //
-//   Updated: 2024/08/22 13:37:47 by rtruvelo         ###   ########.fr       //
+//   Updated: 2024/08/31 10:16:40 by rtruvelo         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -96,10 +96,43 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 		process_redir_child_one(data, cmd, pip);
 	else if (pip)
 		first_child(pip);
+	check_status_file(data, cmd);
 	if ((control_builtin_multi_command(data, cmd, 1) == 0))
 	{
 		execve(path_command, cmd->content, data->env);
 		perror("execve");
+	}
+	return (0);
+}
+
+int	check_status_file(t_data *data, t_node_cmd *cmd)
+{
+	struct stat file_stat;
+
+
+	if (stat(cmd->content[0], &file_stat) == 0)
+	{
+		if (S_ISDIR(file_stat.st_mode))
+		{
+			ft_putstr_fd(cmd->content[0], 2);
+			ft_putstr_fd(" Is a directory\n", 2);
+			open_all_redir(cmd, data);
+			ft_lstclear_data(data);
+			exit(126);
+		}
+		else if (S_ISREG(file_stat.st_mode))
+		{
+			if (file_stat.st_mode & S_IXUSR)
+				return (0);
+			else
+			{
+				ft_putstr_fd(cmd->content[0], 2);
+				ft_putstr_fd(": Permission denied\n", 2);
+				open_all_redir(cmd, data);
+				ft_lstclear_data(data);
+				exit(126);
+			}
+		}
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 //   By: rtruvelo <rtruvelo@student.42lyon.fr>      +#+  +:+       +#+        //
 //                                                +#+#+#+#+#+   +#+           //
 //   Created: 2024/08/21 16:34:47 by rtruvelo          #+#    #+#             //
-//   Updated: 2024/08/23 10:10:42 by rtruvelo         ###   ########.fr       //
+//   Updated: 2024/08/31 10:57:15 by rtruvelo         ###   ########.fr       //
 //                                                                            //
 // ************************************************************************** //
 
@@ -31,9 +31,11 @@ int	command_pwd(t_data *data, int fd)
 			break ;
 		}
 		else
-		{
+		{	
 			free(pos);
 			size += size;
+			if (size > 100)
+				return (1);
 		}
 	}
 	return (1);

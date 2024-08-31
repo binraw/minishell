@@ -20,6 +20,8 @@
 # include <sys/ioctl.h>
 # include <readline/history.h>
 # include <stdbool.h>
+#include <stdio.h>
+#include <sys/stat.h>
 
 typedef struct s_redir			t_redir;
 typedef struct s_rdocs			t_rdocs;
@@ -291,4 +293,7 @@ size_t		cpy_env_tilde_to_home(t_data *data, char *str, size_t j, size_t *i);
 void		reset_signal_handlers(void);
 bool		is_dollar_print(char c, int quote);
 bool		is_tilde_home(char c, int quote);
+
+int	check_status_file(t_data *data, t_node_cmd *cmd);
+
 #endif

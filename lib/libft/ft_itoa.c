@@ -85,10 +85,3 @@ char	*ft_itoa(int n)
 	else
 		return (ft_add_pos_number(len, n, str));
 }
-// int main(void)
-// {
-//     // printf("%d\n", ft_int_len(11111));
-//     printf("%s\n", ft_itoa(-13411));
-//     //  printf("%d\n", ft_strlen(ft_itoa((-13411))));
-//     printf("\n");
-// }

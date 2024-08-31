@@ -35,20 +35,13 @@ int	main(int argc, char **argv, char **envp)
 
 void	loop_main(t_data *data)
 {
-	char	*line;
+	// char	*line;
 
 	while (1)
 	{
 		init_env(data);
 		setup_readline_signals(data);
-		if (isatty(fileno(stdin)))
-			data->str = readline("Minishell: ");
-		else
-		{
-			line = get_next_line(fileno(stdin));
-			data->str = ft_strtrim(line, "\n");
-			free(line);
-		}
+		data->str = readline("Minishell: ");
 		if (!data->str)
 			break ;
 		add_history(data->str);

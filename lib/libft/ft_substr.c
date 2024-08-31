@@ -49,8 +49,3 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	pointer[i] = '\0';
 	return (pointer);
 }
-// int main(void)
-// {
-//     char const s[] = "";
-//     printf("%s\n", ft_substr(s,1,1));
-// }
