@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_env.c                                      :+:      :+:    :+:   */
+/*   utils_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 10:50:16 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/08/26 10:35:18 by hbouyssi         ###   ########.fr       */
+/*   Created: 2024/08/26 09:40:22 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/08/26 10:40:46 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../mini/mini.h"
+#include "./mini.h"
 
-int	command_env(t_data *data, int fd)
+void	ft_lstclear_content(t_node_cmd *current)
 {
-	t_node_env	*dup;
+	size_t	i;
 
-	dup = data->env_node;
-	if (dup == NULL)
-		ft_putstr_fd("NULL\n", fd);
-	while (dup)
+	i = 0;
+	while (current->content[i])
 	{
-		if (dup->name && !dup->value)
-			dup = dup->next;
-		else
-		{
-			ft_putstr_fd(dup->content, fd);
-			ft_putstr_fd("\n", fd);
-			dup = dup->next;
-		}
+		free(current->content[i]);
+		i++;
 	}
-	return (1);
+	free(current->content[i]);
+	free(current->content);
 }

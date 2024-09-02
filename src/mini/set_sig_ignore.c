@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fork.c                                             :+:      :+:    :+:   */
+/*   set_sig_ignore.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/11 13:57:06 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/05/02 12:44:13 by rtruvelo         ###   ########.fr       */
+/*   Created: 2024/08/28 14:05:04 by hbouyssi          #+#    #+#             */
+/*   Updated: 2024/08/28 16:30:18 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./mini.h"
+#include "mini.h"
 
-int	create_fork(int i) // fonction pas utile je garde pour rien
+void	set_sig_ignore(void)
 {
-	pid_t	tab_fork;
-	int	y;
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+}
 
-	y = 0;
-	tab_fork = malloc(i * sizeof(pid_t));	
-	while (i > 0)
-	{
-		tab_fork[y] = fork();
-		i--;
-	}
+void	set_sigquit_process(void)
+{
+	signal(SIGQUIT, SIG_DFL);
 }

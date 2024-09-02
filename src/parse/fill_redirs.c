@@ -12,7 +12,6 @@
 
 #include "../mini/mini.h"
 
-// je remplis la liste chainee t_redir
 void	fill_redirs(char *tok, t_redir **redir, t_rdocs **rdocs)
 {
 	t_redir	*ptr;

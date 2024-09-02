@@ -28,6 +28,6 @@ char	*ft_strdup(const char *source)
 		pointer[y] = source[y];
 		y++;
 	}
-	pointer[ft_strlen(source)] = '\0'; // changement ici
+	pointer[ft_strlen(source)] = '\0';
 	return (pointer);
 }

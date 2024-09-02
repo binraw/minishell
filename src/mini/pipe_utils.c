@@ -14,7 +14,7 @@
 
 int	second_child(t_data *data, int **pip, int y, t_node_cmd *cmd)
 {
-	if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1)) // le 2 cest pour eviter quand i y a eulemnt deux commqnde de rentrer dedans
+	if (2 != data->number_of_cmd && cmd->index != (data->number_of_cmd -1))
 	{
 		close(pip[y][1]);
 		dup2(pip[y][0], STDIN_FILENO);
@@ -32,10 +32,10 @@ int	second_child(t_data *data, int **pip, int y, t_node_cmd *cmd)
 	return (0);
 }
 
-int first_child(int *pip)
+int	first_child(int *pip)
 {
-	 close(pip[0]); 
-	dup2(pip[1], STDOUT_FILENO); 
-	 close(pip[1]);
+	close(pip[0]);
+	dup2(pip[1], STDOUT_FILENO);
+	close(pip[1]);
 	return (0);
 }

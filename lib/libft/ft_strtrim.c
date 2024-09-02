@@ -63,10 +63,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	str[i] = '\0';
 	return (str);
 }
-
-// int main(void)
-// {
-//     char *s1 = "";
-//  	char *s2 = "";
-//     printf("%s\n", ft_strtrim(s1,""));
-// }

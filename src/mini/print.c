@@ -10,73 +10,44 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-// #include "../pipe/pipex.h"
 #include "mini.h"
 #include <stdlib.h>
 
-int main(int argc, char **argv, char **envp) 
+int	main(int argc, char **argv, char **envp)
 {
-	t_data *data;
+	t_data	*data;
+	int		result;
+
 	(void)argv;
 	(void)argc;
-	int result;
-
 	result = 0;
 	data = malloc(sizeof(t_data));
+	if (!data)
+		exit(1);
 	ft_bzero(data, sizeof(t_data));
 	init_node_env(data, envp);
 	data->last_pid = 0;
 	data->free_pid = true;
-	// data->path = NULL;
-	
-	while (1)
-	{
-		init_env(data);
-		setup_readline_signals(data);
-		if (isatty(fileno(stdin)))
-        	data->str = readline("Minishell: ");
-		else
-		{
-			char *line;
-			line = get_next_line(fileno(stdin));
-			data->str = ft_strtrim(line, "\n");
-			free(line);
-		}
-		if (!data->str)
-		{
-			// after_readline_signals(data);
-			break ;	
-		}
-		
-		if (init_cmd(data, data->str))
-			result = init_pip(data);
-		data->cmd = ft_lstclear_cmd(data->cmd);
-		free(data->str);
-	}
-
+	loop_main(data);
 	ft_lstclear_data(data);
 	return (0);
 }
 
-
-
-
-
-int status_one_cmd(pid_t pid)
+void	loop_main(t_data *data)
 {
- 	int status;
-
-	status = 0;
-	if (waitpid(pid, &status, 0) == -1)
-			return (-1);
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
+	while (1)
 	{
-    	int signal = WTERMSIG(status);
-        return (128 + signal);
+		init_env(data);
+		setup_readline_signals(data);
+		data->str = readline("Minishell: ");
+		if (!data->str)
+			break ;
+		add_history(data->str);
+		if (init_cmd(data, data->str))
+			init_pip(data);
+		data->cmd = ft_lstclear_cmd(data->cmd);
+		if (!data->free_pid)
+			free_exec_part(data);
+		free(data->str);
 	}
-	return (-1);
 }
-
-

@@ -53,10 +53,3 @@ int	ft_atoi(const char *str)
 	}
 	return ((int)result);
 }
-
-// int main(void)
-// {
-//     char nu[] = "    -888888888888228789232";
-//     printf("%d\n", ft_atoi(nu));
-// 	printf("%d\n", atoi(nu));
-// }

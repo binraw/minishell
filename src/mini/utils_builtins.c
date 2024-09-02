@@ -1,34 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   command_env.c                                      :+:      :+:    :+:   */
+/*   utils_builtins.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/04 10:50:16 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/08/26 10:35:18 by hbouyssi         ###   ########.fr       */
+/*   Created: 2024/08/22 12:45:14 by rtruvelo          #+#    #+#             */
+/*   Updated: 2024/08/26 10:40:32 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../mini/mini.h"
+#include "mini.h"
 
-int	command_env(t_data *data, int fd)
+void	env_process_child(t_data *data, int pip)
 {
-	t_node_env	*dup;
+	command_env(data, pip);
+	ft_lstclear_data(data);
+	exit(0);
+}
 
-	dup = data->env_node;
-	if (dup == NULL)
-		ft_putstr_fd("NULL\n", fd);
-	while (dup)
-	{
-		if (dup->name && !dup->value)
-			dup = dup->next;
-		else
-		{
-			ft_putstr_fd(dup->content, fd);
-			ft_putstr_fd("\n", fd);
-			dup = dup->next;
-		}
-	}
-	return (1);
+void	pwd_process_child(t_data *data, int pip)
+{
+	command_pwd(data, pip);
+	ft_lstclear_data(data);
+	exit(0);
+}
+
+int	print_error_cd(t_node_cmd *cmd)
+{
+	ft_putstr_fd("bash :", 2);
+	ft_putstr_fd(cmd->content[1], 2);
+	ft_putstr_fd(" :No such file or directory\n", 2);
+	return (0);
 }

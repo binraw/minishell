@@ -37,10 +37,3 @@ char	*ft_strchr(const char *string, int searchedChar)
 		return (NULL);
 	return (0);
 }
-
-// int main(void)
-// {
-//     const char ba[] = "teste";
-
-//     printf("%s\n", ft_strchr(ba, 'e'));
-// }
