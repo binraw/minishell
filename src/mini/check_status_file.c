@@ -6,17 +6,17 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 10:55:39 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/09/02 11:07:04 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/09/02 11:28:23 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "mini.h"
 
-void	check_status_file(t_data *data, t_node_cmd *cmd)
+void	check_status_file(t_data *data, t_node_cmd *cmd, char *path)
 {
 	struct stat	file_stat;
 
-	if (stat(cmd->content[0], &file_stat) == 0)
+	if (stat(path, &file_stat) == 0)
 	{
 		if (S_ISDIR(file_stat.st_mode))
 		{

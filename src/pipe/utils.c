@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/12 12:39:33 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/30 13:46:13 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/09/02 11:48:15 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ char	*create_path(char *cmd, char **envp)
 	i = -1;
 	if (!cmd)
 		return (NULL);
-	if (access(cmd, F_OK) == 0)
-		return (cmd);
+	if ((cmd[0] == '.' || cmd[0] == '/'))
+		return (test_path(cmd));
 	paths = get_env(envp);
 	if (!paths)
 		return (NULL);
@@ -53,6 +53,14 @@ char	*create_path(char *cmd, char **envp)
 	}
 	ft_free_tab(paths);
 	return (NULL);
+}
+
+char	*test_path(char *cmd)
+{
+	if (access(cmd, F_OK) == 0)
+		return (cmd);
+	else
+		return (NULL);
 }
 
 void	ft_free_tab(char **tab)

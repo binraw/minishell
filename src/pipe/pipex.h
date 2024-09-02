@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rtruvelo <rtruvelo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 14:34:28 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/04/09 11:15:32 by rtruvelo         ###   ########.fr       */
+/*   Updated: 2024/09/02 11:45:56 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ void	ft_free_tab(char **tab);
 void	error_file(char **command, char *path_command, int i, char **argv);
 void	error_path(char **command, int i, char **argv);
 void	open_error_file(char **command, char *path_command, int i, char **argv);
+char	*test_path(char *cmd);
 
 #endif

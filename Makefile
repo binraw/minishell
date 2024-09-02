@@ -35,7 +35,7 @@ ${NAME}: ${OBJS} ${LIBFT}
 	$(CC) $(OBJS) $(LIBFT) -lreadline  -o $(NAME)
 
 
-${DIR_OBJ}%.o: %.c ${DIR_SRC}/pipe/pipex.h Makefile ${LIBFT} src/mini/mini.h
+${DIR_OBJ}%.o: %.c src/pipe/pipex.h Makefile ${LIBFT} src/mini/mini.h
 	mkdir -p $(shell dirname $@)
 	$(CC) ${CFLAGS} -c $< -o $@
 

@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/09/02 11:00:15 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/09/02 11:29:27 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,6 @@ void		set_sig_ignore(void);
 int			manage_pid_exit_status(t_data *data);
 bool		is_dollar_print(char c, int quote);
 bool		is_tilde_home(char c, int quote);
-void		check_status_file(t_data *data, t_node_cmd *cmd);
+void		check_status_file(t_data *data, t_node_cmd *cmd, char *path);
 
 #endif
