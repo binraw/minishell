@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:32:56 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/08/28 16:03:39 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/09/02 10:58:22 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	child_process_multi(t_data *data, t_node_cmd *cmd, int *pip)
 		no_found_command(data, cmd, pip);
 	if ((!path_command && (control_builtin(cmd) == 0)))
 		no_found_command(data, cmd, pip);
+	check_status_file(data, cmd);
 	if (cmd->redir)
 		process_redir_child_one(data, cmd, pip);
 	else if (pip)

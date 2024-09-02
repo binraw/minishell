@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 11:49:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/09/02 09:49:03 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/09/02 10:40:36 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	open_redir_in(t_redir *dup, t_data *data)
 		i = open(dup->content, O_RDONLY, 00644);
 		if (i < 0)
 		{
-			ft_putstr_fd("cat: ", 2);
 			ft_putstr_fd(dup->content, 2);
 			ft_putstr_fd(": Permission denied\n", 2);
 			ft_lstclear_data(data);
@@ -85,7 +84,6 @@ int	open_redir_d_out(t_redir *dup, t_data *data)
 		i = open(dup->content, (O_CREAT | O_WRONLY | O_APPEND), 00644);
 		if (i < 0)
 		{
-			ft_putstr_fd("cat: ", 2);
 			ft_putstr_fd(dup->content, 2);
 			ft_putstr_fd(": Permission denied\n", 2);
 			ft_lstclear_data(data);

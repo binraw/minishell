@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:00:16 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/08/28 14:43:09 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/09/02 10:44:42 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,6 @@ void	handle_sigint_after(int sig)
 	write(1, "\n", 1);
 	rl_on_new_line();
 }
-
-// void	setup_readline_sigquit_after(void)
-// {
-// 	struct sigaction	act;
-
-// 	ft_bzero(&act, sizeof(act));
-// 	act.sa_handler = &handle_sigquit;
-// 	sigaction(SIGQUIT, &act, NULL);
-// }
 
 void	handle_rdocs(int sig)
 {

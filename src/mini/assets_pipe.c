@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:39:34 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/08/26 10:36:31 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/09/02 10:33:51 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ void	no_found_command(t_data *data, t_node_cmd *cmd, int *pip)
 		close(pip[0]);
 		close(pip[1]);
 	}
+	if (cmd->content[0][0] == '.' && cmd->content[0][1] == '/')
+	{
+		ft_putstr_fd(cmd->content[0], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_lstclear_data(data);
+		exit(127);
+	}
 	ft_putstr_fd(cmd->content[0], 2);
 	ft_putstr_fd(": command not found\n", 2);
 	ft_lstclear_data(data);
@@ -47,6 +54,7 @@ int	second_child_process_multi(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		path_command = create_path(cmd->content[0], data->env);
 	if ((!path_command && (control_builtin(cmd) == 0)))
 		no_found_multi_command(data, cmd, pip, y);
+	check_status_file(data, cmd);
 	if (cmd->redir)
 		ft_dup_redir_second_child(data, cmd, pip, y);
 	else
@@ -63,6 +71,13 @@ void	no_found_multi_command(t_data *data, t_node_cmd *cmd, int **pip, int y)
 {
 	close(pip[y][0]);
 	close(pip[y][1]);
+	if (cmd->content[0][0] == '.' && cmd->content[0][1] == '/')
+	{
+		ft_putstr_fd(cmd->content[0], 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_lstclear_data(data);
+		exit(127);
+	}
 	ft_putstr_fd(cmd->content[0], 2);
 	ft_putstr_fd(": command not found\n", 2);
 	ft_lstclear_data(data);

@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 12:55:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/09/02 09:51:41 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/09/02 11:00:15 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <sys/ioctl.h>
 # include <readline/history.h>
 # include <stdbool.h>
+# include <stdio.h>
+# include <sys/stat.h>
 
 typedef struct s_redir			t_redir;
 typedef struct s_rdocs			t_rdocs;
@@ -82,22 +84,16 @@ typedef struct node_env_s
 
 void		loop_main(t_data *data);
 int			process_init_pip(t_data *data);
-int			exe_cmd(t_data *data);
 int			init_env(t_data *data);
 int			free_env(t_data *data);
 int			command_env(t_data *data, int fd);
 int			init_pip(t_data *data);
-int			init_values_parse(t_data *data);
-int			count_cmd(t_data *data);
-int			count_pip(t_data *data);
 int			pipex_process_multi(t_data *data, int **pip, pid_t *tab_pid);
 int			child_process_multi(t_data *data, t_node_cmd *cmd, int *pip);
 int			second_child_process_multi(t_data *data,
 				t_node_cmd *cmd, int **pip, int y);
 int			free_env(t_data *data);
-int			free_data_values(t_data *data);
 int			process_status_pid(t_data *data, pid_t *tab_pid);
-int			init_values_redir(t_data *data);
 int			second_child(t_data *data, int **pip, int y, t_node_cmd *cmd);
 int			ft_dup_redir_second_child(t_data *data,
 				t_node_cmd *cmd, int **pip, int y);
@@ -106,7 +102,6 @@ int			first_child(int *pip);
 int			ft_lstadd_back(t_node_env *lst, t_node_env *new_node);
 t_node_env	*ft_lstlast(t_node_env *lst);
 t_node_env	*ft_lstnew(char *content);
-void		print_liste(t_node_env *liste);
 int			init_node_env(t_data *data, char **envp);
 int			free_env(t_data *data);
 t_node_env	*ft_lstduplicate(const t_node_env *original);
@@ -127,16 +122,12 @@ t_node_cmd	*ft_lstclear_cmd(t_node_cmd *lst);
 int			ft_lstadd_back_cmd(t_node_cmd *lst, t_node_cmd *new_node);
 t_node_cmd	*ft_lstlast_cmd(t_node_cmd *lst);
 t_node_cmd	*ft_lstnew_cmd(int i);
-int			init_node_cmd(t_data *data, char **tab);
-int			ft_redir_one_process(t_node_cmd *cmd, int *fd);
 int			open_all_rdocs(t_node_cmd *cmd);
 int			init_rdocs(t_rdocs *rdocs);
 int			command_rdocs(t_data *data);
 void		handle_sigint(int sig);
 void		setup_readline_signals(t_data *data);
 void		handle_sigquit(int sig);
-int			analyze_process_statuses(t_data *data, pid_t *tab_pid, int *status);
-void		after_readline_signals(t_data *data);
 void		after_handle_sigquit(int sig);
 void		setup_readline_sigquit(void);
 void		reset_print_env(t_data *data);
@@ -167,12 +158,10 @@ int			command_exit(t_node_cmd *cmd);
 int			command_exit_free(t_data *data, t_node_cmd *cmd);
 int			ft_is_numeric(char	*str);
 int			exit_error_number(char *arg);
-int			create_value_return(t_data *data, size_t i);
 int			road_builtin(t_data *data, t_node_cmd *cmd, int **pip, int y);
 int			control_builtin_multi_command(t_data *data,
 				t_node_cmd *cmd, int pip);
 int			remove_env_node(t_node_env *ptr, t_node_env *prev);
-char		*get_next_line(int fd);
 int			open_all_redir(t_node_cmd *cmd, t_data *data);
 int			print_error_cd(t_node_cmd *cmd);
 int			free_exec_part(t_data *data);
@@ -244,7 +233,6 @@ t_redir		*fill_rdocs(char *tok, t_rdocs **rdocs);
 t_rdocs		*ft_lstnew_rdocs(char *str);
 void		ft_lstclear_rdocs(t_rdocs **lst);
 void		process_echo(t_data *data, t_node_cmd *cmd, int pip);
-void		cmd_manage_env(t_data *data);
 char		*trim_env(t_data *data, char *pip);
 void		cpy_env_to_str(char	*env, char *str, size_t *j);
 size_t		trim_env_len(char *str, t_data *data);
@@ -257,7 +245,6 @@ bool		print_parsing_error(char c);
 size_t		ft_intlen(int nb);
 void		cpy_return_to_str(char	*nb, char *str, size_t *j, size_t *k);
 size_t		ft_count_cmd(char *str);
-size_t		ft_skip_redir(char *str, size_t i);
 char		*tilde_to_home(t_data *data);
 char		*clean_redir(char *str);
 size_t		clean_redir_len(char *str);
@@ -295,5 +282,8 @@ int			free_data_pips(t_data *data, char **pips, size_t size);
 size_t		loop_tok_pips(char *argv, char **pips);
 void		set_sig_ignore(void);
 int			manage_pid_exit_status(t_data *data);
+bool		is_dollar_print(char c, int quote);
+bool		is_tilde_home(char c, int quote);
+void		check_status_file(t_data *data, t_node_cmd *cmd);
 
 #endif

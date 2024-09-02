@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 16:34:47 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/08/26 11:53:50 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/09/02 10:53:20 by hbouyssi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	command_pwd(t_data *data, int fd)
 		{
 			free(pos);
 			size += size;
+			if (size > 1000)
+				return (1);
 		}
 	}
 	return (1);
