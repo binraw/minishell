@@ -32,30 +32,13 @@ int	init_rdocs(t_rdocs *rdocs)
 				rdocs->limit, (ft_strlen(rdocs->str_rdocs)) + 1) == 0)
 			return (stop_success_rdocs(rdocs, fd));
 		if (g_interrupted == 1)
+		{
+			rdocs_error(fd);
 			break ;
-		write(fd[1], rdocs->str_rdocs, ft_strlen(rdocs->str_rdocs));
-		write(fd[1], "\n", 1);
+		}
+		print_rdocs(rdocs, fd);
 	}
 	return (-1);
-}
-
-int	rdocs_error(int *fd)
-{
-	free(fd);
-	ft_putstr_fd("bash: warning: here-document at line 2 delimited", 2);
-	ft_putstr_fd("by end-of-file (wanted `wc')\n", 2);
-	return (-1);
-}
-
-int	stop_success_rdocs(t_rdocs *rdocs, int *fd)
-{
-	int	fd_in;
-
-	rdocs->go = true;
-	close(fd[1]);
-	fd_in = fd[0];
-	free(fd);
-	return (fd_in);
 }
 
 int	open_all_rdocs(t_node_cmd *cmd)

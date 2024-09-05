@@ -21,8 +21,8 @@ int	ft_dup_redir_second_child(t_data *data, t_node_cmd *cmd, int **pip, int y)
 		return (-1);
 	fd_in = value_final_in(cmd, data);
 	fd_out = value_final_out(cmd, data);
-	if (2 != data->number_of_cmd && cmd->index != data->number_of_cmd && 
-    get_last_in(cmd->redir) && !(get_last_out(cmd->redir)))
+	if (2 != data->number_of_cmd && cmd->index != data->number_of_cmd
+		&& get_last_in(cmd->redir) && !(get_last_out(cmd->redir)))
 		redir_in_to_pipe(pip, y, fd_in);
 	else if (2 != data->number_of_cmd && cmd->index
 		!= (data->number_of_cmd -1) && get_last_in(cmd->redir)

@@ -42,7 +42,7 @@ int	value_final_out(t_node_cmd *cmd, t_data *data)
 	if (get_last_out(cmd->redir))
 	{
 		if (get_last_out(cmd->redir)->d_out)
-			final_value_add(data, cmd, fd_out);
+			fd_out = final_value_add(data, cmd, fd_out);
 		else
 		{
 			fd_out = open(get_last_out(cmd->redir)->content,
@@ -57,7 +57,7 @@ int	value_final_out(t_node_cmd *cmd, t_data *data)
 	return (fd_out);
 }
 
-void	final_value_add(t_data *data, t_node_cmd *cmd, int fd_out)
+int	final_value_add(t_data *data, t_node_cmd *cmd, int fd_out)
 {
 	if (get_last_out(cmd->redir)->d_out)
 	{
@@ -69,5 +69,5 @@ void	final_value_add(t_data *data, t_node_cmd *cmd, int fd_out)
 			exit(1);
 		}
 	}
-	return ;
+	return (fd_out);
 }

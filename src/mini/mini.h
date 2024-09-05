@@ -125,6 +125,7 @@ t_node_cmd	*ft_lstnew_cmd(int i);
 int			open_all_rdocs(t_node_cmd *cmd);
 int			init_rdocs(t_rdocs *rdocs);
 int			command_rdocs(t_data *data);
+void		print_rdocs(t_rdocs *rdocs, int *fd);
 void		handle_sigint(int sig);
 void		setup_readline_signals(t_data *data);
 void		handle_sigquit(int sig);
@@ -176,7 +177,7 @@ void		open_redir_no_cmd_multi(t_data *data, t_node_cmd *cmd);
 int			create_env_no_env(t_data *data, t_node_env *new_node);
 int			rdocs_error(int *fd);
 int			stop_success_rdocs(t_rdocs *rdocs, int *fd);
-void		final_value_add(t_data *data, t_node_cmd *cmd, int fd_out);
+int			final_value_add(t_data *data, t_node_cmd *cmd, int fd_out);
 int			redir_out_first_child(t_data *data,
 				t_node_cmd *cmd, int *pip, int fd_out);
 int			export_process(t_data *data, t_node_cmd *cmd, int pip);
