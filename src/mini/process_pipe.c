@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/22 13:32:56 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/09/02 10:58:22 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:08:19 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,9 @@
 int	start_process_pipex(t_data *data, int **pip, pid_t *tab_pid)
 {
 	int			y;
-	int			i;
 	t_node_cmd	*dup;
 
 	y = 0;
-	i = 0;
 	dup = data->cmd;
 	if (!dup->content[0] && dup->redir)
 		return (redir_no_cmd(data, dup));

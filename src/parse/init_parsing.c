@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 12:24:07 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/09/02 10:45:56 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:06:37 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,8 @@ void	fill_cmd_content(t_data *data, char **pips)
 
 t_node_cmd	*cmd_get_content(char *str, size_t index, t_data *data)
 {
-	size_t		i;
 	t_node_cmd	*cmd;
 
-	i = 0;
 	cmd = ft_lstnew_cmd(index);
 	if (!cmd)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/03 14:15:19 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/31 11:36:57 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:06:06 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,9 +110,7 @@ void	screen_export(t_data *data, int fd)
 	t_node_env	*current_node;
 	char		*max_value;
 	char		**value;
-	size_t		i;
 
-	i = 0;
 	current_node = data->env_node;
 	max_value = ft_strdup("~~~~");
 	if (!max_value)

@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:51:18 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/30 09:36:30 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:04:57 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ int	init_env(t_data *data)
 {
 	size_t		y;
 	t_node_env	*copy;
-	size_t		i;
 
 	y = 0;
-	i = 0;
 	copy = data->env_node;
 	while (copy != NULL)
 	{

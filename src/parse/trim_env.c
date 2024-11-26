@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/24 13:24:16 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/09/02 10:46:08 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:08:48 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,9 @@
 char	*trim_env(t_data *data, char *pip)
 {
 	char	*str;
-	size_t	i;
-	size_t	j;
 	int		quote;
 	int		len;
 
-	i = 0;
-	j = 0;
 	quote = 0;
 	if (is_line_empty(pip))
 		return (pip);

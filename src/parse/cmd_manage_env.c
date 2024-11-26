@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 12:10:26 by hbouyssi          #+#    #+#             */
-/*   Updated: 2024/08/01 10:58:08 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:07:03 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,9 @@ void	cpy_return_to_str(char	*nb, char *str, size_t *j, size_t *k)
 
 size_t	trim_env_len(char *str, t_data *data)
 {
-	size_t	i;
 	size_t	len;
 	int		quote;
 
-	i = 0;
 	len = 0;
 	quote = 0;
 	return (loop_trim_env_len(data, str, len, quote));

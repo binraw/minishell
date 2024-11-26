@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/09 10:53:12 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/09/02 10:40:51 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:04:22 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	*data;
-	int		result;
 
 	(void)argv;
 	(void)argc;
-	result = 0;
 	data = malloc(sizeof(t_data));
 	if (!data)
 		exit(1);

@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 12:57:44 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/08/28 16:36:30 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:07:35 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	handle_sigint(int sig)
 
 	(void)sig;
 	data = give_data(NULL);
-	rl_replace_line("", 0);
 	rl_on_new_line();
 	printf("\n");
 	rl_redisplay();

@@ -6,7 +6,7 @@
 /*   By: hbouyssi <hbouyssi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 10:45:54 by rtruvelo          #+#    #+#             */
-/*   Updated: 2024/07/30 11:29:54 by hbouyssi         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:05:30 by rtruvelo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ t_node_env	*ft_lstnew(char *content)
 {
 	t_node_env	*element;
 	char		*line;
-	int			i;
 
-	i = 0;
 	element = malloc(sizeof(t_node_env));
 	if (!element)
 		return (NULL);
@@ -27,7 +25,6 @@ t_node_env	*ft_lstnew(char *content)
 	element->name = ft_strtok(line, "=", false);
 	element->next = NULL;
 	element->print = false;
-	i = 1;
 	element->value = ft_strtok(NULL, NULL, false);
 	free(line);
 	return (element);
